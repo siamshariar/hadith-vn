@@ -27,7 +27,7 @@
 
 .bismillah {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 54px;
 }
 
 .bismillah svg {
@@ -37,11 +37,39 @@
 
 .verses {
   display: block;
+  margin-top: -78px;
+}
+
+.quran_content p {
+  margin-bottom: 20px;
+}
+
+.quran_content_title {
+  color: var(--txt00);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.quran_content_text {
+  font-family: Roboto;
+  color: var(--txt11);
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+.no_record {
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
 }
 
 @media only screen and (min-width: 1024px) {
   .content {
-    max-width: 1100px;
+    display: flex;
+    max-width: 1186px;
     padding-left: 80px;
     padding-right: 80px;
     padding-top: 98px;
@@ -86,6 +114,61 @@
     align-items: center;
     font-size: 22px;
     color: var(--txt11);
-    font-weight: bold;
+    white-space: normal;
+    display: -moz-box;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
+
+  .verses {
+    margin-top: -40px;
+  }
+}
+
+.print_footer {
+  display: none;
+}
+
+// print option
+@media print {
+  .chapter_tab {
+    background-color: #fff;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    background: var(--bg12);
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .title_text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: var(--txt11);
+  }
+
+  .print_footer {
+    border-top: 1px solid var(--bdr11);
+    margin-top: 30px;
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .print_footer span {
+    font-size: 13px;
+    color: #777;
+  }
+  .print_footer span:nth-child(1) {}
+  .print_footer span:nth-child(2) {}
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import Sidenav from "../layout2/sidenav";
+import Sidenav from "../sidenav";
 import styles from "./list.module.scss";
 
 export default function SubjectiveContent({
@@ -37,10 +37,22 @@ export default function SubjectiveContent({
         <div className={styles.list}>
           {subjectiveList &&
             subjectiveList.map((item, index) => (
-              <Link href={item.totalChildVerse ? `/subjective/${item.slug}` : `/subjective/${item.slug}/verses`} key={index}>
+              <Link
+                href={
+                  item.totalChildVerse
+                    ? `/subjective/${item.slug}`
+                    : `/subjective/${item.slug}/verses`
+                }
+                key={index}
+              >
                 <a className={styles.item}>
                   <span className={styles.left}>{item.title}</span>
-                  <span className={styles.right}>{item.totalChildVerse ? item.totalChildVerse : item.totalVerse} Ayahs</span>
+                  <span className={styles.right}>
+                    {item.totalChildVerse
+                      ? item.totalChildVerse
+                      : item.totalVerse}{" "}
+                    Ayahs
+                  </span>
                 </a>
               </Link>
             ))}

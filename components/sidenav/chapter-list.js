@@ -1,72 +1,107 @@
-import { useState } from 'react'
-import Link from 'next/link'
-import Drawer from '@material-ui/core/Drawer'
-import Scrollbar from '../core/scrollbar'
-import Close from '../icons/Close'
-import Search from '../icons/Search'
-
-import styles from './chapter-list.module.scss'
-import css from './style.module.scss'
+import { useState, useRef, useContext } from "react";
+import { SettingsContext } from "../../contexts/SettingsContext";
+import Link from "next/link";
+import Scrollbar from "../core/scrollbar";
+import CloseIcon from "../icons/Close";
+import SearchIcon from "../icons/Search";
+import styles from "./chapter-list.module.scss";
 
 export default function ChapterList({ chapterList, open, controller }) {
-	const [chapters, setChapters] = useState(chapterList)
+  const { verseMode } = useContext(SettingsContext);
 
-	const filterChapters = search => {
-		const filtered = chapterList.filter(chapter => {
-			return (chapter.name.toLowerCase().includes(search.toLowerCase()) || chapter.chapterNo.toString().includes(search))
-		})
-		setChapters(filtered)
-	}
+  const [chapters, setChapters] = useState(chapterList);
+  const filterChapters = (search) => {
+    const filtered = chapterList.filter((chapter) => {
+      return (
+        chapter.name.toLowerCase().includes(search.toLowerCase()) ||
+        chapter.chapterNo.toString().includes(search)
+      );
+    });
+    setChapters(filtered);
+  };
 
-	return (
-		<Drawer
-			anchor="left"
-			open={open}
-			onClose={controller(false)}
-		>
-			<div className={css.sidenav}>
-				<span
-					className={css.close}
-					onClick={controller(false)}
-				>
-					<Close />
-				</span>
+  const input = useRef(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
-				<div className={css.title}>
-					<h2>Chapters</h2>
-				</div>
+  const handleSearchOpen = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    if (open) {
+      input.current.focus();
+    } else {
+      setChapters(chapterList);
+      input.current.value = "";
+    }
+    setSearchOpen(open);
+  };
 
-				<form className={styles.search}>
-					<input
-						type="text"
-						name="chapter-search"
-						placeholder="Search Chapter"
-						onChange={e => filterChapters(e.target.value)}
-					/>
-					<Search />
-				</form>
+  return (
+    <Scrollbar
+      className={open ? `${styles.sidenav} ${styles.open}` : styles.sidenav}
+    >
+      <div className={styles.wrapper}>
+        <div className={styles.top}>
+          <div className={styles.left}>
+            <div className={styles.title}>
+              <h2>Chương</h2>
+            </div>
+          </div>
 
-				<Scrollbar className={styles.lists}>
-				{chapters.map(chapter =>
-					<div
-						key={chapter.chapterNo}
-						className={styles.list}
-					>
-            {/* To Do: update link with verse mode */}
-						<Link href={"/chapters/" + chapter.slug}>
-							<a onClick={controller(false)}>
-								<span className={styles.number}>{chapter.chapterNo}</span>
+          <div className={styles.right}>
+            <span className={styles.icon} onClick={handleSearchOpen(true)}>
+              <SearchIcon />
+            </span>
+            <span className={styles.icon} onClick={controller(false)}>
+              <CloseIcon />
+            </span>
+          </div>
 
-								<div className={styles.name}>
-									<span>{chapter.name}</span>
-									<span>{chapter.meaning}</span>
-								</div>
-							</a>
-						</Link>
-					</div>
-				)}
-				</Scrollbar>
-			</div>
-		</Drawer>
-	)
+          <div
+            className={
+              searchOpen ? `${styles.search} ${styles.open}` : styles.search
+            }
+          >
+            <input
+              type="text"
+              name="chapter-search"
+              placeholder="Search Chapter"
+              onChange={(e) => filterChapters(e.target.value)}
+              ref={input}
+            />
+            <span onClick={handleSearchOpen(false)}>
+              <CloseIcon />
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.lists}>
+          {chapters.map((chapter) => (
+            <Link
+              key={chapter.chapterNo}
+              href={
+                verseMode === "scroll"
+                  ? `/chapters/${chapter.slug}`
+                  : verseMode === "slide"
+                  ? `/chapters/${chapter.slug}/verses/1`
+                  : `/chapters/${chapter.slug}`
+              }
+            >
+              <a className={styles.list} onClick={controller(false)}>
+                <span className={styles.number}>{chapter.chapterNo}</span>
+
+                <div className={styles.name}>
+                  <span>{chapter.name}</span>
+                  <span>{chapter.meaning}</span>
+                </div>
+              </a>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </Scrollbar>
+  );
 }

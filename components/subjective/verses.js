@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AudioPlayerContext } from "../../contexts/AudioPlayerContext";
-import Sidenav from "../layout2/sidenav";
+import Sidenav from "../sidenav";
 import VerseCard from "../surah/verse-card";
 // import Pagination from "../surah/pagination";
 // import QuranIcon from "../icons/Quran";
 // import Bismillah from "../icons/Bismillah";
-import styles from "../layout2/surah/content.module.scss";
+import styles from "../surah/content.module.scss";
 
 export default function SubjectiveVerses({ contentTitle, chapters, verses }) {
   const printRef = useRef();

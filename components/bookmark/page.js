@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { AudioPlayerContext } from "../../contexts/AudioPlayerContext";
 import { BookmarkContext } from "../../contexts/BookmarkContext";
-import Sidenav from "../layout2/sidenav";
+import Sidenav from "../sidenav";
 import VerseCard from "../surah/verse-card";
 // import QuranIcon from "../icons/Quran";
 // import InfoIcon from "../icons/Info";
@@ -9,7 +9,7 @@ import VerseCard from "../surah/verse-card";
 // import PauseIcon from "../icons/Pause";
 // import Bismillah from "../icons/Bismillah";
 import Skeleton from "react-loading-skeleton";
-import styles from "../layout2/surah/content.module.scss";
+import styles from "../surah/content.module.scss";
 
 export default function BookmarkContent({
   chapters,
@@ -17,7 +17,7 @@ export default function BookmarkContent({
   data,
   exist,
   isBookmarkPage,
-  updateBookmarksData
+  updateBookmarksData,
 }) {
   const { bookmarks } = useContext(BookmarkContext);
 
@@ -88,7 +88,9 @@ export default function BookmarkContent({
             </div>
           )}
 
-          {!data && !exist && <div className={styles.no_record}>No records found!</div>}
+          {!data && !exist && (
+            <div className={styles.no_record}>No records found!</div>
+          )}
 
           {!data && exist && <Skeleton height={150} width={`100%`} count={2} />}
         </div>

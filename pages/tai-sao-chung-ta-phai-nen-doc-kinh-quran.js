@@ -1,41 +1,41 @@
-import { server } from '../lib/config'
-import { getChaptersInfo } from '../lib/fetch'
+import { server } from "../lib/config";
+import { getChaptersInfo } from "../lib/fetch";
 //import { useState } from 'react'
-import SettingsContextProvider from '../contexts/SettingsContext'
-import Meta from '../components/core/meta'
+import SettingsContextProvider from "../contexts/SettingsContext";
+import Meta from "../components/core/meta";
 //import SearchModal from '../components/core/search-modal'
-import HeaderWeb from '../components/layout2/web/header'
-import HeaderMobile from '../components/mobile/header-content'
-import FooterWeb from '../components/web/footer'
+import HeaderWeb from "../components/web/header";
+import HeaderMobile from "../components/mobile/header-content";
+import FooterWeb from "../components/web/footer";
 //import FooterMobile from '../components/mobile/footer-home'
-import Sidenav from '../components/layout2/sidenav'
-import WNTRQContent from '../components/pages/why-need-to-read-quran'
-import PinContextProvider from '../contexts/PinContext'
-import BookmarkContextProvider from '../contexts/BookmarkContext'
-import SidenavContextProvider from '../contexts/SidenavContext'
+import Sidenav from "../components/sidenav";
+import WNTRQContent from "../components/pages/why-need-to-read-quran";
+import PinContextProvider from "../contexts/PinContext";
+import BookmarkContextProvider from "../contexts/BookmarkContext";
+import SidenavContextProvider from "../contexts/SidenavContext";
 
 // init()
 
 export default function ContentPage({ chapters }) {
-    // const [searchModalOpen, updateSearchModalOpen] = useState(false)
+  // const [searchModalOpen, updateSearchModalOpen] = useState(false)
 
-    // const searchModalController = open => {
-    //     updateSearchModalOpen(open)
-    // }
+  // const searchModalController = open => {
+  //     updateSearchModalOpen(open)
+  // }
 
-    const pageTitle = "Biết thêm hêm về Quran"
+  const pageTitle = "Biết thêm hêm về Quran";
 
-    return (
-        <SettingsContextProvider>
-          <PinContextProvider>
-          <BookmarkContextProvider>
+  return (
+    <SettingsContextProvider>
+      <PinContextProvider>
+        <BookmarkContextProvider>
           <SidenavContextProvider>
             <Meta
-                title={`Tại sao chúng ta phải nên đọc Kinh Quran - ${pageTitle}`}
-                description="Tại sao chúng ta phải nên đọc Kinh Quran - Về Kinh Quran. Quran application in Vietnamese."
-                url={`${server}/tai-sao-chung-ta-phai-nen-doc-kinh-quran`}
-                image={`${server}/img/s_logo.png`}
-                type="website"
+              title={`Tại sao chúng ta phải nên đọc Kinh Quran - ${pageTitle}`}
+              description="Tại sao chúng ta phải nên đọc Kinh Quran - Về Kinh Quran. Quran application in Vietnamese."
+              url={`${server}/tai-sao-chung-ta-phai-nen-doc-kinh-quran`}
+              image={`${server}/img/s_logo.png`}
+              type="website"
             />
 
             {/* <SearchModal
@@ -46,50 +46,48 @@ export default function ContentPage({ chapters }) {
             {/* <Sidenav chapters={chapters} /> */}
 
             <HeaderWeb
-                page="surah"
-                chapters={chapters}
-                isChapterPage={true}
-                //searchModalController={searchModalController}
+              page="surah"
+              chapters={chapters}
+              isChapterPage={true}
+              //searchModalController={searchModalController}
             />
 
             <HeaderMobile
-                //searchModalController={searchModalController}
-                title={pageTitle}
+              //searchModalController={searchModalController}
+              title={pageTitle}
             />
 
             <main id="viewport" className="viewport viewport_no_footer">
-                <div className="content layout2">
+              <div className="content layout2">
+                <Sidenav chapters={chapters} />
 
-                    <Sidenav chapters={chapters} />
-
-                    <div className="content_wrapper">
-                        <WNTRQContent page_title={pageTitle} />
-                    </div>
+                <div className="content_wrapper">
+                  <WNTRQContent page_title={pageTitle} />
                 </div>
+              </div>
             </main>
 
             <FooterWeb />
 
             {/* <FooterMobile /> */}
-            </SidenavContextProvider>
-            </BookmarkContextProvider>
-            </PinContextProvider>
-        </SettingsContextProvider>
-    )
+          </SidenavContextProvider>
+        </BookmarkContextProvider>
+      </PinContextProvider>
+    </SettingsContextProvider>
+  );
 }
 
-
 export async function getStaticProps(context) {
-    const chapters = await getChaptersInfo()
+  const chapters = await getChaptersInfo();
 
-    if (!chapters) {
-        return {
-            notFound: true
-        }
-    }
-
-    // Pass data to the page via props
+  if (!chapters) {
     return {
-        props: { chapters }
-    }
+      notFound: true,
+    };
+  }
+
+  // Pass data to the page via props
+  return {
+    props: { chapters },
+  };
 }

@@ -1,4 +1,4 @@
-import { server } from '../../../../lib/config'
+import { server } from "../../../../lib/config";
 import {
   getChaptersInfo,
   getAllSubjectives,
@@ -12,7 +12,7 @@ import BookmarkContextProvider from "../../../../contexts/BookmarkContext";
 import SidenavContextProvider from "../../../../contexts/SidenavContext";
 import Meta from "../../../../components/core/meta";
 //import SearchModal from '../../components/core/search-modal'
-import HeaderWeb from "../../../../components/layout2/web/header";
+import HeaderWeb from "../../../../components/web/header";
 import HeaderMobile from "../../../../components/mobile/header-subjective";
 import FooterWeb from "../../../../components/web/footer";
 import FooterMobile from "../../../../components/mobile/footer-home";
@@ -59,10 +59,7 @@ export default function Subjective({ slug, chapters, subjective }) {
               />
 
               {/* TODO: Fix redirect */}
-              <HeaderMobile
-                  title={name}
-                  backLink={"/subjective"}
-              />
+              <HeaderMobile title={name} backLink={"/subjective"} />
 
               {/*<HeaderMobile*/}
               {/*  title={name}*/}
@@ -73,12 +70,11 @@ export default function Subjective({ slug, chapters, subjective }) {
                 id="viewport"
                 className="viewport viewport_surah viewport_no_footer"
               >
-                  <SubjectiveVerses
-                    contentTitle={name}
-                    verses={subjective.verses}
-                    chapters={chapters}
-                  />
-
+                <SubjectiveVerses
+                  contentTitle={name}
+                  verses={subjective.verses}
+                  chapters={chapters}
+                />
               </main>
 
               <AudioPlayer />
@@ -100,7 +96,7 @@ export async function getStaticProps(context) {
   if (!subjective) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
@@ -110,7 +106,7 @@ export async function getStaticProps(context) {
       subjective,
       key: slug,
     },
-    revalidate: 60
+    revalidate: 60,
   };
 }
 
@@ -126,6 +122,6 @@ export async function getStaticPaths() {
 
   return {
     paths: paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }

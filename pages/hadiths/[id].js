@@ -1,20 +1,24 @@
-import { server } from "../../../../lib/config";
-import { getChaptersInfo, getVerseDetails } from "../../../../lib/fetch";
+import { server } from "../../lib/config";
+import {
+  getRootCategories,
+  getAllCategories,
+  getHadithDetailsById,
+} from "../../lib/fetch";
 // import { useState } from 'react'
-import SettingsContextProvider from "../../../../contexts/SettingsContext";
-import AudioPlayerContextProvider from "../../../../contexts/AudioPlayerContext";
-import PinContextProvider from "../../../../contexts/PinContext";
-import BookmarkContextProvider from "../../../../contexts/BookmarkContext";
-import SidenavContextProvider from "../../../../contexts/SidenavContext";
-import Meta from "../../../../components/core/meta";
+import SettingsContextProvider from "../../contexts/SettingsContext";
+import AudioPlayerContextProvider from "../../contexts/AudioPlayerContext";
+import PinContextProvider from "../../contexts/PinContext";
+import BookmarkContextProvider from "../../contexts/BookmarkContext";
+import SidenavContextProvider from "../../contexts/SidenavContext";
+import Meta from "../../components/core/meta";
 // import SearchModal from '../../../../components/core/search-modal'
-import HeaderWeb from "../../../../components/web/header";
-import HeaderMobile from "../../../../components/mobile/header-chapter";
+import HeaderWeb from "../../components/web/header";
+import HeaderMobile from "../../components/mobile/header-chapter";
 // import FooterMobile from '../../../../components/mobile/footer-chapter'
 // import Sidenav from '../../../../components/sidenav'
-import ChapterContent from "../../../../components/surah/content";
-import AudioPlayer from "../../../../components/surah/audio-player";
-import ArabicDialog from "../../../../components/core/arabic-dialog";
+import ChapterContent from "../../components/surah/content";
+import AudioPlayer from "../../components/surah/audio-player";
+import ArabicDialog from "../../components/core/arabic-dialog";
 
 export default function Verse({
   chapters,
@@ -97,12 +101,10 @@ export default function Verse({
 }
 
 export async function getStaticProps(context) {
-  const slug = encodeURI(context.params.slug);
-  const chapterNo = parseInt(slug);
-  const verseNo = context.params.verseNo;
+  const id = parseInt(encodeURI(context.params.id));
 
   let verseDetails = [];
-  const details = await getVerseDetails(chapterNo, verseNo);
+  const details = await getHadithDetailsById(2962);
 
   if (!details) {
     return {
@@ -113,40 +115,31 @@ export async function getStaticProps(context) {
   verseDetails.push(details);
 
   // const chapterNo = details.chapter.chapterNo;
-  const chaptersInfo = await getChaptersInfo();
+  const categories = await getAllCategories();
 
   return {
     props: {
-      chapterNo: chapterNo,
-      chapterName: chaptersInfo[chapterNo - 1].name,
-      chapterSlug: chaptersInfo[chapterNo - 1].slug,
-      chapterMp3Url: chaptersInfo[chapterNo - 1].mp3Url,
+      chapterNo: id,
+      chapterName: details.title,
+      chapterSlug: details.id,
+      chapterMp3Url: null,
       verses: verseDetails,
-      chapters: chaptersInfo,
-      key: uniqueKey(chapterNo, verseNo),
+      chapters: categories,
+      key: id,
     },
     revalidate: 60,
   };
 }
 
 export async function getStaticPaths() {
-  const chapters = await getChaptersInfo();
   let paths = [];
 
-  chapters.map((chapter) => {
-    let slug = encodeURI(chapter.slug);
-    // let totalVerse = parseInt(chapter.totalVerse);
-
-    for (let i = 1; i <= 0; i++) {
-      let obj = {
-        params: {
-          slug: slug,
-          verseNo: String(i),
-        },
-      };
-      paths.push(obj);
-    }
-  });
+  let obj = {
+    params: {
+      id: String(1),
+    },
+  };
+  paths.push(obj);
 
   return {
     paths: paths,

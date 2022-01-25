@@ -1,4 +1,4 @@
-import { server } from '../../../lib/config'
+import { server } from "../../../lib/config";
 import { getChaptersInfo, getChapterDetails } from "../../../lib/fetch";
 //import { useState } from 'react'
 import SettingsContextProvider from "../../../contexts/SettingsContext";
@@ -9,10 +9,10 @@ import SidenavContextProvider from "../../../contexts/SidenavContext";
 import Meta from "../../../components/core/meta";
 //import Viewport from '../../../components/core/viewport'
 //import SearchModal from '../../../components/core/search-modal'
-import HeaderWeb from "../../../components/layout2/web/header";
+import HeaderWeb from "../../../components/web/header";
 import HeaderMobile from "../../../components/mobile/header-chapter";
 //import FooterMobile from '../../../components/mobile/footer-chapter'
-import ChapterContent from "../../../components/layout2/surah/content";
+import ChapterContent from "../../../components/surah/content";
 import AudioPlayer from "../../../components/surah/audio-player";
 import FooterWeb from "../../../components/web/footer";
 import ArabicDialog from "../../../components/core/arabic-dialog";
@@ -35,62 +35,62 @@ export default function Chapter({
     <SettingsContextProvider>
       <PinContextProvider>
         <BookmarkContextProvider>
-        <SidenavContextProvider>
-          <Meta
-            title={`Chương ${chapterName}`}
-            description={`Chương ${chapterName}. Quran application in Vietnamese.`}
-            url={`${server}/chapters/${chapterSlug}`}
-            image={`${server}/img/s_logo.png`}
-            type="website"
-          />
+          <SidenavContextProvider>
+            <Meta
+              title={`Chương ${chapterName}`}
+              description={`Chương ${chapterName}. Quran application in Vietnamese.`}
+              url={`${server}/chapters/${chapterSlug}`}
+              image={`${server}/img/s_logo.png`}
+              type="website"
+            />
 
-          <ArabicDialog />
+            <ArabicDialog />
 
-          {/* <SearchModal
+            {/* <SearchModal
                 open={searchModalOpen}
                 searchModalController={searchModalController}
             /> */}
 
-          <HeaderWeb
-            page="surah"
-            chapters={chapters}
-            isChapterPage={true}
-            // searchModalController={searchModalController}
-          />
-
-          <AudioPlayerContextProvider>
-            <HeaderMobile
-              contentTitle={chapterName}
-              chapterNo={chapterNo}
+            <HeaderWeb
+              page="surah"
               chapters={chapters}
-              // chapterName={chapterName}
+              isChapterPage={true}
+              // searchModalController={searchModalController}
             />
 
-            <main
-              id="viewport"
-              className="viewport viewport_surah viewport_no_footer"
-            >
-              <ChapterContent
-                contentType="chapter"
+            <AudioPlayerContextProvider>
+              <HeaderMobile
                 contentTitle={chapterName}
                 chapterNo={chapterNo}
-                chapterName={chapterName}
-                chapterSlug={chapterSlug}
-                chapterMp3Url={chapterMp3Url}
-                verses={verses}
-                // suraTranslation={suraTranslation}
-                // prevChapter={prevChapter}
-                // nextChapter={nextChapter}
                 chapters={chapters}
+                // chapterName={chapterName}
               />
-            </main>
 
-            <AudioPlayer />
-          </AudioPlayerContextProvider>
+              <main
+                id="viewport"
+                className="viewport viewport_surah viewport_no_footer"
+              >
+                <ChapterContent
+                  contentType="chapter"
+                  contentTitle={chapterName}
+                  chapterNo={chapterNo}
+                  chapterName={chapterName}
+                  chapterSlug={chapterSlug}
+                  chapterMp3Url={chapterMp3Url}
+                  verses={verses}
+                  // suraTranslation={suraTranslation}
+                  // prevChapter={prevChapter}
+                  // nextChapter={nextChapter}
+                  chapters={chapters}
+                />
+              </main>
 
-          <FooterWeb />
-          {/* <FooterMobile /> */}
-        </SidenavContextProvider>
+              <AudioPlayer />
+            </AudioPlayerContextProvider>
+
+            <FooterWeb />
+            {/* <FooterMobile /> */}
+          </SidenavContextProvider>
         </BookmarkContextProvider>
       </PinContextProvider>
     </SettingsContextProvider>

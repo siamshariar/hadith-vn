@@ -1,194 +1,157 @@
-import { useState } from 'react'
-import Link from 'next/link'
-import Tooltip from '@material-ui/core/Tooltip'
-import Button from '@material-ui/core/Button'
-
-import MenuBookIcon from '../icons/MenuBook'
-import NearMeIcon from '../icons/NearMe'
-import FavoriteIcon from '../icons/Favorite'
-import SubtitlesIcon from '../icons/Subtitles'
-import DownloadIcon from '../icons/GetApp'
-import SettingsIcon from '../icons/Settings'
-
-import ChapterList from './chapter-list'
-import GoToVerse from './go-to-verse'
-import Favorite from './favorite'
-import Settings from './settings'
-
-import styles from './index.module.scss'
+import { useState, useEffect, useRef, useContext } from "react";
+import { SidenavContext } from "../../contexts/SidenavContext";
+import Link from "next/link";
+import Tooltip from "@material-ui/core/Tooltip";
+import ChapterList from "./chapter-list";
+import Save from "./save";
+import Settings from "./settings";
+import FormatListBulletedIcon from "../icons/FormatListBulleted";
+import SubjectIcon from "../icons/Subject";
+import SaveIcon from "../icons/Save";
+import SettingsIcon from "../icons/SettingsOutlined";
+import styles from "./index.module.scss";
 
 export default function Sidenav({ chapters }) {
-    const [goToVerseNavOpen, updateGoToVerseNavOpen] = useState(false)
-    // const [goToVerseInit, updateGoToVerseInit] = useState(false)
-    // const [goToVerseData, updateGoToVerseData] = useState([])
+  const { bookmarkOpen, changeBookmarkOpen } = useContext(SidenavContext);
 
-    const controlGoToVerseNav = open => event => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-			return
-		}
+  const [chapterListOpen, updateChapterListOpen] = useState(false);
+  const [settingsOpen, updateSettingsOpen] = useState(false);
+  // const [saveOpen, updateSaveOpen] = useState(false);
 
-		updateGoToVerseNavOpen(open)
+  const refChapters = useRef(null);
+  const refSave = useRef(null);
+  const refSettings = useRef(null);
 
-        // if (!goToVerseInit) {
-        //     getChaptersInfo().then(res => {
-        //         updateGoToVerseData(res)
+  const handler = (event) => {
+    if (
+      !refChapters.current.contains(event.target) &&
+      !refSettings.current.contains(event.target) &&
+      !refSave.current.contains(event.target)
+    ) {
+      updateChapterListOpen(false);
+      updateSettingsOpen(false);
+      changeBookmarkOpen(false);
+    }
+  };
 
-        //         setTimeout(() => {
-        //             updateGoToVerseInit(true)
-        //         }, 0)
-        //     })
-        // }
-	}
+  useEffect(() => {
+    document.body.addEventListener("mousedown", handler);
+    return () => {
+      document.body.removeEventListener("mousedown", handler);
+    };
+  }, [refChapters, refSettings, refSave]);
 
+  const controlChapterListNav = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    if (open) {
+      updateSettingsOpen(false);
+      changeBookmarkOpen(false);
+    }
+    updateChapterListOpen(open);
+  };
 
-    const [chapterListOpen, updateChapterListOpen] = useState(false)
-    const [favoriteOpen, updateFavoriteOpen] = useState(false)
-    const [settingsOpen, updateSettingsOpen] = useState(false)
+  const controlSettingsNav = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    if (open) {
+      updateChapterListOpen(false);
+      changeBookmarkOpen(false);
+    }
+    updateSettingsOpen(open);
+  };
 
+  const controlSaveNav = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    if (open) {
+      updateChapterListOpen(false);
+      updateSettingsOpen(false);
+    }
+    changeBookmarkOpen(open);
+  };
 
-    const controlChapterList = open => event => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-			return
-		}
-		updateChapterListOpen(open)
-	}
+  return (
+    <div className={styles.sidenav}>
+      <ul className={styles.menu}>
+        <li className={chapterListOpen ? styles.open : ""} ref={refChapters}>
+          <Tooltip
+            title="Chapter List"
+            arrow
+            placement="right"
+            disableFocusListener={true}
+          >
+            <span className={styles.icon} onClick={controlChapterListNav(true)}>
+              <FormatListBulletedIcon />
+            </span>
+          </Tooltip>
 
+          <ChapterList
+            chapterList={chapters}
+            open={chapterListOpen}
+            controller={controlChapterListNav}
+          />
+        </li>
 
+        <li className={bookmarkOpen ? styles.open : ""} ref={refSave}>
+          <Tooltip
+            title="Bookmarks and Pin"
+            arrow
+            placement="right"
+            disableFocusListener={true}
+          >
+            <span className={styles.icon} onClick={controlSaveNav(true)}>
+              <SaveIcon />
+            </span>
+          </Tooltip>
 
-    const controlFavoriteNav = open => event => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-			return
-		}
-		updateFavoriteOpen(open)
-	}
+          <Save open={bookmarkOpen} controller={controlSaveNav} />
+        </li>
 
-    const controlSettingsNav = open => event => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-			return
-		}
-		updateSettingsOpen(open)
-	}
+        <li>
+          <Tooltip
+            title="Subjective"
+            arrow
+            placement="right"
+            disableFocusListener={true}
+          >
+            <span className={styles.icon}>
+              <Link href="/subjective">
+                <a>
+                  <SubjectIcon />
+                </a>
+              </Link>
+            </span>
+          </Tooltip>
+        </li>
 
-    return (
-        <>
-            <ChapterList
-                chapterList={chapters}
-                open={chapterListOpen}
-                controller={controlChapterList}
-            />
+        <li className={settingsOpen ? styles.open : ""} ref={refSettings}>
+          <Tooltip
+            title="Settings"
+            arrow
+            placement="right"
+            disableFocusListener={true}
+          >
+            <span className={styles.icon} onClick={controlSettingsNav(true)}>
+              <SettingsIcon />
+            </span>
+          </Tooltip>
 
-            <GoToVerse
-                open={goToVerseNavOpen}
-                controller={controlGoToVerseNav}
-                chapters={chapters}
-            />
-
-            <Favorite
-                open={favoriteOpen}
-                controller={controlFavoriteNav}
-            />
-
-            <Settings
-                open={settingsOpen}
-                controller={controlSettingsNav}
-            />
-
-            <div className={styles.side_nav}>
-                <ul className={styles.side_menu}>
-                    <li>
-                        <Tooltip
-                            title="Chapter List"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                onClick={controlChapterList(true)}
-                                focusRipple={false}
-                            >
-                                <MenuBookIcon />
-                            </Button>
-                        </Tooltip>
-                    </li>
-                    <li>
-                        <Tooltip
-                            title="Go to verse"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                onClick={controlGoToVerseNav(true)}
-                                focusRipple={false}
-                            >
-                                <NearMeIcon />
-                            </Button>
-                        </Tooltip>
-                    </li>
-                    <li>
-                        <Tooltip
-                            title="Favorite"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                onClick={controlFavoriteNav(true)}
-                                focusRipple={false}
-                            >
-                                <FavoriteIcon />
-                            </Button>
-                        </Tooltip>
-                    </li>
-                    <li>
-                        <Tooltip
-                            title="Subjective"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                focusRipple={false}
-                            >
-                                <Link href="/subjective">
-                                    <a><SubtitlesIcon /></a>
-                                </Link>
-                            </Button>
-                        </Tooltip>
-                    </li>
-                    <li>
-                        <Tooltip
-                            title="Download"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                focusRipple={false}
-                            >
-                                <Link href="/download">
-                                    <a><DownloadIcon /></a>
-                                </Link>
-                            </Button>
-                        </Tooltip>
-                    </li>
-                    <li>
-                        <Tooltip
-                            title="Settings"
-                            arrow
-                            placement="right"
-                            disableFocusListener={true}
-                        >
-                            <Button
-                                onClick={controlSettingsNav(true)}
-                                focusRipple={false}
-                            >
-                                <SettingsIcon />
-                            </Button>
-                        </Tooltip>
-                    </li>
-                </ul>
-            </div>
-        </>
-    )
+          <Settings open={settingsOpen} controller={controlSettingsNav} />
+        </li>
+      </ul>
+    </div>
+  );
 }

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import PropTypes from "prop-types";
-import BookmarkList from "../../bookmark/list";
-import PinList from "../../pin/list";
-import LastReadList from "../../last-read/list";
-import Scrollbar from "../../core/scrollbar";
-import PinIcon from "../../icons/PinOutline";
-import BookmarkBorderIcon from "../../icons/BookmarkBorder";
-import AutoStoriesIcon from "../../icons/AutoStories";
-import CloseIcon from "../../icons/Close";
+import BookmarkList from "../bookmark/list";
+import PinList from "../pin/list";
+import LastReadList from "../last-read/list";
+import Scrollbar from "../core/scrollbar";
+import PinIcon from "../icons/PinOutline";
+import BookmarkBorderIcon from "../icons/BookmarkBorder";
+import AutoStoriesIcon from "../icons/AutoStories";
+import CloseIcon from "../icons/Close";
 import styles from "./save.module.scss";
 
 function TabPanel(props) {
@@ -44,8 +44,8 @@ export default function Save({ open, controller }) {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    open == false ? setValue(0) : setValue(open - 1)
-  }, [open])
+    open == false ? setValue(0) : setValue(open - 1);
+  }, [open]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

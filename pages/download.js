@@ -1,94 +1,95 @@
-import { server } from '../lib/config'
-import { getChaptersInfo } from '../lib/fetch'
+import { server } from "../lib/config";
+import { getChaptersInfo } from "../lib/fetch";
 //import { useState } from 'react'
-import SettingsContextProvider from '../contexts/SettingsContext'
-import Meta from '../components/core/meta'
+import SettingsContextProvider from "../contexts/SettingsContext";
+import Meta from "../components/core/meta";
 //import SearchModal from '../components/core/search-modal'
-import HeaderWeb from '../components/layout2/web/header'
-import HeaderMobile from '../components/mobile/header-content'
-import FooterWeb from '../components/web/footer'
+import HeaderWeb from "../components/web/header";
+import HeaderMobile from "../components/mobile/header-content";
+import FooterWeb from "../components/web/footer";
 //import FooterMobile from '../components/mobile/footer-home'
-import Sidenav from '../components/layout2/sidenav'
-import DownloadContent from '../components/pages/download'
-import PinContextProvider from '../contexts/PinContext'
-import BookmarkContextProvider from '../contexts/BookmarkContext'
-import SidenavContextProvider from '../contexts/SidenavContext'
+import Sidenav from "../components/sidenav";
+import DownloadContent from "../components/pages/download";
+import PinContextProvider from "../contexts/PinContext";
+import BookmarkContextProvider from "../contexts/BookmarkContext";
+import SidenavContextProvider from "../contexts/SidenavContext";
 
 export default function DownloadPage({ chapters }) {
-	// const [searchModalOpen, updateSearchModalOpen] = useState(false)
+  // const [searchModalOpen, updateSearchModalOpen] = useState(false)
 
-	// const searchModalController = open => {
-	//     updateSearchModalOpen(open)
-	// }
+  // const searchModalController = open => {
+  //     updateSearchModalOpen(open)
+  // }
 
-	const pageTitle = "Download audio and pdf"
+  const pageTitle = "Download audio and pdf";
 
-	return (
-		<SettingsContextProvider>
+  return (
+    <SettingsContextProvider>
       <PinContextProvider>
-      <BookmarkContextProvider>
-      <SidenavContextProvider>
-			<Meta
-				title={`${pageTitle}`}
-				description={`${pageTitle}`}
-				url={`${server}/download`}
-				image={`${server}/img/s_logo.png`}
-				type="website"
-			/>
+        <BookmarkContextProvider>
+          <SidenavContextProvider>
+            <Meta
+              title={`${pageTitle}`}
+              description={`${pageTitle}`}
+              url={`${server}/download`}
+              image={`${server}/img/s_logo.png`}
+              type="website"
+            />
 
-			{/* <SearchModal
+            {/* <SearchModal
                 open={searchModalOpen}
                 searchModalController={searchModalController}
             /> */}
 
-			{/* <Sidenav chapters={chapters} /> */}
+            {/* <Sidenav chapters={chapters} /> */}
 
-			<HeaderWeb
-				page="surah"
-        chapters={chapters}
-        isChapterPage={true}
-				//searchModalController={searchModalController}
-			/>
+            <HeaderWeb
+              page="surah"
+              chapters={chapters}
+              isChapterPage={true}
+              //searchModalController={searchModalController}
+            />
 
-			<HeaderMobile
-				//searchModalController={searchModalController}
-				title={pageTitle}
-        chapters={chapters}
-			/>
+            <HeaderMobile
+              //searchModalController={searchModalController}
+              title={pageTitle}
+              chapters={chapters}
+            />
 
-			<main id="viewport" className="viewport viewport_surah viewport_no_footer">
-				<div className="content layout2">
+            <main
+              id="viewport"
+              className="viewport viewport_surah viewport_no_footer"
+            >
+              <div className="content layout2">
+                <Sidenav chapters={chapters} />
 
-					<Sidenav chapters={chapters} />
+                <div className="content_wrapper">
+                  <DownloadContent chapters={chapters} />
+                </div>
+              </div>
+            </main>
 
-					<div className="content_wrapper">
-						<DownloadContent chapters={chapters} />
-					</div>
-				</div>
-			</main>
+            <FooterWeb />
 
-			<FooterWeb />
-
-			{/* <FooterMobile /> */}
-      </SidenavContextProvider>
-      </BookmarkContextProvider>
+            {/* <FooterMobile /> */}
+          </SidenavContextProvider>
+        </BookmarkContextProvider>
       </PinContextProvider>
-		</SettingsContextProvider>
-	)
+    </SettingsContextProvider>
+  );
 }
 
-
 export async function getStaticProps(context) {
-	const chapters = await getChaptersInfo()
+  const chapters = await getChaptersInfo();
 
-	if (!chapters) {
-		return {
-			notFound: true
-		}
-	}
+  if (!chapters) {
+    return {
+      notFound: true,
+    };
+  }
 
-	// Pass data to the page via props
-	return {
-		props: { chapters }
-	}
+  // Pass data to the page via props
+  return {
+    props: { chapters },
+  };
 }

@@ -1,4 +1,4 @@
-import { server } from '../lib/config'
+import { server } from "../lib/config";
 import { getChaptersInfo, getVersesByQuery } from "../lib/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ import PinContextProvider from "../contexts/PinContext";
 import BookmarkContextProvider from "../contexts/BookmarkContext";
 import SidenavContextProvider from "../contexts/SidenavContext";
 import Meta from "../components/core/meta";
-import HeaderWeb from "../components/layout2/web/header";
+import HeaderWeb from "../components/web/header";
 import HeaderMobile from "../components/mobile/header-subjective";
 import FooterWeb from "../components/web/footer";
 import FooterMobile from "../components/mobile/footer-home";
@@ -96,7 +96,7 @@ export default function Bookmark({ chapters }) {
 
   const updateBookmarksData = (chapter, verse) => {
     let updatedBookmarksData = bookmarksData.filter(
-        (item) => !(item.chapter.chapterNo == chapter && item.verseNo == verse)
+      (item) => !(item.chapter.chapterNo == chapter && item.verseNo == verse)
     );
     setBookmarksData(updatedBookmarksData);
   };
@@ -106,23 +106,23 @@ export default function Bookmark({ chapters }) {
       <SettingsContextProvider>
         <PinContextProvider>
           <BookmarkContextProvider>
-          <SidenavContextProvider>
-            <Meta
-              title={`Bookmark ${bookmarkName}`}
-              description={`Quran Bookmark`}
-              url={`${server}/bookmarks`}
-              image={`${server}/img/s_logo.png`}
-              type="website"
-            />
-            <HeaderMobile //
-              title="Bookmarks & Pin"
-              backLink="/"
-            />
-            <main id="viewport" className="viewport">
-              <BookmarkMobile key={key} />
-            </main>
-            <FooterMobile />
-          </SidenavContextProvider>
+            <SidenavContextProvider>
+              <Meta
+                title={`Bookmark ${bookmarkName}`}
+                description={`Quran Bookmark`}
+                url={`${server}/bookmarks`}
+                image={`${server}/img/s_logo.png`}
+                type="website"
+              />
+              <HeaderMobile //
+                title="Bookmarks & Pin"
+                backLink="/"
+              />
+              <main id="viewport" className="viewport">
+                <BookmarkMobile key={key} />
+              </main>
+              <FooterMobile />
+            </SidenavContextProvider>
           </BookmarkContextProvider>
         </PinContextProvider>
       </SettingsContextProvider>
@@ -133,56 +133,56 @@ export default function Bookmark({ chapters }) {
     <SettingsContextProvider>
       <PinContextProvider>
         <BookmarkContextProvider>
-        <SidenavContextProvider>
-          <Meta
-            title={`Bookmark ${bookmarkName}`}
-            description={`Bookmark ${bookmarkName}`}
-            url={`${server}/bookmarks`}
-            image={`${server}/img/s_logo.png`}
-            type="website"
-          />
+          <SidenavContextProvider>
+            <Meta
+              title={`Bookmark ${bookmarkName}`}
+              description={`Bookmark ${bookmarkName}`}
+              url={`${server}/bookmarks`}
+              image={`${server}/img/s_logo.png`}
+              type="website"
+            />
 
-          <ArabicDialog />
+            <ArabicDialog />
 
-          {/* <SearchModal
+            {/* <SearchModal
                 open={searchModalOpen}
                 searchModalController={searchModalController}
             /> */}
 
-          <HeaderWeb
-            page="surah"
-            chapters={chapters}
-            isChapterPage={true}
-            // searchModalController={searchModalController}
-          />
-
-          <AudioPlayerContextProvider>
-            <HeaderMobile //
-              title={bookmarkName}
-              backLink="/bookmarks"
+            <HeaderWeb
+              page="surah"
+              chapters={chapters}
+              isChapterPage={true}
+              // searchModalController={searchModalController}
             />
 
-            <main
-              id="viewport"
-              className="viewport viewport_surah viewport_no_footer"
-            >
-              <BookmarkContent //
-                chapters={chapters}
-                name={bookmarkName}
-                data={bookmarksData}
-                exist={isExists}
-                isBookmarkPage={true}
-                key={key}
-                updateBookmarksData={updateBookmarksData}
+            <AudioPlayerContextProvider>
+              <HeaderMobile //
+                title={bookmarkName}
+                backLink="/bookmarks"
               />
-            </main>
 
-            <AudioPlayer />
-          </AudioPlayerContextProvider>
+              <main
+                id="viewport"
+                className="viewport viewport_surah viewport_no_footer"
+              >
+                <BookmarkContent //
+                  chapters={chapters}
+                  name={bookmarkName}
+                  data={bookmarksData}
+                  exist={isExists}
+                  isBookmarkPage={true}
+                  key={key}
+                  updateBookmarksData={updateBookmarksData}
+                />
+              </main>
 
-          <FooterWeb />
-          {/* <FooterMobile /> */}
-        </SidenavContextProvider>
+              <AudioPlayer />
+            </AudioPlayerContextProvider>
+
+            <FooterWeb />
+            {/* <FooterMobile /> */}
+          </SidenavContextProvider>
         </BookmarkContextProvider>
       </PinContextProvider>
     </SettingsContextProvider>
