@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { AudioPlayerContext } from "../../contexts/AudioPlayerContext";
-import Sidenav from "../sidenav";
+import Sidenav from "../sidenav/chapter-list";
 import VerseCard from "./verse-card";
 import Pagination from "./pagination";
 import QuranIcon from "../icons/Quran";
@@ -151,7 +151,7 @@ export default function CategoryContent({ categories, hadiths }) {
 
   return (
     <div className={styles.content}>
-      {/* <Sidenav categories={categories} /> */}
+      <Sidenav categories={categories} />
 
       <div className={styles.chapter}>
         <div className={styles.chapter_tab}>

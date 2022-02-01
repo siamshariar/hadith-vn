@@ -1,23 +1,14 @@
-.content {
+.wrapper {
   display: block;
   width: 100%;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 32px;
   background-color: var(--bg11);
 }
 
-.chapter {
+.content {
   width: 100%;
   padding-bottom: 40px;
-}
-
-.chapter_tab {
-  display: block;
-  padding: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
 }
 
 .title {
@@ -66,31 +57,18 @@
 }
 
 @media only screen and (min-width: 1024px) {
-  .content {
-    display: flex;
-    max-width: 1186px;
-    padding-left: 80px;
-    padding-right: 80px;
-    padding-top: 98px;
-    margin: 0 auto;
-    background-color: transparent;
-
+  .wrapper {
     display: flex;
     max-width: 100%;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 98px;
     margin: 0 auto;
     background-color: transparent;
     height: 100%;
   }
-  .chapter {
-    width: calc(100% - 500px);
-
+  .content {
+    width: 100%;
     padding: 0 32px 40px;
-  }
-
-  .chapter_tab {
     padding: 32px;
     box-shadow: var(--bs21);
     border-radius: 8px;
@@ -105,7 +83,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 40px;
-    background: var(--bg12);
+    // background: var(--bg12);
     padding: 8px;
     border-radius: 8px;
     text-align: center;
@@ -138,6 +116,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 12px;
+    margin-bottom: 32px;
+    word-break: break-word;
   }
 
   .verses {

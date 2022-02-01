@@ -1,9 +1,12 @@
+import Link from "next/link";
 import styles from "./HadithCard.module.scss";
 
 const HadithCard = ({ hadith }) => {
   return (
     <div className={styles.wrapper}>
-      <h2>{hadith.title}</h2>
+      <Link href={`/hadiths/${hadith.id}`}>
+        <a className={styles.title}>{hadith.title}</a>
+      </Link>
     </div>
   );
 };

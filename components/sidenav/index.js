@@ -11,7 +11,7 @@ import SaveIcon from "../icons/Save";
 import SettingsIcon from "../icons/SettingsOutlined";
 import styles from "./index.module.scss";
 
-export default function Sidenav({ chapters }) {
+export default function Sidenav({ categories }) {
   const { bookmarkOpen, changeBookmarkOpen } = useContext(SidenavContext);
 
   const [chapterListOpen, updateChapterListOpen] = useState(false);
@@ -98,14 +98,10 @@ export default function Sidenav({ chapters }) {
             </span>
           </Tooltip>
 
-          <ChapterList
-            chapterList={chapters}
-            open={chapterListOpen}
-            controller={controlChapterListNav}
-          />
+          <ChapterList chapterList={categories} />
         </li>
 
-        <li className={bookmarkOpen ? styles.open : ""} ref={refSave}>
+        {/* <li className={bookmarkOpen ? styles.open : ""} ref={refSave}>
           <Tooltip
             title="Bookmarks and Pin"
             arrow
@@ -118,39 +114,7 @@ export default function Sidenav({ chapters }) {
           </Tooltip>
 
           <Save open={bookmarkOpen} controller={controlSaveNav} />
-        </li>
-
-        <li>
-          <Tooltip
-            title="Subjective"
-            arrow
-            placement="right"
-            disableFocusListener={true}
-          >
-            <span className={styles.icon}>
-              <Link href="/subjective">
-                <a>
-                  <SubjectIcon />
-                </a>
-              </Link>
-            </span>
-          </Tooltip>
-        </li>
-
-        <li className={settingsOpen ? styles.open : ""} ref={refSettings}>
-          <Tooltip
-            title="Settings"
-            arrow
-            placement="right"
-            disableFocusListener={true}
-          >
-            <span className={styles.icon} onClick={controlSettingsNav(true)}>
-              <SettingsIcon />
-            </span>
-          </Tooltip>
-
-          <Settings open={settingsOpen} controller={controlSettingsNav} />
-        </li>
+        </li> */}
       </ul>
     </div>
   );

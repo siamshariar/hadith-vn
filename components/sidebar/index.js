@@ -1,20 +1,25 @@
-import { useState, useRef, useContext } from "react";
+import { generateCategoryTree } from "../../lib/functions";
+
+import { useState, useRef, useContext, useEffect } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import Link from "next/link";
 import Scrollbar from "../core/scrollbar";
 import CloseIcon from "../icons/Close";
 import SearchIcon from "../icons/Search";
-import styles from "./chapter-list.module.scss";
+import styles from "./index.module.scss";
+
+import { AccordionSummary } from "@material-ui/core";
 
 export default function ChapterList({ categories }) {
-  const { verseMode } = useContext(SettingsContext);
+  // const { verseMode } = useContext(SettingsContext);
 
-  const [chapters, setChapters] = useState(categories);
+  const [chapters, setChapters] = useState([]);
+
   const filterChapters = (search) => {
     const filtered = categories.filter((chapter) => {
       return (
-        chapter.name.toLowerCase().includes(search.toLowerCase()) ||
-        chapter.chapterNo.toString().includes(search)
+        chapter.title.toLowerCase().includes(search.toLowerCase()) ||
+        chapter.id.toString().includes(search)
       );
     });
     setChapters(filtered);
@@ -39,10 +44,16 @@ export default function ChapterList({ categories }) {
     setSearchOpen(open);
   };
 
+  // useEffect(() => {
+  //   setChapters(generateCategoryTree(categories));
+  // }, []);
+
+  // console.log(categories);
+
   return (
     <Scrollbar className={styles.sidenav}>
       <div className={styles.wrapper}>
-        <div className={styles.top}>
+        {/* <div className={styles.top}>
           <div className={styles.left}>
             <div className={styles.title}>
               <h2>Chương</h2>
@@ -53,9 +64,9 @@ export default function ChapterList({ categories }) {
             <span className={styles.icon} onClick={handleSearchOpen(true)}>
               <SearchIcon />
             </span>
-            {/* <span className={styles.icon} onClick={controller(false)}>
+            <span className={styles.icon} onClick={controller(false)}>
               <CloseIcon />
-            </span> */}
+            </span>
           </div>
 
           <div
@@ -74,32 +85,43 @@ export default function ChapterList({ categories }) {
               <CloseIcon />
             </span>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles.lists}>
-          {chapters.map((chapter) => (
-            <Link
-              key={chapter.chapterNo}
-              href={
-                verseMode === "scroll"
-                  ? `/chapters/${chapter.slug}`
-                  : verseMode === "slide"
-                  ? `/chapters/${chapter.slug}/verses/1`
-                  : `/chapters/${chapter.slug}`
-              }
-            >
-              <a className={styles.list}>
-                <span className={styles.number}>{chapter.id}</span>
-
-                <div className={styles.name}>
-                  <span>{chapter.title}</span>
-                  <span>{chapter.hadeeths_count}</span>
-                </div>
-              </a>
-            </Link>
-          ))}
+          {categories.map((chapter, index) => {
+            const depthLevel = 0;
+            return (
+              <ListItem items={chapter} key={index} depthLevel={depthLevel} />
+            );
+          })}
         </div>
       </div>
     </Scrollbar>
   );
 }
+
+const ListItem = ({ items, depthLevel }) => {
+  return (
+    <>
+      <Link href={`/categories/${items.id}/hadiths`}>
+        <a
+          className={`${styles.list} level${depthLevel} ${
+            items.parent_id == null ? styles.parent : null
+          }`}
+        >
+          <div className={styles.name}>
+            <span>
+              {items.id} {items.title}
+            </span>
+          </div>
+        </a>
+      </Link>
+      {items.children &&
+        items.children.length &&
+        items.children.map((item, index) => {
+          const level = depthLevel + 1;
+          return <ListItem items={item} key={index} depthLevel={level} />;
+        })}
+    </>
+  );
+};
