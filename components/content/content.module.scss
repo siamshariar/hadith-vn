@@ -25,7 +25,7 @@
   fill: var(--txt11);
 }
 
-.verses {
+.card {
   display: block;
   margin-top: -78px;
 }
@@ -70,7 +70,7 @@
     width: 100%;
     padding: 0 32px 40px;
     padding: 32px;
-    box-shadow: var(--bs21);
+    // box-shadow: var(--bs21);
     border-radius: 8px;
     background: var(--bg11);
     width: 100%;
@@ -124,7 +124,7 @@
     word-break: break-word;
   }
 
-  .verses {
+  .card {
     margin-top: -40px;
   }
 }

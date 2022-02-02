@@ -1,0 +1,51 @@
+.wrapper {
+  display: block;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: var(--bg11);
+}
+
+.title_area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title_area .left {
+  width: calc(100% - 40px);
+}
+.title_area .left h1 {
+  text-align: left;
+}
+.title_area .right {
+  width: 40px;
+}
+
+.content {
+  display: block;
+}
+.content .item {
+  margin-bottom: 24px;
+}
+
+.trans {
+}
+.attr {
+}
+.grade {
+}
+.exp {
+}
+
+.trans p {
+  font-size: 16px;
+}
+.attr p {
+  font-size: 14px;
+}
+.grade p {
+  font-size: 16px;
+}
+.exp p {
+  font-size: 15px;
+}

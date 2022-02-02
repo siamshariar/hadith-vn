@@ -15,7 +15,7 @@ import SidenavContextProvider from "../../contexts/SidenavContext";
 import styles from "./Layout.module.scss";
 import Meta from "../core/meta";
 
-const Layout = ({ meta, categories, hadiths, contentTitle, content }) => {
+const Layout = ({ meta, categories, contentTitle, content }) => {
   return (
     <SettingsContextProvider>
       <PinContextProvider>

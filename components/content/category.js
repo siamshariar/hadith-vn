@@ -1,4 +1,4 @@
-import HadithCard from "./HadithCard";
+import HadithCard from "./HadithListCard";
 import styles from "./content.module.scss";
 
 export default function CategoryContent({ hadiths, category }) {

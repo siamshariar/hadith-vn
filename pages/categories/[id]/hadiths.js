@@ -38,7 +38,6 @@ export default function Categories({ category, categories, hadiths }) {
         type: "website",
       }}
       categories={categories}
-      hadiths={hadiths}
       categoryTitle={category.title}
       content={
         <CategoryContent
