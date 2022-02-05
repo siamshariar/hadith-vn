@@ -6,35 +6,40 @@ import Fade from "@material-ui/core/Fade";
 import CloseIcon from "../icons/Close";
 import styles from "./modal.module.scss";
 
-export default function RemoveBookmark({ open, closer, chapter, verse, updateBookmarksData, bookmarkKey, isBookmarkPage }) {
+export default function RemoveBookmark({
+  open,
+  closer,
+  hadith,
+  updateBookmarksData,
+  bookmarkKey,
+  isBookmarkPage,
+}) {
   const { bookmarks, changeBookmarks } = useContext(BookmarkContext);
 
-  const checkVerseBookmarked = (arr, chapter, verse) => {
+  const checkVerseBookmarked = (arr, id) => {
     return arr.some((el) => {
-      return el.chapter == chapter && el.verse == verse;
+      return el.id == id;
     });
   };
 
   const elementRemove = (arr, elem) => {
-    return arr.filter(
-      (item) => !(item.chapter == elem.chapter && item.verse == elem.verse)
-    );
+    return arr.filter((item) => !(item.id == elem.id));
   };
 
   const handleRemoveBookmark = (e) => {
     let entry = bookmarks[bookmarkKey].entry;
 
-    if (entry !== null && checkVerseBookmarked(entry, chapter, verse)) {
+    if (entry !== null && checkVerseBookmarked(entry, hadith.id)) {
       let newBookmarks = bookmarks;
-      entry = elementRemove(entry, { chapter: chapter, verse: verse });
+      entry = elementRemove(entry, { id: hadith.id });
       newBookmarks[bookmarkKey] = {
         name: bookmarks[bookmarkKey].name,
         entry: entry,
       };
       changeBookmarks(newBookmarks);
 
-      if (typeof isBookmarkPage !== 'undefined' && isBookmarkPage === true) {
-        updateBookmarksData(chapter, verse);
+      if (typeof isBookmarkPage !== "undefined" && isBookmarkPage === true) {
+        // updateBookmarksData(chapter, verse);
       }
 
       closer(false)(e);

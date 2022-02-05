@@ -1,4 +1,4 @@
-import GoToVerse from "../mobile/go-to-verse";
+// import GoToVerse from "../mobile/go-to-verse";
 import { useContext } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { SidenavContext } from "../../contexts/SidenavContext";
@@ -79,201 +79,159 @@ export default function HeaderWeb({ page, chapters, isChapterPage }) {
 
   const open = Boolean(anchorEl);
 
-  // go to verse option
-  const [goToVerseOpen, setGoToVerseOpen] = useState(false);
-  // const [goToVerseInit, setGoToVerseInit] = useState(false)
-  // const [goToVerseData, setGoToVerseData] = useState([])
-
-  const handleGoToVerseModal = (open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    handleClose();
-
-    setGoToVerseOpen(open);
-
-    // if (!goToVerseInit) {
-    //     getChaptersInfo().then(res => {
-    //         setGoToVerseData(res)
-
-    //         setTimeout(() => {
-    //             setGoToVerseInit(true)
-    //         }, 0)
-    //     })
-    // }
-  };
-
   return (
-    <>
-      <div className={`${styles.header} ${styles[page]}`} ref={header}>
-        <Container>
-          <div className={styles.inner}>
-            <div className={styles.left}>
-              {theme === "light" && (
-                <Link href="/">
-                  <a className={`${styles.logo} ${styles.logo_normal}`}>
-                    <Image
-                      src="/img/logo.png"
-                      alt=""
-                      width={122}
-                      height={26}
-                      loading="eager"
-                    />
-                  </a>
-                </Link>
-              )}
+    <div className={`${styles.header} ${styles[page]}`} ref={header}>
+      <Container>
+        <div className={styles.inner}>
+          <div className={styles.left}>
+            {theme === "light" && (
+              <Link href="/">
+                <a className={`${styles.logo} ${styles.logo_normal}`}>
+                  <Image
+                    src="/img/logo.png"
+                    alt=""
+                    width={122}
+                    height={26}
+                    loading="eager"
+                  />
+                </a>
+              </Link>
+            )}
 
-              {theme === "light" && (
-                <Link href="/">
-                  <a className={`${styles.logo} ${styles.logo_white}`}>
-                    <Image
-                      src="/img/logo_full_white.png"
-                      alt=""
-                      width={122}
-                      height={26}
-                      loading="eager"
-                    />
-                  </a>
-                </Link>
-              )}
+            {theme === "light" && (
+              <Link href="/">
+                <a className={`${styles.logo} ${styles.logo_white}`}>
+                  <Image
+                    src="/img/logo_full_white.png"
+                    alt=""
+                    width={122}
+                    height={26}
+                    loading="eager"
+                  />
+                </a>
+              </Link>
+            )}
 
-              {theme !== "light" && (
-                <Link href="/">
-                  <a className={`${styles.logo} ${styles.logo_full_white}`}>
-                    <Image
-                      src="/img/logo_full_white.png"
-                      alt=""
-                      width={122}
-                      height={26}
-                      loading="eager"
-                    />
-                  </a>
-                </Link>
-              )}
-            </div>
-
-            <div className={styles.right}>
-              <IconButton className={styles.btn} onClick={() => modeSwitcher()}>
-                {theme === "light" && <Brightness4Icon />}
-                {theme !== "light" && <Brightness7Icon />}
-              </IconButton>
-
-              <IconButton className={styles.btn} onClick={handleClick}>
-                <MoreVertIcon />
-              </IconButton>
-
-              <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                disableScrollLock={true}
-              >
-                <MenuList className={styles.menu}>
-                  <MenuItem onClick={handleGoToVerseModal(true)}>
-                    <span className={styles.icon}>
-                      <NearMeIcon />
-                    </span>
-                    <span className={styles.text}>Go To Verse</span>
-                  </MenuItem>
-                  <Link href="/names-of-allah">
-                    <MenuItem onClick={handleClose}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <Names99Icon />
-                        </span>
-                        <span className={styles.text}>Names of Allah</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/subjective">
-                    <MenuItem onClick={handleClose}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <SubtitlesIcon />
-                        </span>
-                        <span className={styles.text}>Subjective</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-
-                  <Link href="/bookmark">
-                    <MenuItem onClick={(e) => handleSidenav(e, 1)}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <BookmarkBorderIcon />
-                        </span>
-                        <span className={styles.text}>Bookmark</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/bookmark">
-                    <MenuItem onClick={(e) => handleSidenav(e, 2)}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <PinOutlineIcon />
-                        </span>
-                        <span className={styles.text}>Pin</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/bookmark">
-                    <MenuItem onClick={(e) => handleSidenav(e, 3)}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <AutoStoriesIcon />
-                        </span>
-                        <span className={styles.text}>Last Read</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/download">
-                    <MenuItem onClick={handleClose}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <DownloadIcon />
-                        </span>
-                        <span className={styles.text}>Download</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/about">
-                    <MenuItem onClick={handleClose}>
-                      <a className={styles.link}>
-                        <span className={styles.icon}>
-                          <InfoIcon />
-                        </span>
-                        <span className={styles.text}>About</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  {/*<MenuItem onClick={handleClose}>*/}
-                  {/*    <span className={styles.icon}><SettingsIcon /></span>*/}
-                  {/*    <span className={styles.text}>Settings</span>*/}
-                  {/*</MenuItem>*/}
-                </MenuList>
-              </Popover>
-            </div>
+            {theme !== "light" && (
+              <Link href="/">
+                <a className={`${styles.logo} ${styles.logo_full_white}`}>
+                  <Image
+                    src="/img/logo_full_white.png"
+                    alt=""
+                    width={122}
+                    height={26}
+                    loading="eager"
+                  />
+                </a>
+              </Link>
+            )}
           </div>
-        </Container>
-      </div>
 
-      <GoToVerse
-        open={goToVerseOpen}
-        controller={handleGoToVerseModal}
-        chapters={chapters}
-      />
-    </>
+          <div className={styles.right}>
+            <IconButton className={styles.btn} onClick={() => modeSwitcher()}>
+              {theme === "light" && <Brightness4Icon />}
+              {theme !== "light" && <Brightness7Icon />}
+            </IconButton>
+
+            <IconButton className={styles.btn} onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+
+            <Popover
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              disableScrollLock={true}
+            >
+              <MenuList className={styles.menu}>
+                <Link href="/names-of-allah">
+                  <MenuItem onClick={handleClose}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <Names99Icon />
+                      </span>
+                      <span className={styles.text}>Names of Allah</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                <Link href="/subjective">
+                  <MenuItem onClick={handleClose}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <SubtitlesIcon />
+                      </span>
+                      <span className={styles.text}>Subjective</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+
+                <Link href="/bookmark">
+                  <MenuItem onClick={(e) => handleSidenav(e, 1)}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <BookmarkBorderIcon />
+                      </span>
+                      <span className={styles.text}>Bookmark</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                <Link href="/bookmark">
+                  <MenuItem onClick={(e) => handleSidenav(e, 2)}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <PinOutlineIcon />
+                      </span>
+                      <span className={styles.text}>Pin</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                <Link href="/bookmark">
+                  <MenuItem onClick={(e) => handleSidenav(e, 3)}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <AutoStoriesIcon />
+                      </span>
+                      <span className={styles.text}>Last Read</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                <Link href="/download">
+                  <MenuItem onClick={handleClose}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <DownloadIcon />
+                      </span>
+                      <span className={styles.text}>Download</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                <Link href="/about">
+                  <MenuItem onClick={handleClose}>
+                    <a className={styles.link}>
+                      <span className={styles.icon}>
+                        <InfoIcon />
+                      </span>
+                      <span className={styles.text}>About</span>
+                    </a>
+                  </MenuItem>
+                </Link>
+                {/*<MenuItem onClick={handleClose}>*/}
+                {/*    <span className={styles.icon}><SettingsIcon /></span>*/}
+                {/*    <span className={styles.text}>Settings</span>*/}
+                {/*</MenuItem>*/}
+              </MenuList>
+            </Popover>
+          </div>
+        </div>
+      </Container>
+    </div>
   );
 }

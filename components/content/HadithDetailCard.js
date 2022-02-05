@@ -3,6 +3,7 @@ import styles from "./HadithDetailCard.module.scss";
 import HadithOptions from "./HadithOptions";
 
 const HadithCard = ({ hadith }) => {
+  console.log(hadith);
   return (
     <div className={styles.wrapper}>
       <div className={styles.title_area}>
@@ -10,7 +11,20 @@ const HadithCard = ({ hadith }) => {
           <h1>{hadith.title}</h1>
         </div>
         <div className={styles.right}>
-          <HadithOptions />
+          <HadithOptions
+            // index={hadith.id}
+            // chapterNumber="1"
+            // chapterName={null}
+            // chapterSlug={null}
+            // verseNumber={null}
+            // ayaArabic={null}
+            // translation={null}
+            // footnotes={null}
+            // printRef={null}
+            updateBookmarksData={null}
+            isBookmarkPage={null}
+            hadith={hadith}
+          />
         </div>
       </div>
 

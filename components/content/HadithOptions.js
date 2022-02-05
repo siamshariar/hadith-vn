@@ -26,35 +26,20 @@ import { useReactToPrint } from "react-to-print";
 
 import styles from "./HadithOptions.module.scss";
 
-const HadithOptions = (
-  index,
-  chapterNumber,
-  chapterName,
-  chapterSlug,
-  verseNumber,
-  ayaArabic,
-  translation,
-  footnotes,
-  printRef,
+const HadithOptions = ({
+  // chapterNumber,
+  // chapterName,
+  // chapterSlug,
+  // verseNumber,
+  // ayaArabic,
+  // translation,
+  // footnotes,
+  // printRef,
   updateBookmarksData,
-  isBookmarkPage
-) => {
-  // const { playing, currentIndex, play, pause, audioType } =
-  //   useContext(AudioPlayerContext);
-
-  // const playingThisVerse =
-  //   playing && audioType === "verse" && currentIndex === index;
-
-  // const controlPlay = () => {
-  //   play(index, "verse");
-  //   handlePopoverClose();
-  // };
-
-  // const controlPause = () => {
-  //   pause();
-  //   handlePopoverClose();
-  // };
-
+  isBookmarkPage,
+  hadith,
+}) => {
+  console.log(hadith);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {
@@ -79,9 +64,9 @@ const HadithOptions = (
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
-      let path = window.location.pathname;
+      // let path = window.location.pathname;
       // let parts = path.split("/");
-      let url = `${server}/chapters/${chapterSlug}/verses/${verseNumber}`;
+      let url = `${server}/hadiths/${hadith.id}`;
 
       // if (parts.length === 3 && parts[1] === "chapters") {
       //   url = `${server}/chapters/${chapterSlug}#verse-${verseNumber}`;
@@ -103,9 +88,9 @@ const HadithOptions = (
 
   const handleCopyFile = () => {
     if (typeof window !== "undefined") {
-      let path = window.location.pathname;
+      // let path = window.location.pathname;
       // let parts = path.split("/");
-      let url = `${server}/chapters/${chapterSlug}/verses/${verseNumber}`;
+      let url = `${server}/hadiths/${hadith.id}`;
 
       // if (parts.length === 3 && parts[1] === "chapters") {
       //   url = `${server}/chapters/${chapterSlug}#verse-${verseNumber}`;
@@ -119,7 +104,7 @@ const HadithOptions = (
       //   url = `${server}/chapters/${chapterSlug}/verses/${verseNumber}`;
       // }
 
-      let file = `[Chương ${chapterName} : Câu ${verseNumber}]\n\n${ayaArabic}\n\n${translation}\n\n${footnotes}\n\n${url}`;
+      let file = `[Title : ${hadith.title}]\n\nHadith: ${hadith.hadeeth}\n\nAttribution${hadith.attribution}\n\nGrade${hadith.grade}\n\nExplanation: ${hadith.explanation}\n\n${url}`;
 
       navigator.clipboard.writeText(file);
       handlePopoverClose();
@@ -145,13 +130,13 @@ const HadithOptions = (
   const handleWebShare = () => {
     handlePopoverClose();
 
-    const url = `${server}/chapters/${chapterSlug}/verses/${verseNumber}`;
+    const url = `${server}/hadiths/${hadith.id}`;
     const title =
-      "Chương " +
-      chapterName +
-      " : Câu " +
-      verseNumber +
-      " | Kinh Quran | Quran in Vietnamese | Quran.vn";
+      "Title " +
+      hadith.title +
+      " : Hadith " +
+      hadith.hadeeth +
+      " | Hadith | Hadith in Vietnamese | hadith.vn";
 
     setShareUrl(url);
     setShareTitle(title);
@@ -161,13 +146,13 @@ const HadithOptions = (
   const handleMobileShare = () => {
     handlePopoverClose();
 
-    const url = `${server}/chapters/${chapterSlug}/verses/${verseNumber}`;
+    const url = `${server}/hadiths/${hadith.id}`;
     const title =
-      "Chương " +
-      chapterName +
-      " : Câu " +
-      verseNumber +
-      " | Kinh Quran | Quran in Vietnamese | Quran.vn";
+      "Title " +
+      hadith.title +
+      " : Hadith " +
+      hadith.hadeeth +
+      " | Hadith | Hadith in Vietnamese | hadith.vn";
 
     if (navigator.share) {
       navigator.share({
@@ -191,15 +176,15 @@ const HadithOptions = (
   const [isBookmarked, setIsBookmarked] = useState(true);
   const [bookmarkKey, setBookmarkKey] = useState("");
 
-  const checkVerseBookmarked = (arr, chapter, verse) => {
+  const checkVerseBookmarked = (arr, id) => {
     return arr.some((el) => {
-      return el.chapter == chapter && el.verse == verse;
+      return el.id == id;
     });
   };
 
   useEffect(() => {
     for (let [key, value] of Object.entries(bookmarks)) {
-      if (checkVerseBookmarked(value.entry, chapterNumber, verseNumber)) {
+      if (checkVerseBookmarked(value.entry, hadith.id)) {
         setIsBookmarked(true);
         setBookmarkKey(key);
         break;
@@ -234,26 +219,28 @@ const HadithOptions = (
   };
 
   // pin options
-  const checkPinnedThisVerse = (arr, chapter, verse) => {
-    return arr.some((el) => el.chapter == chapter && el.verse == verse);
+  const checkPinnedThisVerse = (arr, id) => {
+    return arr.some((el) => el.id == id);
   };
 
   const { pin, addPin, removePin } = useContext(PinContext);
   const [isPinned, setIsPinned] = useState(false);
 
   useEffect(() => {
-    checkPinnedThisVerse(pin, chapterNumber, verseNumber)
+    checkPinnedThisVerse(pin, hadith.id)
       ? setIsPinned(true)
       : setIsPinned(false);
-  }, [pin, verseNumber]);
+  }, [pin, hadith]);
 
   const handleAddPin = () => {
-    addPin(chapterNumber, chapterName, chapterSlug, verseNumber);
+    // addPin(chapterNumber, chapterName, chapterSlug, verseNumber);
+    addPin(hadith);
     handlePopoverClose();
   };
 
   const handleRemovePin = () => {
-    removePin(chapterNumber, verseNumber);
+    // removePin(chapterNumber, verseNumber);
+    removePin(hadith);
     handlePopoverClose();
   };
 
@@ -265,13 +252,13 @@ const HadithOptions = (
     }
   `;
 
-  const handlePrint = useReactToPrint({
-    content: () => printRef,
-    documentTitle: chapterName,
-    pageStyle: pageStyle,
-    onBeforeGetContent: () => handlePopoverClose(),
-    removeAfterPrint: true,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => printRef,
+  //   documentTitle: chapterName,
+  //   pageStyle: pageStyle,
+  //   onBeforeGetContent: () => handlePopoverClose(),
+  //   removeAfterPrint: true,
+  // });
 
   return (
     <>
@@ -296,15 +283,13 @@ const HadithOptions = (
       <AddBookmark
         open={addBookmarkOpen}
         closer={handleBookmarkClose}
-        chapter={chapterNumber}
-        verse={verseNumber}
+        hadith={hadith}
       />
 
       <RemoveBookmark
         open={removeBookmarkOpen}
         closer={handleBookmarkClose}
-        chapter={chapterNumber}
-        verse={verseNumber}
+        hadith={hadith}
         updateBookmarksData={updateBookmarksData}
         bookmarkKey={bookmarkKey}
         isBookmarkPage={isBookmarkPage}
