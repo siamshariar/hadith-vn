@@ -89,8 +89,8 @@ export default function GoToVerse({ open, controller, chapters }) {
                                         }
                                     }}
                                 >
-                                {chapters && chapters.map(chapter =>
-                                    <li key={chapter.chapterNo} value={chapter.chapterNo}>
+                                {chapters && chapters.map((chapter, index) =>
+                                    <li key={index} value={chapter.chapterNo}>
                                         {chapter.chapterNo}. {chapter.name}
                                     </li>
                                 )}
