@@ -12,8 +12,11 @@
     border-bottom: none;
     background: var(--bg11);
     box-shadow: var(--bs21);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     z-index: 999;
     transition: background 150ms ease-in, box-shadow 150ms ease-in;
+    height: 64px;
+    padding: 0 17px;
   }
 
   .header.home {
@@ -25,22 +28,23 @@
   .header.home.scrolled {
     background: var(--bg11);
     box-shadow: var(--bs21);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
-  .header.surah {
+  .header.content {
     position: absolute;
   }
 
-  .inner {
+  .content {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 66px;
+    height: 100%;
   }
 
-  .left {}
-
+  .left {
+  }
 
   .logo {
     display: flex;
@@ -48,7 +52,8 @@
     height: 100%;
   }
 
-  .logo img {}
+  .logo img {
+  }
 
   .logo.logo_normal,
   .logo.logo_full_white,
@@ -62,7 +67,6 @@
   .header.home.scrolled .logo.logo_white {
     display: none;
   }
-
 
   .right {
     display: flex;
@@ -109,12 +113,6 @@
   //popover
   .menu {
     background-color: var(--bg11);
-  }
-
-  .link {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
   }
 
   .icon {
