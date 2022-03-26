@@ -8,11 +8,10 @@
 
 .content {
   width: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 0;
 }
 
 .title {
-  display: none;
 }
 
 .bismillah {
@@ -27,7 +26,6 @@
 
 .card {
   display: block;
-  margin-top: -78px;
 }
 
 .quran_content p {
@@ -67,10 +65,7 @@
     height: 100%;
   }
   .content {
-    width: 100%;
-    padding: 0 32px 40px;
-    padding: 32px;
-    // box-shadow: var(--bs21);
+    padding: 12px 32px;
     border-radius: 8px;
     background: var(--bg11);
     width: 100%;
@@ -79,14 +74,10 @@
   }
 
   .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     margin-bottom: 40px;
-    // background: var(--bg12);
-    padding: 8px;
-    border-radius: 8px;
-    text-align: center;
+    padding: 0;
+    text-align: left;
   }
 
   .title_icon {
@@ -103,29 +94,15 @@
   }
 
   .title_text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
     color: var(--txt11);
-    white-space: normal;
-    display: -moz-box;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
     font-size: 48px;
     font-weight: 700;
     line-height: 1.35;
-    margin-top: 12px;
-    margin-bottom: 32px;
-    word-break: break-word;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .card {
-    margin-top: -40px;
   }
 }
 

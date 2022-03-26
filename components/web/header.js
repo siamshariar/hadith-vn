@@ -61,6 +61,7 @@ export default function HeaderWeb({ page }) {
   const open = Boolean(anchorEl);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState(null);
   const [modalContent, setModalContent] = useState(null);
 
   const handleModalClose = (open) => (event) => {
@@ -73,13 +74,14 @@ export default function HeaderWeb({ page }) {
     setModalOpen(open);
   };
 
-  const handleItem = (e, item) => {
+  const handleItem = (e, item, title) => {
     e.preventDefault();
     handleClose();
 
     if (item === "about") {
       router.push("/about");
     } else {
+      setModalTitle(title);
       setModalContent(item);
       setModalOpen(true);
     }
@@ -90,6 +92,7 @@ export default function HeaderWeb({ page }) {
       <Modal
         open={modalOpen}
         closer={handleModalClose}
+        title={modalTitle}
         content={modalContent}
       />
 
@@ -166,7 +169,11 @@ export default function HeaderWeb({ page }) {
               <MenuList className={styles.menu}>
                 <MenuItem
                   onClick={(e) =>
-                    handleItem(e, <Bookmarks controller={handleModalClose} />)
+                    handleItem(
+                      e,
+                      <Bookmarks controller={handleModalClose} />,
+                      "Bookmarks"
+                    )
                   }
                 >
                   <span className={styles.icon}>
@@ -175,21 +182,33 @@ export default function HeaderWeb({ page }) {
                   <span className={styles.text}>Bookmarks</span>
                 </MenuItem>
 
-                <MenuItem onClick={(e) => handleItem(e, <Pin />)}>
+                <MenuItem
+                  onClick={(e) =>
+                    handleItem(e, <Pin controller={handleModalClose} />, "Pin")
+                  }
+                >
                   <span className={styles.icon}>
                     <PinOutlineIcon />
                   </span>
                   <span className={styles.text}>Pin</span>
                 </MenuItem>
 
-                <MenuItem onClick={(e) => handleItem(e, <Settings />)}>
+                <MenuItem
+                  onClick={(e) =>
+                    handleItem(
+                      e,
+                      <Settings controller={handleModalClose} />,
+                      "Settings"
+                    )
+                  }
+                >
                   <span className={styles.icon}>
                     <SettingsIcon />
                   </span>
                   <span className={styles.text}>Settings</span>
                 </MenuItem>
 
-                <MenuItem onClick={(e) => handleItem(e, "about")}>
+                <MenuItem onClick={(e) => handleItem(e, "about", null)}>
                   <span className={styles.icon}>
                     <InfoIcon />
                   </span>

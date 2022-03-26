@@ -10,7 +10,7 @@ export default function CategoryList({ categories }) {
         <Grid container spacing={2}>
           {categories &&
             categories.map((category) => (
-              <Grid key={category.id} item xs={12} md={6} lg={4}>
+              <Grid key={category.id} item xs={12} md={12} lg={12}>
                 <CategoryCard category={category} />
               </Grid>
             ))}

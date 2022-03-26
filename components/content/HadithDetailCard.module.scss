@@ -9,7 +9,10 @@
 .title_area {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--bdr11);
 }
 .title_area .left {
   width: calc(100% - 40px);
@@ -48,4 +51,11 @@
 }
 .exp p {
   font-size: 15px;
+}
+
+.trans p span,
+.attr p span,
+.grade p span,
+.exp p span {
+  font-weight: bold;
 }

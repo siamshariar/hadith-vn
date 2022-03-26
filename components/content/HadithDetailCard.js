@@ -30,19 +30,31 @@ const HadithCard = ({ hadith }) => {
 
       <div className={styles.content}>
         <div className={`${styles.item} ${styles.trans}`}>
-          <p>{hadith.hadeeth}</p>
+          <p>
+            <span>Translation: </span>
+            {hadith.hadeeth}
+          </p>
         </div>
 
         <div className={`${styles.item} ${styles.attr}`}>
-          <p>{hadith.attribution}</p>
+          <p>
+            <span>Attribution: </span>
+            {hadith.attribution}
+          </p>
         </div>
 
         <div className={`${styles.item} ${styles.grade}`}>
-          <p>{hadith.grade}</p>
+          <p>
+            <span>Grade: </span>
+            {hadith.grade}
+          </p>
         </div>
 
         <div className={`${styles.item} ${styles.exp}`}>
-          <p>{hadith.explanation}</p>
+          <p>
+            <span>Explanation: </span>
+            {hadith.explanation}
+          </p>
         </div>
       </div>
     </div>

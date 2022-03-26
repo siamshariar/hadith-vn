@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-const PrimaryModal = ({ open, closer, content }) => {
+const PrimaryModal = ({ open, closer, title, content }) => {
   // const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
     closer(false)(e);
@@ -31,7 +31,7 @@ const PrimaryModal = ({ open, closer, content }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {"title"}
+          <p className={styles.title}>{title}</p>
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {content}

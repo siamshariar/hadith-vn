@@ -3,25 +3,16 @@ import { PinContext } from "../../contexts/PinContext";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { useRouter } from "next/router";
 import PinIcon from "../icons/PinOutline";
-import styles from "../bookmark/list.module.scss";
+import styles from "./list.module.scss";
 
 export default function PinList({ controller }) {
   const { pin } = useContext(PinContext);
-  const { verseMode } = useContext(SettingsContext);
   const router = useRouter();
 
-  const handleClick = (e, slug, verse) => {
+  const handleClick = (e, id) => {
     e.preventDefault();
-
-    const href =
-      verseMode === "scroll"
-        ? `/chapters/${slug}#verse-${verse}`
-        : verseMode === "slide"
-        ? `/chapters/${slug}/verses/${verse}`
-        : `/chapters/${slug}#verse-${verse}`;
-
     controller(false)(e);
-    router.push(href);
+    router.push(`/hadiths/${id}`);
   };
 
   return (
@@ -30,18 +21,17 @@ export default function PinList({ controller }) {
         {pin &&
           pin.length > 0 &&
           pin.map((item) => (
-            <div key={item.chapter} className={styles.item}>
+            <div key={item.id} className={styles.item}>
               <div
                 className={styles.link}
-                onClick={(e) => handleClick(e, item.slug, item.verse)}
+                onClick={(e) => handleClick(e, item.id)}
               >
                 <div className={styles.left}>
                   <span className={styles.icon}>
                     <PinIcon />
                   </span>
                   <span className={styles.desc}>
-                    <span>{item.name}</span>
-                    <span>Verse No: {item.verse}</span>
+                    <span>{item.title}</span>
                   </span>
                 </div>
               </div>

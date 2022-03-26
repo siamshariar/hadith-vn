@@ -38,11 +38,6 @@ export default function Home({ categories }) {
               type="website"
             />
 
-            {/* <SearchModal
-                open={searchModalOpen}
-                searchModalController={searchModalController}
-            /> */}
-
             <HeaderWeb
               page="home"
               categories={categories}

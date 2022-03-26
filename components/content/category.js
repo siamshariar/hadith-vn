@@ -6,7 +6,7 @@ export default function CategoryContent({ hadiths, category }) {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.title}>
-          <span className={styles.title_text}>{category.title}</span>
+          <h1 className={styles.title_text}>{category.title}</h1>
         </div>
 
         <div className={styles.verses}>
