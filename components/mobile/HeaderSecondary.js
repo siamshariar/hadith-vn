@@ -6,20 +6,24 @@ import SettingsModal from "./settings-modal";
 import BackIcon from "../icons/NavigateBefore";
 import DropDownIcon from "../icons/ArrowDropDown";
 import TuneIcon from "../icons/Tune";
-import styles from "./header.module.scss";
+import styles from "./Header.module.scss";
 
-export default function HeaderMobile({ contentTitle, categories }) {
-  const [goToVerseOpen, setGoToVerseOpen] = useState(false);
+export default function HeaderMobile({
+  contentTitle,
+  categoryList,
+  categoryTree,
+  selectedCategoryId,
+}) {
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
-  const handleGoToVerseModal = (open) => (event) => {
+  const handleCategoryModal = (open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
-
-    setGoToVerseOpen(open);
+    setCategoryOpen(open);
   };
 
   // settings modal
@@ -74,9 +78,8 @@ export default function HeaderMobile({ contentTitle, categories }) {
               </Link>
             </div>
 
-            <div className={styles.center} onClick={handleGoToVerseModal(true)}>
-              {/* <span>{chapterNo}. </span> */}
-              <span>{contentTitle} </span>
+            <div className={styles.center} onClick={handleCategoryModal(true)}>
+              <span>Categories</span>
               <span className={styles.icon}>
                 <DropDownIcon />
               </span>
@@ -94,9 +97,11 @@ export default function HeaderMobile({ contentTitle, categories }) {
       </div>
 
       <CategoryModal
-        open={goToVerseOpen}
-        controller={handleGoToVerseModal}
-        categories={categories}
+        open={categoryOpen}
+        controller={handleCategoryModal}
+        categoryList={categoryList}
+        categoryTree={categoryTree}
+        selectedCategoryId={selectedCategoryId}
       />
 
       <SettingsModal open={settingsOpen} controller={handleSettingsModal} />

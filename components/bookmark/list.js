@@ -23,7 +23,7 @@ export default function BookmarkList({ controller }) {
     setBookmarkKey(key);
     setDeleteBookmarkOpen(true);
     // controller(false)(e);
-    console.log(deleteBookmarkOpen);
+    // console.log(deleteBookmarkOpen);
   };
 
   const handleBookmarkClose = (open) => (event) => {

@@ -1,5 +1,25 @@
+import { useEffect, useRef } from "react";
+
 import styles from "./scrollbar.module.scss";
 
-export default function Scrollbar({ children, className }) {
-  return <div className={`${styles.scrollbar} ${className}`}>{children}</div>;
+export default function Scrollbar({ children, className, scrollPos, id }) {
+  const scrollbar = useRef(null);
+
+  useEffect(() => {
+    scrollbar.current.scrollTo({
+      top: scrollPos,
+      left: 0,
+      // behavior: "smooth",
+    });
+  }, [id]);
+
+  return (
+    <div
+      // id="scrollbar"
+      className={`${styles.scrollbar} ${className}`}
+      ref={scrollbar}
+    >
+      {children}
+    </div>
+  );
 }

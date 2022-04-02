@@ -5,47 +5,30 @@ import {
   getCategoryById,
   getHadithsByCategory,
 } from "../../../lib/fetch";
-//import { useState } from 'react'
-// import SettingsContextProvider from "../../../contexts/SettingsContext";
-// import AudioPlayerContextProvider from "../../../contexts/AudioPlayerContext";
-// import PinContextProvider from "../../../contexts/PinContext";
-// import BookmarkContextProvider from "../../../contexts/BookmarkContext";
-// import SidenavContextProvider from "../../../contexts/SidenavContext";
-// import Meta from "../../../components/core/meta";
-//import Viewport from '../../../components/core/viewport'
-//import SearchModal from '../../../components/core/search-modal'
-// import HeaderWeb from "../../../components/web/header";
-// import HeaderMobile from "../../../components/mobile/header-chapter";
-//import FooterMobile from '../../../components/mobile/footer-chapter'
-// import CategoryContent from "../../../components/surah/category";
-// import AudioPlayer from "../../../components/surah/audio-player";
-// import FooterWeb from "../../../components/web/footer";
-// import ArabicDialog from "../../../components/core/arabic-dialog";
-
+import Layout from "../../../components/utils/LayoutSecondary";
 import CategoryContent from "../../../components/content/category";
 
-import Layout from "../../../components/utils/LayoutPrimary";
-
-export default function Categories({ category, categories, hadiths }) {
-  // console.log(categories);
+export default function Categories({
+  categoryList,
+  categoryTree,
+  categoryId,
+  category,
+  hadiths,
+}) {
   return (
     <Layout
       meta={{
         title: `Category ${category.title}`,
         description: `Category ${category.title}. Hadith application in Vietnamese.`,
-        url: `${server}/chapters/${category.title}`,
+        url: `${server}/categories/${category.id}/hadiths`,
         image: `${server}/img/s_logo.png`,
         type: "website",
       }}
-      categories={categories}
-      categoryTitle={category.title}
-      content={
-        <CategoryContent
-          category={category}
-          categories={categories}
-          hadiths={hadiths}
-        />
-      }
+      categoryList={categoryList}
+      categoryTree={categoryTree}
+      selectedCategoryId={categoryId}
+      contentTitle={category.title}
+      content={<CategoryContent hadiths={hadiths} category={category} />}
     />
   );
 }
@@ -54,13 +37,22 @@ export async function getStaticProps(context) {
   const id = encodeURI(context.params.id);
   const categoryId = parseInt(id);
   const hadiths = await getHadithsByCategory(categoryId);
-  const categories = await getAllCategoriesTree();
+  const categoryList = await getAllCategories();
+  const categoryTree = await getAllCategoriesTree();
   const category = await getCategoryById(categoryId);
+
+  if (!hadiths || !categoryList || !categoryTree) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
+      categoryList,
+      categoryTree,
+      categoryId,
       category,
-      categories,
       hadiths,
       key: categoryId,
     },
@@ -68,17 +60,25 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const categories = await getAllCategories();
   let paths = [];
+  // const categories = await getAllCategories();
+  // categories.map((category) => {
+  //   let id = encodeURI(category.id);
+  //   let obj = { params: { id: id } };
+  //   paths.push(obj);
+  // });
 
-  categories.map((category) => {
-    let id = encodeURI(category.id);
-    let obj = { params: { id: id } };
-    paths.push(obj);
-  });
+  let obj = {
+    params: {
+      id: String(1),
+    },
+  };
+
+  paths.push(obj);
 
   return {
     paths: paths,
-    fallback: false,
+    // fallback: false,
+    fallback: "blocking",
   };
 }

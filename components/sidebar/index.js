@@ -1,18 +1,29 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Scrollbar from "../core/scrollbar";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "../icons/Search";
 import styles from "./index.module.scss";
 
-export default function Sidebar({ categoriesTree, categories }) {
+export default function Sidebar({
+  categoryList,
+  categoryTree,
+  selectedCategoryId,
+}) {
+  // categories without tree
+  const input = useRef(null);
+  const closeButton = useRef(null);
   const [categoryItems, setCategoryItems] = useState([]);
+  const [search, setSearch] = useState("");
+  const [isSearchEmpty, setIsSearchEmpty] = useState(true);
 
   const filterCategories = (search) => {
-    const filtered = categories.filter((item) => {
+    setSearch(search);
+    const filtered = categoryList.filter((item) => {
       return (
         item.title.toLowerCase().includes(search.toLowerCase()) ||
         item.id.toString().includes(search)
@@ -21,14 +32,38 @@ export default function Sidebar({ categoriesTree, categories }) {
     setCategoryItems(filtered);
   };
 
-  const input = useRef(null);
+  const handleClose = () => {
+    setSearch("");
+    input.current.value = "";
+  };
+
+  useEffect(() => {
+    if (search === "") {
+      setIsSearchEmpty(true);
+      closeButton.current.style.display = "none";
+    } else {
+      setIsSearchEmpty(false);
+      closeButton.current.style.display = "block";
+    }
+  }, [search]);
+
+  const [scrollPos, setScrollPos] = useState(0);
+  const [isScrollPosCalculationDone, setIsScrollPosCalculationDone] =
+    useState(false);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
         <div className={styles.search}>
-          <span className={styles.icon}>
+          <span className={`${styles.icon} ${styles.search_icon}`}>
             <SearchIcon />
+          </span>
+          <span
+            className={`${styles.icon} ${styles.close_icon}`}
+            onClick={handleClose}
+            ref={closeButton}
+          >
+            <CloseIcon />
           </span>
           <input
             type="text"
@@ -40,43 +75,103 @@ export default function Sidebar({ categoriesTree, categories }) {
           />
         </div>
       </div>
+      <div className={styles.content}>
+        <Scrollbar
+          className={styles.category}
+          scrollPos={scrollPos}
+          key={selectedCategoryId}
+          id={selectedCategoryId}
+        >
+          <div className={styles.lists}>
+            {categoryTree &&
+              categoryTree.map((cat, index) => {
+                return (
+                  <ListItem
+                    items={cat}
+                    key={index}
+                    selectedCategory={selectedCategoryId}
+                    scrollPos={scrollPos}
+                    setScrollPos={setScrollPos}
+                    isScrollPosCalculationDone={isScrollPosCalculationDone}
+                    setIsScrollPosCalculationDone={
+                      setIsScrollPosCalculationDone
+                    }
+                  />
+                );
+              })}
+          </div>
+        </Scrollbar>
 
-      <Scrollbar className={styles.category}>
-        {/* <div className={styles.title}>
-          <h2>Categories</h2>
-        </div> */}
+        {!isSearchEmpty && (
+          <Scrollbar className={styles.category}>
+            <div className={styles.lists}>
+              {categoryItems &&
+                categoryItems.length > 0 &&
+                categoryItems.map((items, index) => (
+                  <Link key={index} href={`/categories/${items.id}/hadiths`}>
+                    <a className={`${styles.list}`}>
+                      <span>{items.title}</span>
+                    </a>
+                  </Link>
 
-        <div className={styles.lists}>
-          {categories.map((cat, index) => {
-            return <ListItem items={cat} key={index} />;
-          })}
-        </div>
-      </Scrollbar>
+                  // <NormalList
+                  //   items={cat}
+                  //   key={index}
+                  //   selectedCategory={selectedCategoryId}
+                  //   scrollPos={scrollPos}
+                  //   setScrollPos={setScrollPos}
+                  //   isScrollPosCalculationDone={isScrollPosCalculationDone}
+                  //   setIsScrollPosCalculationDone={
+                  //     setIsScrollPosCalculationDone
+                  //   }
+                  // />
+                ))}
+
+              {categoryItems && !categoryItems.length && (
+                <h2 className={styles.empty}>No record found!</h2>
+              )}
+            </div>
+          </Scrollbar>
+        )}
+      </div>
     </div>
   );
 }
 
-const ListItem = ({ items }) => {
-  const [expanded, setExpanded] = useState(`panel-${items.id}`);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+const ListItem = ({
+  items,
+  selectedCategory,
+  scrollPos,
+  setScrollPos,
+  isScrollPosCalculationDone,
+  setIsScrollPosCalculationDone,
+}) => {
+  const [expanded, setExpanded] = useState(true);
+  const toggleAccordion = () => {
+    setExpanded(!expanded);
   };
+
+  // const fieldRef = useRef(null);
+
+  const [newPos, setNewPos] = useState(scrollPos);
+
+  useEffect(() => {
+    if (items.id == selectedCategory) {
+      setScrollPos(document.getElementById(`navitem-${items.id}`).offsetTop);
+    }
+  }, [selectedCategory]);
 
   if (items.children && items.children.length > 0) {
     return (
       <Accordion
-        expanded={expanded === `panel-${items.id}`}
-        onChange={handleChange(`panel-${items.id}`)}
+        expanded={expanded}
         classes={{
           root: styles.acc_root,
           expanded: styles.acc_expanded,
         }}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          // aria-controls="panel1a-content"
-          // id="panel1a-header"
+          expandIcon={<ExpandMoreIcon onClick={() => toggleAccordion()} />}
           classes={{
             root: styles.summary_root,
             expanded: styles.summary_expanded,
@@ -86,9 +181,13 @@ const ListItem = ({ items }) => {
         >
           <Link href={`/categories/${items.id}/hadiths`}>
             <a
+              id={`navitem-${items.id}`}
               className={`${styles.list} ${
-                items.parent_id == null ? styles.parent : null
-              }`}
+                items.id == selectedCategory ? styles.active : ""
+              } ${
+                items.children && items.children.length ? styles.parent : ""
+              } ${items.parent_id == null ? styles.root : ""}`}
+              // ref={fieldRef}
             >
               <span>{items.title}</span>
             </a>
@@ -103,7 +202,17 @@ const ListItem = ({ items }) => {
                     expanded: styles.detail_expanded,
                   }}
                 >
-                  <ListItem items={item} key={index} />
+                  <ListItem
+                    items={item}
+                    key={index}
+                    selectedCategory={selectedCategory}
+                    scrollPos={newPos}
+                    setScrollPos={setScrollPos}
+                    isScrollPosCalculationDone={isScrollPosCalculationDone}
+                    setIsScrollPosCalculationDone={
+                      setIsScrollPosCalculationDone
+                    }
+                  />
                 </AccordionDetails>
               </div>
             ))
@@ -114,8 +223,11 @@ const ListItem = ({ items }) => {
     return (
       <Link href={`/categories/${items.id}/hadiths`}>
         <a
+          id={`navitem-${items.id}`}
           className={`${styles.list} ${
-            items.parent_id == null ? styles.parent : null
+            items.id == selectedCategory ? styles.active : ""
+          } ${items.children && items.children.length ? styles.parent : ""} ${
+            items.parent_id == null ? styles.root : ""
           }`}
         >
           <span>{items.title}</span>

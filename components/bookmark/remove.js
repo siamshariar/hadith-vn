@@ -39,7 +39,7 @@ export default function RemoveBookmark({
       changeBookmarks(newBookmarks);
 
       if (typeof isBookmarkPage !== "undefined" && isBookmarkPage === true) {
-        // updateBookmarksData(chapter, verse);
+        updateBookmarksData(hadith.id);
       }
 
       closer(false)(e);

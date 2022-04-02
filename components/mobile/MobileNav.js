@@ -2,8 +2,8 @@ import { useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Drawer from "@material-ui/core/Drawer";
-
 import SettingsModal from "./settings-modal";
+import CategoryModal from "./CategoryModal";
 import MenuBookIcon from "../icons/MenuBook";
 import NearMeIcon from "../icons/NearMeOutlined";
 import SubtitlesIcon from "../icons/SubtitlesOutlined";
@@ -19,6 +19,8 @@ import ContactIcon from "../icons/ContactSupport";
 import SecurityIcon from "../icons/Security";
 import AdminIcon from "../icons/AdminPanelSettings";
 import Names99Icon from "../icons/Names99";
+import BookmarkIcon from "../icons/BookmarkBorder";
+import CategoryIcon from "@mui/icons-material/CategoryOutlined";
 import PinIcon from "../icons/PinOutline";
 import AutoStoriesIcon from "../icons/AutoStories";
 import { SidenavContext } from "../../contexts/SidenavContext";
@@ -30,9 +32,15 @@ import { useRouter } from "next/router";
 // import BookmarkModal from './bookmark-modal'
 // import BookmarkBorderIcon from '../icons/BookmarkBorder'
 
-import styles from "./mobile-nav.module.scss";
+import styles from "./MobileNav.module.scss";
 
-export default function MobileNav({ navOpen, navControl, chapters }) {
+export default function MobileNav({
+  navOpen,
+  navControl,
+  categoryList,
+  categoryTree,
+  selectedCategoryId,
+}) {
   // go to verse modal
 
   // settings modal
@@ -49,7 +57,24 @@ export default function MobileNav({ navOpen, navControl, chapters }) {
     setSettingsOpen(open);
     setTimeout(() => {
       navControl(false)(event);
-    }, 300);
+    }, 50000000);
+  };
+
+  // category modal
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+
+  const handleCategoryModal = (open) => (event) => {
+    event.preventDefault();
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setCategoriesOpen(open);
+    setTimeout(() => {
+      navControl(false)(event);
+    }, 0);
   };
 
   // // pin modal
@@ -134,12 +159,23 @@ export default function MobileNav({ navOpen, navControl, chapters }) {
               {/*</li>*/}
 
               <li>
-                <Link href="/names-of-allah">
-                  <a>
+                <Link href="/categories">
+                  <a onClick={handleCategoryModal(true)}>
                     <span className={styles.icon}>
-                      <Names99Icon />
+                      <CategoryIcon />
                     </span>
-                    <span className={styles.text}>Names of Allah</span>
+                    <span className={styles.text}>Categories</span>
+                  </a>
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/bookmarks">
+                  <a onClick={(e) => handleBookmarkPage(e, 1)}>
+                    <span className={styles.icon}>
+                      <BookmarkIcon />
+                    </span>
+                    <span className={styles.text}>Bookmarks</span>
                   </a>
                 </Link>
               </li>
@@ -163,7 +199,7 @@ export default function MobileNav({ navOpen, navControl, chapters }) {
                   </a>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/download">
                   <a>
                     <span className={styles.icon}>
@@ -172,7 +208,7 @@ export default function MobileNav({ navOpen, navControl, chapters }) {
                     <span className={styles.text}>Download</span>
                   </a>
                 </Link>
-              </li>
+              </li> */}
 
               <li>
                 <Link href="/settings">
@@ -300,6 +336,13 @@ export default function MobileNav({ navOpen, navControl, chapters }) {
       </Drawer>
 
       <SettingsModal open={settingsOpen} controller={handleSettingsModal} />
+      <CategoryModal
+        open={categoriesOpen}
+        controller={handleCategoryModal}
+        categoryList={categoryList}
+        categoryTree={categoryTree}
+        selectedCategoryId={selectedCategoryId}
+      />
 
       {/* <PinModal
 				open={pinOpen}

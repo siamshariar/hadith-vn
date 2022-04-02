@@ -33,7 +33,7 @@ yarn-error.log*
 *.iml
 
 # audio files
-#public/audio
+# public/audio
 
 # editor
 .vscode/

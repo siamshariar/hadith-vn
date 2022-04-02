@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
-import { BookmarkContext } from "../../../contexts/BookmarkContext";
+import { BookmarkContext } from "../../contexts/BookmarkContext";
 import Link from "next/link";
-import FolderIcon from "../../icons/Folder";
-import CloseIcon from "../../icons/Close";
-import DeleteBookmark from "../../bookmark/delete";
-import styles from "../../bookmark/list.module.scss";
+import FolderIcon from "../icons/Folder";
+import CloseIcon from "../icons/Close";
+import DeleteBookmark from "../bookmark/delete";
+import styles from "../bookmark/list.module.scss";
 
 export default function BookmarkList() {
   const { bookmarks } = useContext(BookmarkContext);

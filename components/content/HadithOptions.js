@@ -39,7 +39,6 @@ const HadithOptions = ({
   isBookmarkPage,
   hadith,
 }) => {
-  console.log(hadith);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {

@@ -1,20 +1,17 @@
 .wrapper {
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   border-radius: 5px;
   border: 1px solid #eaeaea;
   box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
   transition: box-shadow 0.2s ease;
   color: #111;
 }
-.wrapper:hover {
-  box-shadow: 0 6px 12px rgb(0 0 0 / 10%);
-}
 .title {
   border-bottom: 1px dotted;
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 24px;
+  padding: 16px;
   border: none;
   transition: color 0.2s ease;
   font-size: 16px;
@@ -38,4 +35,16 @@
 }
 .wrapper h5 {
   font-size: 12px;
+}
+
+@media screen and (min-width: 1024px) {
+  .wrapper {
+    margin: 1.5rem 0;
+  }
+  .wrapper:hover {
+    box-shadow: 0 6px 12px rgb(0 0 0 / 10%);
+  }
+  .title {
+    padding: 23px;
+  }
 }

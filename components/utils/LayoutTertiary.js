@@ -1,7 +1,8 @@
 import Meta from "../core/meta";
 import HeaderWeb from "../web/Header";
-import HeaderMobile from "../mobile/HeaderPrimary";
+import HeaderMobile from "../mobile/HeaderContent";
 import FooterWeb from "../web/Footer";
+// import Sidebar from "../sidebar";
 import SettingsContextProvider from "../../contexts/SettingsContext";
 import PinContextProvider from "../../contexts/PinContext";
 import BookmarkContextProvider from "../../contexts/BookmarkContext";
@@ -29,24 +30,29 @@ const Layout = ({
               type={meta.type}
             />
 
-            <div className={styles.wrapper}>
+            {/* <ArabicDialog /> */}
+
+            <div className={`${styles.wrapper} ${styles.layout3}`}>
               <div className={styles.header}>
-                <HeaderWeb page="home" />
-                <HeaderMobile
-                  contentTitle={contentTitle}
-                  categoryList={categoryList}
-                  categoryTree={categoryTree}
-                  selectedCategoryId={selectedCategoryId}
-                />
+                <HeaderWeb page={null} />
+                <HeaderMobile title={contentTitle} />
               </div>
 
-              <main id="viewport" className="viewport">
-                {content}
-              </main>
+              <div className={styles.body}>
+                {/* <div className={styles.sidebar}>
+                  <Sidebar
+                    categoryList={categoryList}
+                    categoryTree={categoryTree}
+                    selectedCategoryId={selectedCategoryId}
+                  />
+                </div> */}
+                <main id="viewport" className={styles.content}>
+                  <div className={styles.container}>{content}</div>
+                </main>
+              </div>
 
               <div className={styles.footer}>
                 <FooterWeb />
-                {/* <FooterMobile /> */}
               </div>
             </div>
           </SidenavContextProvider>

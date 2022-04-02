@@ -1,7 +1,7 @@
 .content {
   width: 100%;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .lists {
@@ -12,11 +12,14 @@
 }
 
 .item {
-  padding: 8px 0;
+  padding: 15px 0;
   width: 100%;
   position: relative;
-  /* padding-right: 46px; */
-  /* border-bottom: 1px dashed var(--bdr14); */
+  border-bottom: 1px dashed var(--bdr14);
+}
+.item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .link {
@@ -39,7 +42,7 @@
 }
 
 .item .icon {
-  margin-right: 8px;
+  margin-right: 10px;
   padding-top: 2px;
   display: flex;
 }
@@ -74,19 +77,19 @@
 .item .desc {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .item .desc span:nth-child(1) {
   font-size: 15px;
-  //font-weight: bold;
-  word-break: break-all;
   word-wrap: break-word;
-  padding-right: 46px;
 }
 
 .item .desc span:nth-child(2) {
   opacity: 0.6;
   font-size: 14px;
+  margin-top: 6px;
 }
 
 .item .time {
@@ -98,7 +101,7 @@
 }
 
 .no_record {
-  padding: 8px 0;
+  padding: 16px 0;
   font-weight: 400;
   font-family: "Roboto", sans-serif;
 }
@@ -127,7 +130,9 @@
 @media only screen and (min-width: 1024px) {
   .content {
     padding-top: 0;
-    padding-bottom: 18px;
+    padding-bottom: 0;
+    border-top: 1px dashed var(--bdr14);
+    margin-top: -2px;
   }
   .item .delete_icon {
     visibility: hidden;

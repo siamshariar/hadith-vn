@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { PinContext } from "../../contexts/PinContext";
-import { SettingsContext } from "../../contexts/SettingsContext";
+// import { SettingsContext } from "../../contexts/SettingsContext";
 import { useRouter } from "next/router";
-import PinIcon from "../icons/PinOutline";
+import PinIcon from "../icons/Pin";
 import styles from "./list.module.scss";
 
 export default function PinList({ controller }) {
@@ -40,7 +40,7 @@ export default function PinList({ controller }) {
       </div>
 
       {pin && pin.length == 0 && (
-        <h2 className={styles.no_record}>No records found</h2>
+        <h2 className={styles.no_record}>No records found!</h2>
       )}
     </div>
   );

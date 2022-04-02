@@ -37,6 +37,7 @@ a.wrapper {
 
 .left {
   width: 55%;
+  width: 100%;
 }
 
 .name {
@@ -70,7 +71,6 @@ a.wrapper {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 @media only screen and (min-width: 1024px) {
   .item {

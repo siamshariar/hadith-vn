@@ -1,4 +1,4 @@
-import Modal from "./modal";
+import Modal from "../utils/ModalSecondary";
 import SettingsContent from "../settings";
 
 export default function SettingsModal({ open, controller }) {

@@ -1,4 +1,4 @@
-import styles from "./header.module.scss";
+import styles from "./Header.module.scss";
 import { useState, useEffect, useRef, useContext } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { useRouter } from "next/router";
@@ -12,12 +12,14 @@ import Modal from "../utils/ModalPrimary";
 import Settings from "../settings/index";
 import Bookmarks from "../bookmark/list";
 import Pin from "../pin/list";
+import LastRead from "../last-read/list";
 import Brightness4Icon from "../icons/Brightness4";
 import Brightness7Icon from "../icons/Brightness7";
 import MoreVertIcon from "../icons/MoreVert";
 import BookmarkBorderIcon from "../icons/BookmarkBorder";
 import InfoIcon from "../icons/Info";
 import PinOutlineIcon from "../icons/PinOutline";
+import AutoStoriesIcon from "../icons/AutoStories";
 import SettingsIcon from "../icons/SettingsOutlined";
 
 export default function HeaderWeb({ page }) {
@@ -191,6 +193,21 @@ export default function HeaderWeb({ page }) {
                     <PinOutlineIcon />
                   </span>
                   <span className={styles.text}>Pin</span>
+                </MenuItem>
+
+                <MenuItem
+                  onClick={(e) =>
+                    handleItem(
+                      e,
+                      <LastRead controller={handleModalClose} />,
+                      "Last Read"
+                    )
+                  }
+                >
+                  <span className={styles.icon}>
+                    <AutoStoriesIcon />
+                  </span>
+                  <span className={styles.text}>Last Read</span>
                 </MenuItem>
 
                 <MenuItem

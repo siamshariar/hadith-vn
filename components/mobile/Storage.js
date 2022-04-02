@@ -1,15 +1,15 @@
 import { useState, useEffect, useContext } from "react";
-import { SidenavContext } from '../../../contexts/SidenavContext';
+import { SidenavContext } from "../../contexts/SidenavContext";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import PropTypes from "prop-types";
-import BookmarkList from "./bookmark-list";
-import PinList from "./pin-list";
-import LastReadList from "./last-read-list";
-import PinIcon from "../../icons/PinOutline";
-import BookmarkBorderIcon from "../../icons/BookmarkBorder";
-import AutoStoriesIcon from "../../icons/AutoStories";
-import styles from "./index.module.scss";
+import BookmarkList from "./StorageBookmark";
+import PinList from "./StoragePin";
+import LastReadList from "./StorageLastRead";
+import PinIcon from "../icons/PinOutline";
+import BookmarkBorderIcon from "../icons/BookmarkBorder";
+import AutoStoriesIcon from "../icons/AutoStories";
+import styles from "./Storage.module.scss";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,12 +44,12 @@ export default function Save() {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    bookmarkOpen == false ? setValue(0) : setValue(bookmarkOpen - 1)
-  }, [bookmarkOpen])
+    bookmarkOpen == false ? setValue(0) : setValue(bookmarkOpen - 1);
+  }, [bookmarkOpen]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    changeBookmarkOpen(newValue == 0 ? false : newValue + 1)
+    changeBookmarkOpen(newValue == 0 ? false : newValue + 1);
   };
 
   return (

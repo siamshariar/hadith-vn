@@ -1,6 +1,6 @@
 import Container from "../core/container";
 import BackIcon from "../icons/NavigateBefore";
-import styles from "./modal.module.scss";
+import styles from "./ModalSecondary.module.scss";
 
 export default function Modal({ children, open, controller, title }) {
   return (

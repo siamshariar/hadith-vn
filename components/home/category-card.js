@@ -25,10 +25,10 @@ export default function CategoryCard({ category }) {
         <Link href={`/categories/${category.id}/hadiths`}>
           <a className={styles.name}>{category.title}</a>
         </Link>
-        <div className={styles.bottom}>{category.meaning}</div>
+        {/* <div className={styles.bottom}>{category.meaning}</div> */}
       </div>
 
-      <div className={styles.right}>{category.nameArabic}</div>
+      {/* <div className={styles.right}>{category.nameArabic}</div> */}
     </div>
   );
 }

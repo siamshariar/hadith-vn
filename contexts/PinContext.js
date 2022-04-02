@@ -40,22 +40,7 @@ const PinContextProvider = ({ children }) => {
   // change pin functions
   // const addPin = (chapter, name, slug, verse) => {
   const addPin = (hadith) => {
-    if (checkPinnedAnyVerseOfThisChapter(pin, hadith.id)) {
-      let newPin = [
-        {
-          id: hadith.id,
-          title: hadith.title,
-          hadeeth: hadith.hadeeth,
-          grade: hadith.grade,
-        },
-      ];
-
-      pin.forEach((el) => {
-        if (el.id != hadith.id) newPin.push(el);
-      });
-      saveToLocalStorage(newPin);
-      setPin(newPin);
-    } else {
+    if (!checkPinnedAnyVerseOfThisChapter(pin, hadith.id)) {
       let newPin = pin.slice(); // assign pin to newPin
       newPin.unshift({
         id: hadith.id,
@@ -81,36 +66,47 @@ const PinContextProvider = ({ children }) => {
   };
 
   // last read functions
-  const checkIfLastReadAnyVerseOfThisChapter = (arr, chapter) => {
-    return arr.some((el) => el.chapter == chapter);
+  const checkIfLastReadAnyVerseOfThisChapter = (arr, id) => {
+    return arr.some((el) => el.id == id);
   };
 
-  const addLastRead = (chapter, name, slug, verse) => {
-    if (checkIfLastReadAnyVerseOfThisChapter(lastRead, chapter)) {
+  const addLastRead = (hadith) => {
+    let maxLength = 10; // should be 100 later
+    if (checkIfLastReadAnyVerseOfThisChapter(lastRead, hadith.id)) {
       let newLastRead = [
         {
-          chapter: chapter,
-          name: name,
-          slug: slug,
-          verse: verse,
+          id: hadith.id,
+          title: hadith.title,
+          hadeeth: hadith.hadeeth,
+          grade: hadith.grade,
           date: Date.now(),
         },
       ];
 
-      lastRead.forEach((el) => {
-        if (el.chapter != chapter) newLastRead.push(el);
-      });
+      for (let index = 0; index < lastRead.length; index++) {
+        if (newLastRead.length == maxLength) {
+          break;
+        }
+        if (lastRead[index].id != hadith.id) newLastRead.push(lastRead[index]);
+      }
+
+      // lastRead.forEach((el) => {
+      //   if (el.id != hadith.id) newLastRead.push(el);
+      // });
       saveLastReadToLocalStorage(newLastRead);
       setLastRead(newLastRead);
     } else {
       let newLastRead = lastRead.slice(); // assign lastRead to newLastRead
       newLastRead.unshift({
-        chapter: chapter,
-        name: name,
-        slug: slug,
-        verse: verse,
+        id: hadith.id,
+        title: hadith.title,
+        hadeeth: hadith.hadeeth,
+        grade: hadith.grade,
         date: Date.now(),
       });
+      if (newLastRead.length > maxLength) {
+        newLastRead.pop();
+      }
       saveLastReadToLocalStorage(newLastRead);
       setLastRead(newLastRead);
     }

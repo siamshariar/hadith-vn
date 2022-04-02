@@ -12,6 +12,15 @@
 }
 
 .title {
+  padding-bottom: 4px;
+}
+.title_text {
+  color: var(--txt11);
+  line-height: 1.3;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 19px;
+  font-weight: bold;
 }
 
 .bismillah {
@@ -96,8 +105,9 @@
   .title_text {
     color: var(--txt11);
     font-size: 48px;
+    font-size: 44px;
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.3;
     margin-top: 0;
     margin-bottom: 0;
   }

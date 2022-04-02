@@ -1,11 +1,26 @@
+import { useState, useEffect, useContext, useRef } from "react";
+import { SettingsContext } from "../../contexts/SettingsContext";
+import { PinContext } from "../../contexts/PinContext";
 import Link from "next/link";
-import styles from "./HadithDetailCard.module.scss";
+import useOnScreen from "../../hooks/useOnScreen";
 import HadithOptions from "./HadithOptions";
+import styles from "./HadithDetailCard.module.scss";
 
-const HadithCard = ({ hadith }) => {
-  console.log(hadith);
+const HadithCard = ({ hadith, updateBookmarksData, isBookmarkPage }) => {
+  // last read option
+  const refTarget = useRef();
+  const isTargetVisible = useOnScreen(refTarget);
+  const { addLastRead } = useContext(PinContext);
+
+  useEffect(() => {
+    if (isTargetVisible) {
+      addLastRead(hadith);
+      // changeActiveVerse(verse.verseNo);
+    }
+  }, [isTargetVisible]);
+
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={refTarget}>
       <div className={styles.title_area}>
         <div className={styles.left}>
           <h1>{hadith.title}</h1>
@@ -21,8 +36,8 @@ const HadithCard = ({ hadith }) => {
             // translation={null}
             // footnotes={null}
             // printRef={null}
-            updateBookmarksData={null}
-            isBookmarkPage={null}
+            updateBookmarksData={updateBookmarksData}
+            isBookmarkPage={isBookmarkPage}
             hadith={hadith}
           />
         </div>

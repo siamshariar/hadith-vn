@@ -1,66 +1,67 @@
-import HeaderWeb from "../web/header";
-import HeaderMobile from "../mobile/header-chapter";
-import FooterWeb from "../web/footer";
-import Sidebar from "../sidebar";
-import CategoryContent from "../content/category";
-import ArabicDialog from "../core/arabic-dialog";
-import AudioPlayer from "../surah/audio-player";
-
+import Meta from "../core/meta";
 import SettingsContextProvider from "../../contexts/SettingsContext";
-import AudioPlayerContextProvider from "../../contexts/AudioPlayerContext";
 import PinContextProvider from "../../contexts/PinContext";
 import BookmarkContextProvider from "../../contexts/BookmarkContext";
 import SidenavContextProvider from "../../contexts/SidenavContext";
 
-import styles from "./Layout.module.scss";
-import Meta from "../core/meta";
+import HeaderWeb from "../web/Header";
+import HeaderMobile from "../mobile/HeaderSecondary";
+import FooterWeb from "../web/Footer";
+import Sidebar from "../sidebar";
 
-const Layout = ({ meta, categories, contentTitle, content }) => {
+import styles from "./Layout.module.scss";
+
+const Layout = ({
+  meta,
+  categoryList,
+  categoryTree,
+  selectedCategoryId,
+  contentTitle,
+  content,
+}) => {
   return (
     <SettingsContextProvider>
       <PinContextProvider>
         <BookmarkContextProvider>
           <SidenavContextProvider>
-            <AudioPlayerContextProvider>
-              <Meta
-                title={meta.title}
-                description={meta.description}
-                url={meta.url}
-                image={meta.image}
-                type={meta.type}
-              />
+            <Meta
+              title={meta.title}
+              description={meta.description}
+              url={meta.url}
+              image={meta.image}
+              type={meta.type}
+            />
 
-              {/* <ArabicDialog /> */}
+            {/* <ArabicDialog /> */}
 
-              <AudioPlayer />
-
-              <div className={styles.wrapper}>
-                <div className={styles.header}>
-                  <HeaderWeb
-                    page="surah"
-                    categories={categories}
-                    isChapterPage={true}
-                  />
-                  <HeaderMobile
-                    contentTitle={contentTitle}
-                    categories={categories}
-                  />
-                </div>
-
-                <div className={styles.body}>
-                  <div className={styles.sidebar}>
-                    <Sidebar categories={categories} />
-                  </div>
-                  <main id="viewport" className={styles.content}>
-                    <div className={styles.container}>{content}</div>
-                  </main>
-                </div>
-
-                <div className={styles.footer}>
-                  <FooterWeb />
-                </div>
+            <div className={styles.wrapper}>
+              <div className={styles.header}>
+                <HeaderWeb page={null} />
+                <HeaderMobile
+                  contentTitle={contentTitle}
+                  categoryList={categoryList}
+                  categoryTree={categoryTree}
+                  selectedCategoryId={selectedCategoryId}
+                />
               </div>
-            </AudioPlayerContextProvider>
+
+              <div className={styles.body}>
+                <div className={styles.sidebar}>
+                  <Sidebar
+                    categoryList={categoryList}
+                    categoryTree={categoryTree}
+                    selectedCategoryId={selectedCategoryId}
+                  />
+                </div>
+                <main id="viewport" className={styles.content}>
+                  <div className={styles.container}>{content}</div>
+                </main>
+              </div>
+
+              <div className={styles.footer}>
+                <FooterWeb />
+              </div>
+            </div>
           </SidenavContextProvider>
         </BookmarkContextProvider>
       </PinContextProvider>
