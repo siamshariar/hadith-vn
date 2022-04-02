@@ -282,3 +282,10 @@
   padding-top: 14px !important;
   margin-left: -4px;
 }
+
+@media screen and (min-width: 1024px) {
+  .wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

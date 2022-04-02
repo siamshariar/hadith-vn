@@ -6,7 +6,7 @@ import {
   getHadithsByCategory,
 } from "../../../lib/fetch";
 import Layout from "../../../components/utils/LayoutSecondary";
-import CategoryContent from "../../../components/content/category";
+import CategoryContent from "../../../components/content/Category";
 
 export default function Categories({
   categoryList,

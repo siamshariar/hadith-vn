@@ -1,5 +1,5 @@
 import HadithCard from "./HadithDetailCard";
-import styles from "./content.module.scss";
+import styles from "./Content.module.scss";
 
 const HadithContent = ({ hadith }) => {
   return (

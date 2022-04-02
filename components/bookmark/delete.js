@@ -1,12 +1,10 @@
 import { useContext } from "react";
 import { BookmarkContext } from "../../contexts/BookmarkContext";
-// import Modal from "@material-ui/core/Modal";
+import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import CloseIcon from "../icons/Close";
 import styles from "./modal.module.scss";
-
-import Modal from "../utils/ModalPrimary";
 
 export default function DeleteBookmark({ open, closer, bookmarkKey }) {
   const { bookmarks, changeBookmarks } = useContext(BookmarkContext);
@@ -33,45 +31,36 @@ export default function DeleteBookmark({ open, closer, bookmarkKey }) {
 
   return (
     <Modal
+      //className={classes.modal}
       open={open}
-      // onClose={closer(false)}
-      // closeAfterTransition
-      // BackdropComponent={Backdrop}
-      // BackdropProps={{
-      //   timeout: 500,
-      // }}
-      closer={closer}
-      content={
-        <Content closer={closer} handleDeleteBookmark={handleDeleteBookmark} />
-      }
+      onClose={closer(false)}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
     >
-      {/* <Fade in={open} timeout={250}> */}
+      <Fade in={open} timeout={250}>
+        <div className={styles.content}>
+          <button className={styles.close} onClick={closer(false)}>
+            <CloseIcon />
+          </button>
 
-      {/* </Fade> */}
+          <h2 className={styles.title}>Delete bookmark?</h2>
+          <div className={styles.title_desc}>
+            Are you sure you want to delete the bookmark?
+          </div>
+
+          <div className={styles.buttons}>
+            <button
+              className={`${styles.btn} ${styles.btn_remove}`}
+              onClick={handleDeleteBookmark}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Fade>
     </Modal>
   );
 }
-
-const Content = ({ closer, handleDeleteBookmark }) => {
-  return (
-    <div className={styles.content}>
-      <button className={styles.close} onClick={closer(false)}>
-        <CloseIcon />
-      </button>
-
-      <h2 className={styles.title}>Delete bookmark?</h2>
-      <div className={styles.title_desc}>
-        Are you sure you want to delete the bookmark?
-      </div>
-
-      <div className={styles.buttons}>
-        <button
-          className={`${styles.btn} ${styles.btn_remove}`}
-          onClick={handleDeleteBookmark}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-};
