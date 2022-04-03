@@ -15,7 +15,7 @@
   padding: 15px 0;
   width: 100%;
   position: relative;
-  border-bottom: 1px dashed var(--bdr14);
+  border-bottom: 1px dashed var(--bdr12);
 }
 .item:last-child {
   border-bottom: none;
@@ -131,7 +131,7 @@
   .content {
     padding-top: 0;
     padding-bottom: 0;
-    border-top: 1px dashed var(--bdr14);
+    border-top: 1px dashed var(--bdr12);
     margin-top: -2px;
   }
   .item .delete_icon {

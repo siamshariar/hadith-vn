@@ -18,6 +18,7 @@
 .title_area .left h1 {
   text-align: left;
   font-size: 16px;
+  font-size: 100%;
 }
 .title_area .right {
   width: 24px;
@@ -42,15 +43,19 @@
 
 .trans p {
   font-size: 16px;
+  font-size: 100%;
 }
 .attr p {
   font-size: 14px;
+  font-size: 87.5%;
 }
 .grade p {
   font-size: 16px;
+  font-size: 100%;
 }
 .exp p {
   font-size: 15px;
+  font-size: 93.75%;
 }
 
 .trans p span,
@@ -63,5 +68,6 @@
 @media screen and(min-width: 1024px) {
   .title_area .left h1 {
     font-size: 18px;
+    font-size: 112.5%;
   }
 }

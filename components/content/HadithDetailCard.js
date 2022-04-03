@@ -20,7 +20,7 @@ const HadithCard = ({ hadith, updateBookmarksData, isBookmarkPage }) => {
   }, [isTargetVisible]);
 
   return (
-    <div className={styles.wrapper} ref={refTarget}>
+    <div className={`${styles.wrapper} custom_font`} ref={refTarget}>
       <div className={styles.title_area}>
         <div className={styles.left}>
           <h1>{hadith.title}</h1>

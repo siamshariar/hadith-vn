@@ -28,14 +28,20 @@ const SettingsContextProvider = ({ children }) => {
     document.body.setAttribute("class", settings.theme);
 
     // init font css
-    const elemsArabic = document.querySelectorAll(".text_arabic");
-    const elemsTrans = document.querySelectorAll(".text_trans");
+    // const elemsArabic = document.querySelectorAll(".text_arabic");
+    // const elemsTrans = document.querySelectorAll(".text_trans");
 
-    for (const elem of elemsArabic) {
-      elem.style.fontSize = settings.fontSize.arabic + "px";
-      elem.style.fontFamily = settings.fontFamily.arabic;
-    }
-    for (const elem of elemsTrans) {
+    // for (const elem of elemsArabic) {
+    //   elem.style.fontSize = settings.fontSize.arabic + "px";
+    //   elem.style.fontFamily = settings.fontFamily.arabic;
+    // }
+    // for (const elem of elemsTrans) {
+    //   elem.style.fontSize = settings.fontSize.translation + "px";
+    //   elem.style.fontFamily = settings.fontFamily.translation;
+    // }
+
+    const customFont = document.querySelectorAll(".custom_font");
+    for (const elem of customFont) {
       elem.style.fontSize = settings.fontSize.translation + "px";
       elem.style.fontFamily = settings.fontFamily.translation;
     }
@@ -89,7 +95,7 @@ const SettingsContextProvider = ({ children }) => {
   const changeFontSizeTranslation = (value) => {
     if (value > 60 || value < 6) return;
 
-    const elems = document.querySelectorAll(".text_trans");
+    const elems = document.querySelectorAll(".custom_font");
     for (const elem of elems) {
       elem.style.fontSize = value + "px";
     }
@@ -119,7 +125,7 @@ const SettingsContextProvider = ({ children }) => {
   };
 
   const changeFontFamilyTranslation = (value) => {
-    const elems = document.querySelectorAll(".text_trans");
+    const elems = document.querySelectorAll(".custom_font");
     for (const elem of elems) {
       elem.style.fontFamily = value;
     }
@@ -169,7 +175,7 @@ const SettingsContextProvider = ({ children }) => {
     initSettings(defaultSettings);
     saveToLocalStorage(defaultSettings);
     setSettings(defaultSettings);
-    redirectAfterChangeVerseMode(defaultSettings.verseMode);
+    // redirectAfterChangeVerseMode(defaultSettings.verseMode);
   };
 
   return (

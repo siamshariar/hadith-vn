@@ -70,6 +70,7 @@ export default function Sidebar({
             name="search"
             placeholder="Search Category"
             className={styles.input}
+            autoComplete="off"
             onChange={(e) => filterCategories(e.target.value)}
             ref={input}
           />

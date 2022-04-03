@@ -19,10 +19,10 @@ import styles from "./index.module.scss";
 export default function SettingsContent() {
   return (
     <div className={styles.wrapper}>
-      <View />
-      <hr className={styles.divider} />
-      <VerseMode />
-      <hr className={styles.divider} />
+      {/* <View />
+      <hr className={styles.divider} /> */}
+      {/* <VerseMode />
+      <hr className={styles.divider} /> */}
       <FontSize />
       <hr className={styles.divider} />
       <FontFamily />
@@ -38,67 +38,6 @@ export default function SettingsContent() {
     </div>
   );
 }
-
-const View = () => {
-  const { view, changeView } = useContext(SettingsContext);
-
-  const [message, setMessage] = useState({
-    open: false,
-    text: "Set at least one option visible",
-  });
-
-  const handleViewChange = (name, val) => {
-    const newView = { ...view, [name]: val };
-    if (!newView.arabic && !newView.translation && !newView.tafseer) {
-      setMessage({ ...message, ["open"]: true });
-      setTimeout(() => {
-        setMessage({ ...message, ["open"]: false });
-      }, 2000);
-      return;
-    }
-    changeView(newView);
-  };
-
-  return (
-    <div className={`${styles.block} ${styles.view}`}>
-      <div className={styles.title}>View</div>
-      <div className={styles.list}>
-        <div className={styles.item}>
-          <Switcher
-            control={handleViewChange}
-            checked={view.arabic}
-            label="Arabic"
-            name="arabic"
-          />
-        </div>
-        <div className={styles.item}>
-          <Switcher
-            control={handleViewChange}
-            checked={view.translation}
-            label="Translation"
-            name="translation"
-          />
-        </div>
-        <div className={styles.item}>
-          <Switcher
-            control={handleViewChange}
-            checked={view.tafseer}
-            label="Footnotes"
-            name="tafseer"
-          />
-        </div>
-
-        <div
-          className={
-            message.open ? `${styles.message} ${styles.open}` : styles.message
-          }
-        >
-          {message.text}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const FontSize = () => {
   const {
@@ -120,7 +59,7 @@ const FontSize = () => {
     <div className={`${styles.block} ${styles.font_size}`}>
       <div className={styles.title}>Font Size</div>
       <div className={styles.list}>
-        <div className={styles.item}>
+        {/* <div className={styles.item}>
           <div className={styles.label}>Arabic</div>
           <div className={styles.sizer}>
             <IconButton
@@ -139,9 +78,9 @@ const FontSize = () => {
               <PlusIcon />
             </IconButton>
           </div>
-        </div>
+        </div> */}
         <div className={styles.item}>
-          <div className={styles.label}>Translation</div>
+          <div className={styles.label}>Change Font Size</div>
           <div className={styles.sizer}>
             <IconButton
               className={styles.sizer_btn}
@@ -193,7 +132,7 @@ const FontFamily = () => {
     <div className={`${styles.block} ${styles.font_family}`}>
       <div className={styles.title}>Font Family</div>
       <div className={styles.list}>
-        <div className={styles.item}>
+        {/* <div className={styles.item}>
           <Accordion
             className={styles.accordion}
             expanded={expanded === "font_arabic"}
@@ -238,7 +177,7 @@ const FontFamily = () => {
               </RadioGroup>
             </AccordionDetails>
           </Accordion>
-        </div>
+        </div> */}
         <div className={styles.item}>
           <Accordion
             className={styles.accordion}
@@ -262,7 +201,7 @@ const FontFamily = () => {
                   <DownIcon />
                 </span>
               </IconButton>
-              <div className={styles.label}>Choose Translation Font</div>
+              <div className={styles.label}>Choose Font</div>
             </AccordionSummary>
 
             <AccordionDetails className={styles.accordion_details}>
@@ -349,88 +288,6 @@ const Theme = () => {
               </div>
             </AccordionDetails>
           </Accordion>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const VerseMode = () => {
-  const { verseMode, changeVerseMode } = useContext(SettingsContext);
-  const handleVerseModeChange = (event) => {
-    changeVerseMode(event.target.value);
-  };
-
-  return (
-    <div className={`${styles.block} ${styles.scroll_mode}`}>
-      <div className={styles.title}>Verse Mode</div>
-      <RadioGroup
-        className={styles.list}
-        name="verseMode"
-        value={verseMode}
-        onChange={handleVerseModeChange}
-      >
-        <FormControlLabel
-          classes={{
-            root:
-              `${styles.item} settings_radio verse_mode_radio` +
-              (verseMode == "scroll" ? " checked" : ""),
-          }}
-          value="scroll"
-          control={<Radio />}
-          label="Scroll"
-        />
-        <FormControlLabel
-          classes={{
-            root:
-              `${styles.item} settings_radio verse_mode_radio` +
-              (verseMode == "slide" ? " checked" : ""),
-          }}
-          value="slide"
-          control={<Radio />}
-          label="Slide"
-        />
-      </RadioGroup>
-    </div>
-  );
-};
-
-const AutoScroll = () => {
-  const { autoScroll, changeAutoScroll } = useContext(SettingsContext);
-  const handleAutoScrollStatusChange = (status) => {
-    changeAutoScroll(status);
-  };
-  return (
-    <div className={`${styles.block} ${styles.auto_scroll}`}>
-      <div className={styles.title}>Auto Scroll</div>
-      <div className={styles.list}>
-        <div className={styles.item}>
-          <div className={styles.label}>Enable</div>
-          <Switcher
-            control={handleAutoScrollStatusChange}
-            checked={autoScroll}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Notification = () => {
-  const { notification, changeNotification } = useContext(SettingsContext);
-  const handleNotificationStatusChange = (status) => {
-    changeNotification(status);
-  };
-  return (
-    <div className={`${styles.block} ${styles.notification}`}>
-      <div className={styles.title}>Notification</div>
-      <div className={styles.list}>
-        <div className={styles.item}>
-          <div className={styles.label}>Enable</div>
-          <Switcher
-            control={handleNotificationStatusChange}
-            checked={notification}
-          />
         </div>
       </div>
     </div>
