@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import CloseIcon from "../icons/Close";
 import styles from "./ModalPrimary.module.scss";
 import css from "../core/scrollbar.module.scss";
 
@@ -20,9 +21,6 @@ const style = {
     paddingTop: 1,
     paddingBottom: 1,
   },
-  content: {
-    marginTop: 2,
-  },
 };
 
 const PrimaryModal = ({ open, closer, title, content }) => {
@@ -40,12 +38,15 @@ const PrimaryModal = ({ open, closer, title, content }) => {
     >
       <Box sx={style.wrapper}>
         <div className={`${css.scrollbar} ${styles.scrollbar}`}>
-          <Typography variant="h6" component="h2">
-            <p className={styles.title}>{title}</p>
+          <Typography variant="h6" component="div">
+            <div className={styles.header}>
+              <p className={styles.title}>{title}</p>
+              <button className={styles.close} onClick={(e) => handleClose(e)}>
+                <CloseIcon />
+              </button>
+            </div>
           </Typography>
-          <Typography sx={style.content} component="div">
-            {content}
-          </Typography>
+          <Typography component="div">{content}</Typography>
         </div>
       </Box>
     </Modal>
