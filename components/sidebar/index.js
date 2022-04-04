@@ -48,8 +48,6 @@ export default function Sidebar({
   }, [search]);
 
   const [scrollPos, setScrollPos] = useState(0);
-  const [isScrollPosCalculationDone, setIsScrollPosCalculationDone] =
-    useState(false);
 
   return (
     <div className={styles.wrapper}>
@@ -80,7 +78,6 @@ export default function Sidebar({
         <Scrollbar
           className={styles.category}
           scrollPos={scrollPos}
-          key={selectedCategoryId}
           id={selectedCategoryId}
         >
           <div className={styles.lists}>
@@ -88,15 +85,10 @@ export default function Sidebar({
               categoryTree.map((cat, index) => {
                 return (
                   <ListItem
-                    items={cat}
+                    item={cat}
                     key={index}
                     selectedCategory={selectedCategoryId}
-                    scrollPos={scrollPos}
                     setScrollPos={setScrollPos}
-                    isScrollPosCalculationDone={isScrollPosCalculationDone}
-                    setIsScrollPosCalculationDone={
-                      setIsScrollPosCalculationDone
-                    }
                   />
                 );
               })}
@@ -108,24 +100,12 @@ export default function Sidebar({
             <div className={styles.lists}>
               {categoryItems &&
                 categoryItems.length > 0 &&
-                categoryItems.map((items, index) => (
-                  <Link key={index} href={`/categories/${items.id}/hadiths`}>
+                categoryItems.map((item, index) => (
+                  <Link key={index} href={`/categories/${item.id}/hadiths`}>
                     <a className={`${styles.list}`}>
-                      <span>{items.title}</span>
+                      <span>{item.title}</span>
                     </a>
                   </Link>
-
-                  // <NormalList
-                  //   items={cat}
-                  //   key={index}
-                  //   selectedCategory={selectedCategoryId}
-                  //   scrollPos={scrollPos}
-                  //   setScrollPos={setScrollPos}
-                  //   isScrollPosCalculationDone={isScrollPosCalculationDone}
-                  //   setIsScrollPosCalculationDone={
-                  //     setIsScrollPosCalculationDone
-                  //   }
-                  // />
                 ))}
 
               {categoryItems && !categoryItems.length && (
@@ -139,30 +119,19 @@ export default function Sidebar({
   );
 }
 
-const ListItem = ({
-  items,
-  selectedCategory,
-  scrollPos,
-  setScrollPos,
-  isScrollPosCalculationDone,
-  setIsScrollPosCalculationDone,
-}) => {
+const ListItem = ({ item, selectedCategory, setScrollPos }) => {
   const [expanded, setExpanded] = useState(true);
   const toggleAccordion = () => {
     setExpanded(!expanded);
   };
 
-  // const fieldRef = useRef(null);
-
-  const [newPos, setNewPos] = useState(scrollPos);
-
   useEffect(() => {
-    if (items.id == selectedCategory) {
-      setScrollPos(document.getElementById(`navitem-${items.id}`).offsetTop);
+    if (item.id == selectedCategory) {
+      setScrollPos(document.getElementById(`navitem-${item.id}`).offsetTop);
     }
   }, [selectedCategory]);
 
-  if (items.children && items.children.length > 0) {
+  if (item.children && item.children.length > 0) {
     return (
       <Accordion
         expanded={expanded}
@@ -180,22 +149,22 @@ const ListItem = ({
             content: styles.summary_content,
           }}
         >
-          <Link href={`/categories/${items.id}/hadiths`}>
+          <Link href={`/categories/${item.id}/hadiths`}>
             <a
-              id={`navitem-${items.id}`}
+              id={`navitem-${item.id}`}
               className={`${styles.list} ${
-                items.id == selectedCategory ? styles.active : ""
-              } ${
-                items.children && items.children.length ? styles.parent : ""
-              } ${items.parent_id == null ? styles.root : ""}`}
+                item.id == selectedCategory ? styles.active : ""
+              } ${item.children && item.children.length ? styles.parent : ""} ${
+                item.parent_id == null ? styles.root : ""
+              }`}
               // ref={fieldRef}
             >
-              <span>{items.title}</span>
+              <span>{item.title}</span>
             </a>
           </Link>
         </AccordionSummary>
-        {items.children && items.children.length > 0
-          ? items.children.map((item, index) => (
+        {item.children && item.children.length > 0
+          ? item.children.map((cat, index) => (
               <div className={styles.sub_item} key={`sub-${index}`}>
                 <AccordionDetails
                   classes={{
@@ -204,15 +173,10 @@ const ListItem = ({
                   }}
                 >
                   <ListItem
-                    items={item}
+                    item={cat}
                     key={index}
                     selectedCategory={selectedCategory}
-                    scrollPos={newPos}
                     setScrollPos={setScrollPos}
-                    isScrollPosCalculationDone={isScrollPosCalculationDone}
-                    setIsScrollPosCalculationDone={
-                      setIsScrollPosCalculationDone
-                    }
                   />
                 </AccordionDetails>
               </div>
@@ -222,16 +186,16 @@ const ListItem = ({
     );
   } else {
     return (
-      <Link href={`/categories/${items.id}/hadiths`}>
+      <Link href={`/categories/${item.id}/hadiths`}>
         <a
-          id={`navitem-${items.id}`}
+          id={`navitem-${item.id}`}
           className={`${styles.list} ${
-            items.id == selectedCategory ? styles.active : ""
-          } ${items.children && items.children.length ? styles.parent : ""} ${
-            items.parent_id == null ? styles.root : ""
+            item.id == selectedCategory ? styles.active : ""
+          } ${item.children && item.children.length ? styles.parent : ""} ${
+            item.parent_id == null ? styles.root : ""
           }`}
         >
-          <span>{items.title}</span>
+          <span>{item.title}</span>
         </a>
       </Link>
     );
