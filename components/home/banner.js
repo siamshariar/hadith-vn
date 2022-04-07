@@ -17,6 +17,7 @@ export default function Banner() {
             is, the Qur’an slips away from memory faster than camels escaping
             their tying ropes."
           </q>
+          <span>“[Do Al-Bukhari và Muslim ghi]”</span>
         </div>
       </Container>
     </div>
