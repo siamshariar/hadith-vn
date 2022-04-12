@@ -7,7 +7,7 @@ export default function AboutContent() {
       <div className={css.page_title}>About App</div>
       <div className={css.page_item}>
         <div className={styles.quran_content}>
-          <p>Quran application in Vietnamese.</p>
+          <p>Hadith application in Vietnamese.</p>
           <p>
             Powered by -{" "}
             <a href="http://deeniinfotech.com" target="_blank">

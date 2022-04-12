@@ -66,7 +66,7 @@ export default function Sidebar({
           <input
             type="text"
             name="search"
-            placeholder="Search Category"
+            placeholder="Tìm kiếm danh mục"
             className={styles.input}
             autoComplete="off"
             onChange={(e) => filterCategories(e.target.value)}

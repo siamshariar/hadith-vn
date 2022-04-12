@@ -13,6 +13,7 @@ export default function HeaderMobile({
   categoryList,
   categoryTree,
   selectedCategoryId,
+  backLink,
 }) {
   const [categoryOpen, setCategoryOpen] = useState(false);
 
@@ -71,7 +72,7 @@ export default function HeaderMobile({
         <Container>
           <div className={styles.wrapper}>
             <div className={styles.left}>
-              <Link href="/">
+              <Link href={backLink ?? '/'}>
                 <a className={styles.icon}>
                   <BackIcon />
                 </a>
@@ -79,7 +80,7 @@ export default function HeaderMobile({
             </div>
 
             <div className={styles.center} onClick={handleCategoryModal(true)}>
-              <span>Categories</span>
+              <span>Danh mục</span>
               <span className={styles.icon}>
                 <DropDownIcon />
               </span>

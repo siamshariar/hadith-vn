@@ -22,6 +22,7 @@ export default function HadithDetail({ categoryList, categoryTree, hadith }) {
       selectedCategoryId={hadith.categories[0]}
       contentTitle={hadith.title}
       content={<HadithContent hadith={hadith} />}
+      backLink={`/categories/${hadith.categories[0]}/hadiths`}
     />
   );
 }

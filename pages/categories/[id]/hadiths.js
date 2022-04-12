@@ -29,6 +29,7 @@ export default function Categories({
       selectedCategoryId={categoryId}
       contentTitle={category.title}
       content={<CategoryContent hadiths={hadiths} category={category} />}
+      backLink="/"
     />
   );
 }

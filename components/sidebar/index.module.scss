@@ -128,7 +128,7 @@ input.input {
   width: calc(100% - 30px);
   color: var(--txt11);
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 1rem;
   margin-bottom: 0;
   cursor: pointer;
   padding: 6px 0;
@@ -181,7 +181,7 @@ input.input {
 }
 
 .root {
-  font-weight: bold;
+  font-weight: 500;
 }
 .parent {
   width: calc(100% - 6px);
@@ -189,7 +189,8 @@ input.input {
 .active,
 .active:hover,
 .active:focus {
-  color: var(--main-color);
+  color: var(--snsic);
+  font-weight: 500;
 }
 
 .acc_root {

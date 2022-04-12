@@ -11,13 +11,12 @@ export default function Banner() {
       <Container>
         <div className={styles.inner}>
           <q>
-            Abu Mūsa al-Ash‘ari (may Allah be pleased with him) reported that
-            the Prophet (may Allah's peace and blessings be upon him) said:
-            "Keep on reciting the Qur’an, for by the One in Whose Hand my life
-            is, the Qur’an slips away from memory faster than camels escaping
-            their tying ropes."
+            Ông Abu Umamah Sudai bin 'Ujlan Al-Bahili thuật lại: Tôi nghe được Thiên Sứ của Allah ﷺ
+            thuyết giảng trong chuyến hành hương Hajj chia tay, Người nói: Các ngươi hãy kính sợ Allah mà dâng lễ
+            nguyên Salah năm lần bắt buộc, nhịn chay tháng bắt buộc của các ngươi, xuất Zakat từ tài sản của các
+            ngươi và tuân lệnh lãnh đạo của các ngươi, các ngươi sẽ được vào Thiên Đàng của Thượng Đế của các ngươi
           </q>
-          <span>“[Do Al-Bukhari và Muslim ghi]”</span>
+          <span>[Do Al-Tirmizdi ghi - Do Ahmad ghi]</span>
         </div>
       </Container>
     </div>

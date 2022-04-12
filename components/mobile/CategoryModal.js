@@ -12,7 +12,7 @@ export default function SettingsModal({
     <Modal //
       open={open}
       controller={controller}
-      title="Categories"
+      title="Danh mục"
     >
       <Category
         categoryList={categoryList}

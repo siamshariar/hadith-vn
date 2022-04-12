@@ -384,7 +384,7 @@ const HadithOptions = ({
                 <span className={styles.icon}>
                   <FileCopyIcon />
                 </span>
-                <span className={styles.text}>Copy Câu</span>
+                <span className={styles.text}>Copy</span>
               </MenuItem>
 
               <MenuItem onClick={handleCopyLink}>

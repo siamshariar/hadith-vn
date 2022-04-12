@@ -18,6 +18,7 @@ const Layout = ({
   selectedCategoryId,
   contentTitle,
   content,
+  backLink,
 }) => {
   return (
     <SettingsContextProvider>
@@ -42,6 +43,7 @@ const Layout = ({
                   categoryList={categoryList}
                   categoryTree={categoryTree}
                   selectedCategoryId={selectedCategoryId}
+                  backLink={backLink}
                 />
               </div>
 
