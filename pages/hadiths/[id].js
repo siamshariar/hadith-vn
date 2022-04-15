@@ -46,7 +46,7 @@ export async function getStaticProps(context) {
       hadith: details,
       key: id,
     },
-    revalidate: 60,
+    // revalidate: 60,
   };
 }
 
@@ -63,6 +63,7 @@ export async function getStaticPaths() {
 
   return {
     paths: paths,
+    // fallback: false,
     fallback: "blocking",
   };
 }

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Container from "../core/container";
 import CategoryModal from "./CategoryModal";
@@ -7,6 +7,7 @@ import BackIcon from "../icons/NavigateBefore";
 import DropDownIcon from "../icons/ArrowDropDown";
 import TuneIcon from "../icons/Tune";
 import styles from "./Header.module.scss";
+import {useRouter} from "next/router";
 
 export default function HeaderMobile({
   contentTitle,
@@ -15,6 +16,7 @@ export default function HeaderMobile({
   selectedCategoryId,
   backLink,
 }) {
+  const router = useRouter()
   const [categoryOpen, setCategoryOpen] = useState(false);
 
   const handleCategoryModal = (open) => (event) => {
@@ -66,17 +68,31 @@ export default function HeaderMobile({
   //     return () => setDidMount(false)
   // }, [scrollTop])
 
+  const [historyLength, setHistoryLength] = useState(0)
+
+  useEffect(() => {
+    setHistoryLength(window.history.length)
+  }, [])
+
   return (
     <>
       <div className={styles.header} ref={header}>
         <Container>
           <div className={styles.wrapper}>
             <div className={styles.left}>
-              <Link href={backLink ?? '/'}>
-                <a className={styles.icon}>
-                  <BackIcon />
-                </a>
-              </Link>
+              {/*<Link href={backLink ?? '/'}>*/}
+              {/*  <a className={styles.icon}>*/}
+              {/*    <BackIcon />*/}
+              {/*  </a>*/}
+              {/*</Link>*/}
+              {backLink && (
+                  <span
+                      className={styles.icon}
+                      onClick={historyLength > 2 ? () => router.back() : () => router.push(`${backLink}`)}
+                  >
+                <BackIcon />
+              </span>
+              )}
             </div>
 
             <div className={styles.center} onClick={handleCategoryModal(true)}>

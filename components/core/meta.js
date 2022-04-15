@@ -30,7 +30,7 @@ export default function Meta(props) {
       {/* <meta name="msapplication-config" content="browserconfig.xml" /> */}
 
       {/* Pinned Sites */}
-      <meta name="application-name" content="Quran.vn" />
+      <meta name="application-name" content="Hadith.vn" />
       <meta name="msapplication-tooltip" content="Tooltip Text" />
       <meta name="msapplication-starturl" content={props.url || ""} />
 
@@ -67,11 +67,11 @@ export default function Meta(props) {
         key="ogdesc"
       />
       <meta property="og:locale" content="en" key="oglocale" />
-      <meta property="og:site_name" content="QuranVn" key="ogsitename" />
+      <meta property="og:site_name" content="Hadith.vn" key="ogsitename" />
 
       {/* meta information for twitter */}
       <meta name="twitter:card" content="summary" key="twcard" />
-      <meta name="twitter:site" content="@quranvn" key="twsite" />
+      <meta name="twitter:site" content="@hadith.vn" key="twsite" />
       <meta name="twitter:url" content={props.url || ""} key="twurl" />
       <meta name="twitter:title" content={props.title || ""} key="twtitle" />
       <meta
@@ -178,7 +178,7 @@ export default function Meta(props) {
       {/* page title */}
       <title>
         {props.title != "" ? props.title + " | " : ""}{" "}
-        {"Kinh Quran | Quran in Vietnamese | Quran.vn"}
+        {"Hadith in Vietnamese | Hadith.vn"}
       </title>
 
       {/* Manifest.json */}

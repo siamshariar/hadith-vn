@@ -12,7 +12,7 @@ export default function Home({ rootCategories, categoryList, categoryTree }) {
   return (
     <Layout
       meta={{
-        title: `Homepage`,
+        title: ``,
         description: "Hadith application in Vietnamese",
         url: `${server}`,
         image: `${server}/img/s_logo.png`,
