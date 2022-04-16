@@ -125,9 +125,11 @@ const ListItem = ({ item, selectedCategory, setScrollPos }) => {
     setExpanded(!expanded);
   };
 
+  const itemRef = useRef(null);
+
   useEffect(() => {
     if (item.id == selectedCategory) {
-      setScrollPos(document.getElementById(`navitem-${item.id}`).offsetTop);
+      setScrollPos(itemRef.current.offsetTop);
     }
   }, [selectedCategory]);
 
@@ -151,7 +153,7 @@ const ListItem = ({ item, selectedCategory, setScrollPos }) => {
         >
           <Link href={`/categories/${item.id}/hadiths`}>
             <a
-              id={`navitem-${item.id}`}
+              ref={itemRef}
               className={`${styles.list} ${
                 item.id == selectedCategory ? styles.active : ""
               } ${item.children && item.children.length ? styles.parent : ""} ${
@@ -188,7 +190,7 @@ const ListItem = ({ item, selectedCategory, setScrollPos }) => {
     return (
       <Link href={`/categories/${item.id}/hadiths`}>
         <a
-          id={`navitem-${item.id}`}
+          ref={itemRef}
           className={`${styles.list} ${
             item.id == selectedCategory ? styles.active : ""
           } ${item.children && item.children.length ? styles.parent : ""} ${

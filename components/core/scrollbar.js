@@ -11,8 +11,6 @@ export default function Scrollbar({ children, className, scrollPos, id }) {
         left: 0,
         // behavior: "smooth",
       });
-
-      console.log(scrollPos, scrollbar.current.scrollTop);
     }
   }, [id, scrollPos]);
 
