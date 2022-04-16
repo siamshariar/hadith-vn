@@ -33,7 +33,13 @@ export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
   const categoryTree = await getAllCategoriesTree();
 
-  if (!details || !categoryList || !categoryTree) {
+  if (
+    !details ||
+    !categoryList ||
+    !categoryTree ||
+    !details.title ||
+    !details.hadeeth
+  ) {
     return {
       notFound: true,
     };
