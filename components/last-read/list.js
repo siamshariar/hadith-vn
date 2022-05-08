@@ -1,25 +1,18 @@
 import { useContext } from "react";
 import { PinContext } from "../../contexts/PinContext";
-import { SettingsContext } from "../../contexts/SettingsContext";
+// import { SettingsContext } from "../../contexts/SettingsContext";
 import { useRouter } from "next/router";
 import AutoStoriesIcon from "../icons/AutoStories";
-import styles from "../bookmark/list.module.scss";
+import styles from "../pin/list.module.scss";
 
 export default function LastReadList({ controller }) {
   const { lastRead } = useContext(PinContext);
-  const { verseMode } = useContext(SettingsContext);
+
   const router = useRouter();
 
-  const handleClick = (e, slug, verse) => {
+  const handleClick = (e, id) => {
     e.preventDefault();
-
-    const href =
-      verseMode === "scroll"
-        ? `/chapters/${slug}#verse-${verse}`
-        : verseMode === "slide"
-        ? `/chapters/${slug}/verses/${verse}`
-        : `/chapters/${slug}#verse-${verse}`;
-
+    const href = `/hadiths/${id}`;
     controller(false)(e);
     router.push(href);
   };
@@ -56,31 +49,31 @@ export default function LastReadList({ controller }) {
         {lastRead &&
           lastRead.length > 0 &&
           lastRead.map((item) => (
-            <div key={item.chapter} className={styles.item}>
+            <div key={item.id} className={styles.item}>
               <div
                 className={styles.link}
-                onClick={(e) => handleClick(e, item.slug, item.verse)}
+                onClick={(e) => handleClick(e, item.id)}
               >
                 <div className={styles.left}>
                   <span className={styles.icon}>
                     <AutoStoriesIcon />
                   </span>
                   <span className={styles.desc}>
-                    <span>{item.name}</span>
-                    <span>Verse No: {item.verse}</span>
+                    <span>{item.title}</span>
+                    <span className={styles.time}>{formatDate(item.date)}</span>
                   </span>
                 </div>
 
-                <div className={styles.right}>
+                {/* <div className={styles.right}>
                   <span className={styles.time}>{formatDate(item.date)}</span>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}
       </div>
 
       {lastRead && lastRead.length == 0 && (
-        <h2 className={styles.no_record}>No records found</h2>
+        <h2 className={styles.no_record}>No records found!</h2>
       )}
     </div>
   );

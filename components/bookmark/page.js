@@ -1,97 +1,52 @@
-import { useContext, useEffect } from "react";
-import { AudioPlayerContext } from "../../contexts/AudioPlayerContext";
+import { useContext } from "react";
 import { BookmarkContext } from "../../contexts/BookmarkContext";
-import Sidenav from "../layout2/sidenav";
-import VerseCard from "../surah/verse-card";
-// import QuranIcon from "../icons/Quran";
-// import InfoIcon from "../icons/Info";
-// import PlayIcon from "../icons/PlayArrow";
-// import PauseIcon from "../icons/Pause";
-// import Bismillah from "../icons/Bismillah";
+import HadithCard from "../content/HadithDetailCard";
 import Skeleton from "react-loading-skeleton";
-import styles from "../layout2/surah/content.module.scss";
+import styles from "./page.module.scss";
 
 export default function BookmarkContent({
-  chapters,
   name,
   data,
   exist,
   isBookmarkPage,
-  updateBookmarksData
+  queryKey,
+  updateBookmarksData,
 }) {
   const { bookmarks } = useContext(BookmarkContext);
 
-  const {
-    setPlaylist, //
-    setChapterMp3Url,
-    playing,
-    play,
-    pause,
-    audioType,
-  } = useContext(AudioPlayerContext);
-
-  useEffect(() => {
-    if (data) {
-      let filtered = [];
-      data.forEach((verse) => {
-        filtered.push(verse.mp3Url);
-      });
-      setPlaylist(filtered);
-    }
-
-    //setChapterMp3Url(chapterMp3Url);
-  }, [bookmarks, data]);
-
-  const playingThisChapter = playing && audioType === "chapter";
-
-  const controlPlay = () => {
-    play(0, "chapter");
-  };
-
-  const controlPause = () => {
-    pause();
-  };
+  console.log(data);
 
   return (
-    <div className={styles.content}>
-      <Sidenav chapters={chapters} />
-
-      <div className={styles.chapter}>
-        <div className={styles.chapter_tab}>
-          <div className={styles.title}>
-            {name && <span className={styles.title_text}>{name}</span>}
-            {name === null && <Skeleton height={29} width={`100%`} />}
-          </div>
-
-          {data && (
-            <div className={styles.verses}>
-              {data.length > 0 &&
-                data.map((verse, index) => (
-                  <VerseCard
-                    key={index}
-                    chapterName={verse.chapter.name}
-                    index={index}
-                    chapterNo={verse.chapter.chapterNo}
-                    chapterSlug={verse.chapter.slug}
-                    verse={{
-                      verseNo: verse.verseNo,
-                      arabic: verse.arabic,
-                      translation: verse.translation,
-                      footnote: verse.footnote,
-                      mp3Url: verse.mp3Url,
-                    }}
-                    ayaArabic={verse.arabic}
-                    updateBookmarksData={updateBookmarksData}
-                    isBookmarkPage={isBookmarkPage}
-                  />
-                ))}
-            </div>
-          )}
-
-          {!data && !exist && <div className={styles.no_record}>No records found!</div>}
-
-          {!data && exist && <Skeleton height={150} width={`100%`} count={2} />}
+    <div className={styles.wrapper}>
+      <div className={styles.content}>
+        <div className={styles.title}>
+          {name && <span className={styles.title_text}>{name}</span>}
+          {name === null && <Skeleton height={29} width={`100%`} />}
         </div>
+
+        {bookmarks && bookmarks.hasOwnProperty(queryKey) && (
+          <div className={styles.items}>
+            {data.length > 0 &&
+              data.map((item) => (
+                <div className={styles.item}>
+                  <HadithCard
+                    key={item.id}
+                    hadith={item}
+                    isBookmarkPage={isBookmarkPage}
+                    updateBookmarksData={updateBookmarksData}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
+
+        {!bookmarks && !exist && (
+          <div className={styles.no_record}>No records found!</div>
+        )}
+
+        {!bookmarks && exist && (
+          <Skeleton height={150} width={`100%`} count={2} />
+        )}
       </div>
     </div>
   );

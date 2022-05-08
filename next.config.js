@@ -1,11 +1,14 @@
-const slug = "1-chương-al-fātihah";
-
 module.exports = {
   async redirects() {
     return [
       {
-        source: "/chapters",
-        destination: `/chapters/${slug}`,
+        source: "/categories",
+        destination: `/categories/1/hadiths`,
+        permanent: true,
+      },
+      {
+        source: "/hadiths",
+        destination: `/hadiths/8402`,
         permanent: true,
       },
     ];

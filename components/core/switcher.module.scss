@@ -29,7 +29,8 @@
   box-shadow: var(--bsc11) 0px 0px 0px 10px inset;
   border-color: var(--main-color);
   background-color: var(--main-color);
-  transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+  transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s,
+    background-color 1.2s ease 0s;
 }
 
 .switcher::after {

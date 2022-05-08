@@ -6,7 +6,7 @@ import Fade from "@material-ui/core/Fade";
 import CloseIcon from "../icons/Close";
 import styles from "./modal.module.scss";
 
-export default function AddBookmark({ open, closer, chapter, verse }) {
+export default function AddBookmark({ open, closer, hadith }) {
   const { bookmarks, changeBookmarks } = useContext(BookmarkContext);
 
   const [folderKey, setFolderKey] = useState("favorites");
@@ -52,7 +52,17 @@ export default function AddBookmark({ open, closer, chapter, verse }) {
       } else {
         newBookmarks[newFolderKey] = {
           name: newFolderName,
-          entry: [{ chapter: chapter, verse: verse }],
+          entry: [
+            {
+              id: hadith.id,
+              title: hadith.title,
+              hadeeth: hadith.hadeeth,
+              attribution: hadith.attribution,
+              grade: hadith.grade,
+              explanation: hadith.explanation,
+              categories: hadith.categories,
+            },
+          ],
         };
 
         changeBookmarks(newBookmarks);
@@ -62,7 +72,15 @@ export default function AddBookmark({ open, closer, chapter, verse }) {
     } else {
       if (bookmarks.hasOwnProperty(folderKey)) {
         let entry = bookmarks[folderKey].entry;
-        entry.push({ chapter: chapter, verse: verse });
+        entry.push({
+          id: hadith.id,
+          title: hadith.title,
+          hadeeth: hadith.hadeeth,
+          attribution: hadith.attribution,
+          grade: hadith.grade,
+          explanation: hadith.explanation,
+          categories: hadith.categories,
+        });
         newBookmarks[folderKey] = {
           name: bookmarks[folderKey].name,
           entry: entry,
@@ -90,7 +108,7 @@ export default function AddBookmark({ open, closer, chapter, verse }) {
           <button className={styles.close} onClick={handleClose}>
             <CloseIcon />
           </button>
-          <h2 className={styles.title}>Bookmark verse</h2>
+          <h2 className={styles.title}>Bookmark this hadith</h2>
           <div className={styles.input_area}>
             <h2 className={styles.sub_title}>Choose Folder</h2>
             <select

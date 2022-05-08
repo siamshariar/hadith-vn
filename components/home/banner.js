@@ -1,35 +1,24 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import Container from '../core/container'
-import styles from './banner.module.scss'
+import Link from "next/link";
+import Image from "next/image";
+import Container from "../core/container";
+import Grid from "@material-ui/core/Grid";
+import EastIcon from "../icons/East";
+import styles from "./banner.module.scss";
 
 export default function Banner() {
-    return (
-        <>
-            <div className={styles.banner}>
-                <Container>
-                    <div className={styles.calligraphy}>
-                        <Image
-                            src="/img/quran.webp"
-                            alt=""
-                            width={300}
-                            height={170}
-                        />
-                    </div>
-
-                    <div className={styles.title}>
-                        <h1>Quran.vn</h1>
-                    </div>
-                </Container>
-            </div>
-
-            <div className={styles.banner_mobile}>
-                <Container>
-                    <Link href="/about-quran">
-                        <a className={styles.banner_link}>Know more about Quran</a>
-                    </Link>
-                </Container>
-            </div>
-        </>
-    )
+  return (
+    <div className={styles.banner}>
+      <Container>
+        <div className={styles.inner}>
+          <q>
+            Ông Abu Umamah Sudai bin 'Ujlan Al-Bahili thuật lại: Tôi nghe được Thiên Sứ của Allah ﷺ
+            thuyết giảng trong chuyến hành hương Hajj chia tay, Người nói: Các ngươi hãy kính sợ Allah mà dâng lễ
+            nguyên Salah năm lần bắt buộc, nhịn chay tháng bắt buộc của các ngươi, xuất Zakat từ tài sản của các
+            ngươi và tuân lệnh lãnh đạo của các ngươi, các ngươi sẽ được vào Thiên Đàng của Thượng Đế của các ngươi
+          </q>
+          <span>[Do Al-Tirmizdi ghi - Do Ahmad ghi]</span>
+        </div>
+      </Container>
+    </div>
+  );
 }

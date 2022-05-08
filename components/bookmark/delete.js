@@ -31,6 +31,7 @@ export default function DeleteBookmark({ open, closer, bookmarkKey }) {
 
   return (
     <Modal
+      //className={classes.modal}
       open={open}
       onClose={closer(false)}
       closeAfterTransition

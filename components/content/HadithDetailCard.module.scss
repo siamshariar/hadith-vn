@@ -1,0 +1,75 @@
+.wrapper {
+  display: block;
+  width: 100%;
+  background-color: var(--bg11);
+}
+
+.title_area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--bdr11);
+}
+.title_area .left {
+  width: calc(100% - 40px);
+}
+.title_area .left h1 {
+  text-align: left;
+  font-size: 16px;
+  font-size: 100%;
+  font-weight: 400;
+}
+.title_area .right {
+  width: 24px;
+  height: 24px;
+}
+
+.content {
+  display: block;
+}
+.content .item {
+  margin-bottom: 24px;
+}
+
+.trans {
+}
+.attr {
+}
+.grade {
+}
+.exp {
+}
+
+.trans p {
+  font-size: 16px;
+  font-size: 100%;
+}
+.attr p {
+  font-size: 14px;
+  font-size: 100%;
+}
+.grade p {
+  font-size: 16px;
+  font-size: 100%;
+}
+.exp p {
+  font-size: 15px;
+  font-size: 100%;
+}
+
+.trans p span,
+.attr p span,
+.grade p span,
+.exp p span {
+  font-weight: 500;
+}
+
+@media screen and(min-width: 1024px) {
+  .title_area .left h1 {
+    font-size: 18px;
+    font-size: 112.5%;
+    font-weight: 400;
+  }
+}

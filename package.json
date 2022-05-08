@@ -1,5 +1,5 @@
 {
-  "name": "the-noble-quran",
+  "name": "hadith-vn",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,11 +9,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@tippyjs/react": "^4.2.0",
+    "@mui/icons-material": "^5.4.1",
+    "@mui/material": "^5.4.1",
     "axios": "^0.21.0",
-    "firebase": "^8.2.1",
     "framer-motion": "^4.0.3",
     "next": "10.0.3",
     "nprogress": "^0.2.0",

@@ -1,5 +1,7 @@
 /*------- utility CSS -------*/
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   outline: 0;
@@ -18,18 +20,27 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
   line-height: unset;
   font-size: unset;
 }
 
-ul, li {
+ul,
+li {
   margin: 0;
   list-style-type: none;
 }
 
-a, a:focus, a:hover {
+a,
+a:focus,
+a:hover {
   outline: none;
   text-decoration: none;
   color: inherit;
@@ -42,7 +53,9 @@ img {
   pointer-events: none;
 }
 
-input, textarea, label {
+input,
+textarea,
+label {
   display: block;
   outline: none;
   border: none;
