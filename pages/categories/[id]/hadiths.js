@@ -5,34 +5,29 @@ import {
   getCategoryById,
   getHadithsByCategory,
 } from "../../../lib/fetch";
-import Layout from "../../../components/utils/LayoutSecondary";
+import Meta from "../../../components/core/meta";
+import Layout from "../../../components/layouts/LayoutSecondary";
 import CategoryContent from "../../../components/content/Category";
 
-export default function Categories({
-  categoryList,
-  categoryTree,
-  categoryId,
-  category,
-  hadiths,
-}) {
+export default function Categories({ category, hadiths }) {
   return (
-    <Layout
-      meta={{
-        title: `Category ${category.title}`,
-        description: `Category ${category.title}. Hadith application in Vietnamese.`,
-        url: `${server}/categories/${category.id}/hadiths`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={categoryId}
-      contentTitle={category.title}
-      content={<CategoryContent hadiths={hadiths} category={category} />}
-      backLink="/"
-    />
+    <>
+      <Meta
+        title={`Category ${category.title}`}
+        description={`Category ${category.title}. Hadith application in Vietnamese.`}
+        url={`${server}/categories/${category.id}/hadiths`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <CategoryContent hadiths={hadiths} category={category} />
+    </>
   );
 }
+
+Categories.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const id = encodeURI(context.params.id);
@@ -55,6 +50,9 @@ export async function getStaticProps(context) {
       categoryId,
       category,
       hadiths,
+      selectedCategoryId: categoryId,
+      // contentTitle: category.title,
+      backLink: "/",
       key: categoryId,
     },
   };

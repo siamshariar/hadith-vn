@@ -1,28 +1,28 @@
 import { server } from "../lib/config";
+import Meta from "../components/core/meta";
 import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
-import Layout from "../components/utils/LayoutTertiary";
+import Layout from "../components/layouts/LayoutTertiary";
 import PrivacyPolicyContent from "../components/pages/privacy-policy";
 
-export default function PrivacyPolicyPage({ categoryList, categoryTree }) {
-  const pageTitle = "Privacy Policy";
-
+export default function PrivacyPolicyPage() {
   return (
-    <Layout
-      meta={{
-        title: pageTitle,
-        description: "Hadith application in Vietnamese",
-        url: `${server}/privacy-policy`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={pageTitle}
-      content={<PrivacyPolicyContent />}
-    />
+    <>
+      <Meta
+        title="Privacy Policy"
+        description="Hadith application in Vietnamese"
+        url={`${server}/privacy-policy`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <PrivacyPolicyContent />
+    </>
   );
 }
+
+PrivacyPolicyPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
@@ -38,6 +38,8 @@ export async function getStaticProps(context) {
     props: {
       categoryList,
       categoryTree,
+      selectedCategoryId: null,
+      contentTitle: "Privacy Policy",
     },
   };
 }

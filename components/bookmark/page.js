@@ -14,8 +14,6 @@ export default function BookmarkContent({
 }) {
   const { bookmarks } = useContext(BookmarkContext);
 
-  console.log(data);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -28,7 +26,7 @@ export default function BookmarkContent({
           <div className={styles.items}>
             {data.length > 0 &&
               data.map((item) => (
-                <div className={styles.item}>
+                <div className={styles.item} key={item.id}>
                   <HadithCard
                     key={item.id}
                     hadith={item}

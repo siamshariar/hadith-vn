@@ -1,28 +1,28 @@
 import { server } from "../lib/config";
 import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
-import Layout from "../components/utils/LayoutTertiary";
+import Meta from "../components/core/meta";
+import Layout from "../components/layouts/LayoutTertiary";
 import GratefulContent from "../components/pages/grateful";
 
-export default function GratefulPage({ categoryList, categoryTree }) {
-  const pageTitle = "Grateful";
-
+export default function GratefulPage() {
   return (
-    <Layout
-      meta={{
-        title: pageTitle,
-        description: "Hadith application in Vietnamese",
-        url: `${server}/grateful`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={pageTitle}
-      content={<GratefulContent />}
-    />
+    <>
+      <Meta
+        title="Grateful"
+        description="Hadith application in Vietnamese"
+        url={`${server}/grateful`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <GratefulContent />
+    </>
   );
 }
+
+GratefulPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
@@ -38,6 +38,8 @@ export async function getStaticProps(context) {
     props: {
       categoryList,
       categoryTree,
+      selectedCategoryId: null,
+      contentTitle: "Grateful",
     },
   };
 }

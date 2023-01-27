@@ -1,62 +1,48 @@
-import Meta from "../core/meta";
+// import { useContext } from "react";
+// import { LayoutContext } from "../../contexts/LayoutContext";
 import SettingsContextProvider from "../../contexts/SettingsContext";
 import PinContextProvider from "../../contexts/PinContext";
 import BookmarkContextProvider from "../../contexts/BookmarkContext";
 import SidenavContextProvider from "../../contexts/SidenavContext";
-
 import HeaderWeb from "../web/Header";
 import HeaderMobile from "../mobile/HeaderSecondary";
 import FooterWeb from "../web/Footer";
 import Sidebar from "../sidebar";
-
 import styles from "./Layout.module.scss";
 
-const Layout = ({
-  meta,
-  categoryList,
-  categoryTree,
-  selectedCategoryId,
-  contentTitle,
-  content,
-  backLink,
-}) => {
+const Layout = ({ children }) => {
+  // const { contentTitle } = useContext(LayoutContext);
+  // console.log(contentTitle);
+
   return (
     <SettingsContextProvider>
       <PinContextProvider>
         <BookmarkContextProvider>
           <SidenavContextProvider>
-            <Meta
-              title={meta.title}
-              description={meta.description}
-              url={meta.url}
-              image={meta.image}
-              type={meta.type}
-            />
-
             {/* <ArabicDialog /> */}
 
             <div className={styles.wrapper}>
               <div className={styles.header}>
                 <HeaderWeb page={null} />
                 <HeaderMobile
-                  contentTitle={contentTitle}
-                  categoryList={categoryList}
-                  categoryTree={categoryTree}
-                  selectedCategoryId={selectedCategoryId}
-                  backLink={backLink}
+                  // contentTitle={contentTitle}
+                  categoryList={children.props.categoryList}
+                  categoryTree={children.props.categoryTree}
+                  selectedCategoryId={children.props.selectedCategoryId}
+                  backLink={children.props.backLink}
                 />
               </div>
 
               <div className={styles.body}>
                 <div className={styles.sidebar}>
                   <Sidebar
-                    categoryList={categoryList}
-                    categoryTree={categoryTree}
-                    selectedCategoryId={selectedCategoryId}
+                    categoryList={children.props.categoryList}
+                    categoryTree={children.props.categoryTree}
+                    selectedCategoryId={children.props.selectedCategoryId}
                   />
                 </div>
                 <main id="viewport" className={styles.content}>
-                  <div className={styles.container}>{content}</div>
+                  <div className={styles.container}>{children}</div>
                 </main>
               </div>
 

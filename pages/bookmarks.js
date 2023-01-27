@@ -1,12 +1,15 @@
-import { server } from "../lib/config";
-import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
+// import { useContext } from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { server } from "../lib/config";
+import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
+// import { LayoutContext } from "../contexts/LayoutContext";
+import Meta from "../components/core/meta";
+import Layout from "../components/layouts/LayoutSecondary";
 import BookmarkContent from "../components/bookmark/page";
 import BookmarkMobile from "../components/mobile/Storage";
-import Layout from "../components/utils/LayoutSecondary";
 
-export default function Bookmark({ categoryList, categoryTree }) {
+export default function Bookmark() {
   const router = useRouter();
   const { key } = router.query;
   const [bookmarkName, setBookmarkName] = useState(null);
@@ -62,52 +65,53 @@ export default function Bookmark({ categoryList, categoryTree }) {
     setBookmarksData(updatedBookmarksData);
   };
 
+  // const { contentTitle, changeContentTitle } = useContext(LayoutContext);
+
   if (isMobile) {
+    // changeContentTitle("Bookmarks & Pin");
     return (
-      <Layout
-        meta={{
-          title: `Bookmark ${bookmarkName}`,
-          description: `Bookmark ${bookmarkName}. Hadith application in Vietnamese.`,
-          url: `${server}/bookmarks`,
-          image: `${server}/img/s_logo.png`,
-          type: "website",
-        }}
-        categoryList={categoryList}
-        categoryTree={categoryTree}
-        selectedCategoryId={null}
-        contentTitle="Bookmarks & Pin"
-        content={<BookmarkMobile key={key} />}
-      />
+      <>
+        <Meta
+          title={`Bookmark ${bookmarkName}`}
+          description={`Bookmark ${bookmarkName}. Hadith application in Vietnamese.`}
+          url={`${server}/bookmarks`}
+          image={`${server}/img/s_logo.png`}
+          type="website"
+        />
+
+        <BookmarkMobile key={key} />
+      </>
     );
   }
 
+  // changeContentTitle(bookmarkName);
+
   return (
-    <Layout
-      meta={{
-        title: `Bookmark ${bookmarkName}`,
-        description: `Bookmark ${bookmarkName}. Hadith application in Vietnamese.`,
-        url: `${server}/bookmarks?key=favorites`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={bookmarkName}
-      content={
-        <BookmarkContent //
-          name={bookmarkName}
-          data={bookmarksData}
-          exist={isExists}
-          isBookmarkPage={true}
-          key={key}
-          queryKey={key}
-          updateBookmarksData={updateBookmarksData}
-        />
-      }
-    />
+    <>
+      <Meta
+        title={`Bookmark ${bookmarkName}`}
+        description={`Bookmark ${bookmarkName}. Hadith application in Vietnamese.`}
+        url={`${server}/bookmarks?key=favorites`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <BookmarkContent //
+        name={bookmarkName}
+        data={bookmarksData}
+        exist={isExists}
+        isBookmarkPage={true}
+        key={key}
+        queryKey={key}
+        updateBookmarksData={updateBookmarksData}
+      />
+    </>
   );
 }
+
+Bookmark.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
@@ -123,6 +127,9 @@ export async function getStaticProps(context) {
     props: {
       categoryList,
       categoryTree,
+      selectedCategoryId: null,
+      // contentTitle: "Bookmarks & Pin", // mobile
+      // contentTitle: {bookmarkName}, // web
     },
   };
 }

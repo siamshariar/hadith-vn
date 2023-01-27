@@ -1,28 +1,28 @@
 import { server } from "../lib/config";
 import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
-import Layout from "../components/utils/LayoutTertiary";
+import Meta from "../components/core/meta";
+import Layout from "../components/layouts/LayoutTertiary";
 import AboutContent from "../components/pages/about";
 
-export default function AboutPage({ categoryList, categoryTree }) {
-  const pageTitle = "About";
-
+export default function AboutPage() {
   return (
-    <Layout
-      meta={{
-        title: pageTitle,
-        description: "Hadith application in Vietnamese",
-        url: `${server}/about`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={pageTitle}
-      content={<AboutContent />}
-    />
+    <>
+      <Meta
+        title="About"
+        description="Hadith application in Vietnamese"
+        url={`${server}/about`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <AboutContent />
+    </>
   );
 }
+
+AboutPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
@@ -38,6 +38,8 @@ export async function getStaticProps(context) {
     props: {
       categoryList,
       categoryTree,
+      selectedCategoryId: null,
+      contentTitle: "About",
     },
   };
 }

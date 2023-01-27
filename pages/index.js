@@ -4,33 +4,31 @@ import {
   getAllCategories,
   getAllCategoriesTree,
 } from "../lib/fetch";
-import Layout from "../components/utils/LayoutPrimary";
+import Meta from "../components/core/meta";
+import Layout from "../components/layouts/LayoutPrimary";
 import Banner from "../components/home/banner";
 import CategoryList from "../components/home/category-list";
 
-export default function Home({ rootCategories, categoryList, categoryTree }) {
+export default function Home({ rootCategories }) {
   return (
-    <Layout
-      meta={{
-        title: ``,
-        description: "Hadith application in Vietnamese",
-        url: `${server}`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={null}
-      content={
-        <>
-          <Banner />
-          <CategoryList categories={rootCategories} />
-        </>
-      }
-    />
+    <>
+      <Meta
+        title="Homepage"
+        description="Hadith application in Vietnamese"
+        url={server}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <Banner />
+      <CategoryList categories={rootCategories} />
+    </>
   );
 }
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const rootCategories = await getRootCategories();
@@ -48,6 +46,8 @@ export async function getStaticProps(context) {
       rootCategories,
       categoryList,
       categoryTree,
+      contentTitle: null,
+      selectedCategoryId: null,
     },
   };
 }

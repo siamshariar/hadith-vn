@@ -9,7 +9,7 @@ export default function Scrollbar({ children, className, scrollPos, id }) {
       scrollbar.current.scrollTo({
         top: scrollPos,
         left: 0,
-        // behavior: "smooth",
+        behavior: "smooth",
       });
     }
   }, [id, scrollPos]);

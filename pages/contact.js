@@ -1,28 +1,28 @@
 import { server } from "../lib/config";
 import { getAllCategories, getAllCategoriesTree } from "../lib/fetch";
-import Layout from "../components/utils/LayoutTertiary";
+import Meta from "../components/core/meta";
+import Layout from "../components/layouts/LayoutTertiary";
 import ContactContent from "../components/pages/contact";
 
-export default function ContactPage({ categoryList, categoryTree }) {
-  const pageTitle = "Contact";
-
+export default function ContactPage() {
   return (
-    <Layout
-      meta={{
-        title: pageTitle,
-        description: `Hadith application in Vietnamese. For all inquiries, please email us. We'll get back to you as soon as we can insha'Allah.`,
-        url: `${server}/contact`,
-        image: `${server}/img/s_logo.png`,
-        type: "website",
-      }}
-      categoryList={categoryList}
-      categoryTree={categoryTree}
-      selectedCategoryId={null}
-      contentTitle={pageTitle}
-      content={<ContactContent />}
-    />
+    <>
+      <Meta
+        title="Contact"
+        description={`Hadith application in Vietnamese. For all inquiries, please email us. We'll get back to you as soon as we can insha'Allah.`}
+        url={`${server}/contact`}
+        image={`${server}/img/s_logo.png`}
+        type="website"
+      />
+
+      <ContactContent />
+    </>
   );
 }
+
+ContactPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getStaticProps(context) {
   const categoryList = await getAllCategories();
@@ -38,6 +38,8 @@ export async function getStaticProps(context) {
     props: {
       categoryList,
       categoryTree,
+      selectedCategoryId: null,
+      contentTitle: "Contact",
     },
   };
 }

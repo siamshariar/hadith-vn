@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+// import LayoutContextProvider from "../contexts/LayoutContext";
 import * as gtag from "../lib/gtag";
 import "../styles/global.scss";
 
@@ -31,7 +32,15 @@ const App = ({ Component, pageProps }) => {
     // })
   }, []);
 
-  return <Component {...pageProps} />;
+  const getLayout = Component.getLayout || ((page) => page);
+
+  return getLayout(<Component {...pageProps} />);
+
+  // return (
+  //   <LayoutContextProvider>
+  //     {getLayout(<Component {...pageProps} />)}
+  //   </LayoutContextProvider>
+  // );
 };
 
 export default App;
