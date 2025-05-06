@@ -42,7 +42,7 @@ export default function LastReadList() {
           lastRead.length > 0 &&
           lastRead.map((item) => (
             <div key={item.id} className={styles.item}>
-              <Link href={`hadiths/${item.id}`}>
+              <Link href={`hadiths/${item.id}`} legacyBehavior>
                 <a className={styles.link}>
                   <span className={styles.left}>
                     <span className={styles.icon}>

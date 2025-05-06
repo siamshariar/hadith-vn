@@ -103,7 +103,7 @@ export default function HeaderMobile({
             </div>
 
             <div className={styles.right}>
-              <Link href="/settings">
+              <Link href="/settings" legacyBehavior>
                 <a className={styles.icon} onClick={handleSettingsModal(true)}>
                   <TuneIcon />
                 </a>

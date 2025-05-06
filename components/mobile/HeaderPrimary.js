@@ -3,7 +3,7 @@ import { SettingsContext } from "../../contexts/SettingsContext";
 import Link from "next/link";
 import Image from "next/image";
 import Container from "../core/container";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 import MobileNav from "./MobileNav";
 import MenuIcon from "../icons/Menu";
 import Brightness4Icon from "../icons/Brightness4";
@@ -51,7 +51,7 @@ export default function HeaderMobile({
 
             <div className={styles.center}>
               {theme === "light" && (
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                   <a className={styles.logo}>
                     <Image
                       src="/img/logo.png"
@@ -65,7 +65,7 @@ export default function HeaderMobile({
               )}
 
               {theme !== "light" && (
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                   <a className={styles.logo}>
                     <Image
                       src="/img/logo_full_white.png"

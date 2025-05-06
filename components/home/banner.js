@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Container from "../core/container";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import EastIcon from "../icons/East";
 import styles from "./banner.module.scss";
 

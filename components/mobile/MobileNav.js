@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Drawer from "@material-ui/core/Drawer";
+import Drawer from "@mui/material/Drawer";
 import SettingsModal from "./settings-modal";
 import CategoryModal from "./CategoryModal";
 import MenuBookIcon from "../icons/MenuBook";
@@ -130,7 +130,7 @@ export default function MobileNav({
         <div className={styles.wrapper}>
           <div className={styles.menu_ctn}>
             <div className={styles.menu_top}>
-              <Link href="/">
+              <Link href="/" legacyBehavior>
                 <a className={styles.logo}>
                   <Image
                     src="/img/logo_full_white.png"
@@ -159,7 +159,7 @@ export default function MobileNav({
               {/*</li>*/}
 
               <li>
-                <Link href="/categories">
+                <Link href="/categories" legacyBehavior>
                   <a onClick={handleCategoryModal(true)}>
                     <span className={styles.icon}>
                       <CategoryIcon />
@@ -170,7 +170,7 @@ export default function MobileNav({
               </li>
 
               <li>
-                <Link href="/bookmarks">
+                <Link href="/bookmarks" legacyBehavior>
                   <a onClick={(e) => handleBookmarkPage(e, 1)}>
                     <span className={styles.icon}>
                       <BookmarkIcon />
@@ -180,7 +180,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/bookmarks">
+                <Link href="/bookmarks" legacyBehavior>
                   <a onClick={(e) => handleBookmarkPage(e, 2)}>
                     <span className={styles.icon}>
                       <PinIcon />
@@ -190,7 +190,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/bookmarks">
+                <Link href="/bookmarks" legacyBehavior>
                   <a onClick={(e) => handleBookmarkPage(e, 3)}>
                     <span className={styles.icon}>
                       <AutoStoriesIcon />
@@ -211,7 +211,7 @@ export default function MobileNav({
               </li> */}
 
               <li>
-                <Link href="/settings">
+                <Link href="/settings" legacyBehavior>
                   <a onClick={handleSettingsModal(true)}>
                     <span className={styles.icon}>
                       <SettingsIcon />
@@ -266,7 +266,7 @@ export default function MobileNav({
               {/*	</Link>*/}
               {/*</li>*/}
               <li>
-                <Link href="/support">
+                <Link href="/support" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <ContactIcon />
@@ -276,7 +276,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/grateful">
+                <Link href="/grateful" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <FavoriteBorderIcon />
@@ -291,7 +291,7 @@ export default function MobileNav({
 
             <ul className={styles.menu}>
               <li>
-                <Link href="/about">
+                <Link href="/about" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <InfoIcon />
@@ -301,7 +301,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
+                <Link href="/contact" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <ContactIcon />
@@ -311,7 +311,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/deeniinfotech">
+                <Link href="/deeniinfotech" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <InfoIcon />
@@ -321,7 +321,7 @@ export default function MobileNav({
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy">
+                <Link href="/privacy-policy" legacyBehavior>
                   <a>
                     <span className={styles.icon}>
                       <SecurityIcon />

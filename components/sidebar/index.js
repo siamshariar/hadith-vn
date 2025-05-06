@@ -101,7 +101,7 @@ export default function Sidebar({
               {categoryItems &&
                 categoryItems.length > 0 &&
                 categoryItems.map((item, index) => (
-                  <Link key={index} href={`/categories/${item.id}/hadiths`}>
+                  <Link key={index} href={`/categories/${item.id}/hadiths`} legacyBehavior>
                     <a className={`${styles.list}`}>
                       <span>{item.title}</span>
                     </a>
@@ -151,7 +151,7 @@ const ListItem = ({ item, selectedCategory, setScrollPos }) => {
             content: styles.summary_content,
           }}
         >
-          <Link href={`/categories/${item.id}/hadiths`}>
+          <Link href={`/categories/${item.id}/hadiths`} legacyBehavior>
             <a
               ref={itemRef}
               className={`${styles.list} ${
@@ -188,7 +188,7 @@ const ListItem = ({ item, selectedCategory, setScrollPos }) => {
     );
   } else {
     return (
-      <Link href={`/categories/${item.id}/hadiths`}>
+      <Link href={`/categories/${item.id}/hadiths`} legacyBehavior>
         <a
           ref={itemRef}
           className={`${styles.list} ${

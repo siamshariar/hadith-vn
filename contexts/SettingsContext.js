@@ -42,8 +42,12 @@ const SettingsContextProvider = ({ children }) => {
 
     const customFont = document.querySelectorAll(".custom_font");
     for (const elem of customFont) {
+    if (settings.fontSize && settings.fontSize.translation) {
       elem.style.fontSize = settings.fontSize.translation + "px";
+      }
+    if (settings.fontFamily && settings.fontFamily.translation) {
       elem.style.fontFamily = settings.fontFamily.translation;
+    }
     }
   };
 
@@ -185,14 +189,13 @@ const SettingsContextProvider = ({ children }) => {
         changeView,
         theme: settings.theme,
         changeTheme,
-        fontSizeArabic: settings.fontSize.arabic,
+        fontSizeArabic: settings.fontSize?.arabic ?? defaultSettings.fontSize.arabic,
         changeFontSizeArabic,
-        fontSizeTranslation: settings.fontSize.translation,
+        fontSizeTranslation: settings.fontSize?.translation ?? defaultSettings.fontSize.translation,
         changeFontSizeTranslation,
-        fontFamilyArabic: settings.fontFamily.arabic,
+        fontFamilyArabic: settings.fontFamily?.arabic ?? defaultSettings.fontFamily.arabic,
         changeFontFamilyArabic,
-        fontFamilyTranslation: settings.fontFamily.translation,
-        changeFontFamilyTranslation,
+        fontFamilyTranslation: settings.fontFamily?.translation ?? defaultSettings.fontFamily.translation,
         verseMode: settings.verseMode,
         changeVerseMode,
         activeVerse: settings.activeVerse,

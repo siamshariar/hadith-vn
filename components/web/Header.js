@@ -4,10 +4,10 @@ import { SettingsContext } from "../../contexts/SettingsContext";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import IconButton from "@material-ui/core/IconButton";
-import Popover from "@material-ui/core/Popover";
-import MenuList from "@material-ui/core/MenuList";
-import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
+import MenuList from "@mui/material/MenuList";
+import MenuItem from "@mui/material/MenuItem";
 import Modal from "../utils/ModalPrimary";
 import Settings from "../settings/index";
 import Bookmarks from "../bookmark/list";
@@ -102,7 +102,7 @@ export default function HeaderWeb({ page }) {
         <div className={styles.content}>
           <div className={styles.left}>
             {theme === "light" && (
-              <Link href="/">
+              <Link href="/" legacyBehavior>
                 <a className={`${styles.logo} ${styles.logo_normal}`}>
                   <Image
                     src="/img/logo.png"
@@ -116,7 +116,7 @@ export default function HeaderWeb({ page }) {
             )}
 
             {theme === "light" && (
-              <Link href="/">
+              <Link href="/" legacyBehavior>
                 <a className={`${styles.logo} ${styles.logo_white}`}>
                   <Image
                     src="/img/logo_full_white.png"
@@ -130,7 +130,7 @@ export default function HeaderWeb({ page }) {
             )}
 
             {theme !== "light" && (
-              <Link href="/">
+              <Link href="/" legacyBehavior>
                 <a className={`${styles.logo} ${styles.logo_full_white}`}>
                   <Image
                     src="/img/logo_full_white.png"

@@ -15,14 +15,14 @@ export default function CategoryCard({ category }) {
 
   return (
     <div className={styles.item}>
-      <Link href={`/categories/${category.id}/hadiths`}>
+      <Link href={`/categories/${category.id}/hadiths`} legacyBehavior>
         <a className={styles.wrapper}></a>
       </Link>
 
       <span className={styles.number}>{category.id}</span>
 
       <div className={styles.left}>
-        <Link href={`/categories/${category.id}/hadiths`}>
+        <Link href={`/categories/${category.id}/hadiths`} legacyBehavior>
           <a className={styles.name}>{category.title}</a>
         </Link>
         {/* <div className={styles.bottom}>{category.meaning}</div> */}
