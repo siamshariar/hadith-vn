@@ -107,7 +107,7 @@ export default function HeaderWeb({ page }) {
                   <Image
                     src="/img/logo.png"
                     alt=""
-                    width={122}
+                    width={153}
                     height={26}
                     loading="eager"
                   />
@@ -121,7 +121,7 @@ export default function HeaderWeb({ page }) {
                   <Image
                     src="/img/logo_full_white.png"
                     alt=""
-                    width={122}
+                    width={153}
                     height={26}
                     loading="eager"
                   />
@@ -135,7 +135,7 @@ export default function HeaderWeb({ page }) {
                   <Image
                     src="/img/logo_full_white.png"
                     alt=""
-                    width={122}
+                    width={153}
                     height={26}
                     loading="eager"
                   />
