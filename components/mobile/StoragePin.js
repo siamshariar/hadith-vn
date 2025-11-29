@@ -15,22 +15,21 @@ export default function PinList() {
           pin.length > 0 &&
           pin.map((item) => (
             <div key={item.id} className={styles.item}>
-              <Link href={`/hadiths/${item.id}`} legacyBehavior>
-                <a className={styles.link}>
-                  <span className={styles.left}>
-                    <span className={styles.icon}>
-                      <PinIcon />
-                    </span>
-                    <span className={styles.desc}>
-                      <span>{item.title}</span>
-                    </span>
+              <Link href={`/hadiths/${item.id}`} className={styles.link}>
+
+                <span className={styles.left}>
+                  <span className={styles.icon}>
+                    <PinIcon />
                   </span>
-                </a>
+                  <span className={styles.desc}>
+                    <span>{item.title}</span>
+                  </span>
+                </span>
+
               </Link>
             </div>
           ))}
       </div>
-
       {pin && pin.length == 0 && (
         <h2 className={styles.no_record}>No records found!</h2>
       )}

@@ -1,5 +1,6 @@
+ "use client";
+
 import { useState, useEffect, useContext } from "react";
-import { AudioPlayerContext } from "../../contexts/AudioPlayerContext";
 import { PinContext } from "../../contexts/PinContext";
 import { BookmarkContext } from "../../contexts/BookmarkContext";
 import { server } from "../../lib/config";
@@ -13,16 +14,12 @@ import RemoveBookmark from "../bookmark/remove";
 import BookmarkIcon from "../icons/Bookmark";
 import BookmarkBorder from "../icons/BookmarkBorder";
 import MoreIcon from "../icons/MoreVert";
-import PlayIcon from "../icons/PlayArrow";
-import PauseIcon from "../icons/Pause";
-import FileCopyIcon from "../icons/FileCopy";
-import ShareIcon from "../icons/Share";
-import LinkIcon from "../icons/Link";
-import PrintIcon from "../icons/Print";
 import UnpinIcon from "../icons/Pin";
 import PinIcon from "../icons/PinOutline";
 import Share from "../core/share";
-import { useReactToPrint } from "react-to-print";
+import LinkIcon from "../icons/Link";
+import FileCopyIcon from "../icons/FileCopy";
+import ShareIcon from "../icons/Share";
 
 import styles from "./HadithOptions.module.scss";
 

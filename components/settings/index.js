@@ -1,3 +1,5 @@
+"use client";
+
 import { fonts, themes } from "../../lib/settings";
 import { useState, useContext } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";

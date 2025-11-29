@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./Header.module.scss";
 import { useState, useEffect, useRef, useContext } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
@@ -97,49 +99,48 @@ export default function HeaderWeb({ page }) {
         title={modalTitle}
         content={modalContent}
       />
-
       <div className={`${styles.header} ${styles[page]}`} ref={header}>
         <div className={styles.content}>
           <div className={styles.left}>
             {theme === "light" && (
-              <Link href="/" legacyBehavior>
-                <a className={`${styles.logo} ${styles.logo_normal}`}>
-                  <Image
-                    src="/img/logo.png"
-                    alt=""
-                    width={153}
-                    height={26}
-                    loading="eager"
-                  />
-                </a>
+              <Link href="/" className={`${styles.logo} ${styles.logo_normal}`}>
+
+                <Image
+                  src="/img/logo.png"
+                  alt=""
+                  width={153}
+                  height={26}
+                  loading="eager"
+                />
+
               </Link>
             )}
 
             {theme === "light" && (
-              <Link href="/" legacyBehavior>
-                <a className={`${styles.logo} ${styles.logo_white}`}>
-                  <Image
-                    src="/img/logo_full_white.png"
-                    alt=""
-                    width={153}
-                    height={26}
-                    loading="eager"
-                  />
-                </a>
+              <Link href="/" className={`${styles.logo} ${styles.logo_white}`}>
+
+                <Image
+                  src="/img/logo_full_white.png"
+                  alt=""
+                  width={153}
+                  height={26}
+                  loading="eager"
+                />
+
               </Link>
             )}
 
             {theme !== "light" && (
-              <Link href="/" legacyBehavior>
-                <a className={`${styles.logo} ${styles.logo_full_white}`}>
-                  <Image
-                    src="/img/logo_full_white.png"
-                    alt=""
-                    width={153}
-                    height={26}
-                    loading="eager"
-                  />
-                </a>
+              <Link href="/" className={`${styles.logo} ${styles.logo_full_white}`}>
+
+                <Image
+                  src="/img/logo_full_white.png"
+                  alt=""
+                  width={153}
+                  height={26}
+                  loading="eager"
+                />
+
               </Link>
             )}
           </div>

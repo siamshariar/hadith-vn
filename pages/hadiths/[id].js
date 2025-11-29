@@ -1,8 +1,9 @@
-import { server } from "../../lib/config";
+import { server, config } from "../../lib/config";
 import {
   getAllCategories,
   getAllCategoriesTree,
   getHadithDetailsById,
+  getHadithsByCategory,
 } from "../../lib/fetch";
 import Meta from "../../components/core/meta";
 import Layout from "../../components/layouts/LayoutSecondary";
@@ -30,30 +31,23 @@ HadithDetail.getLayout = function getLayout(page) {
 
 export async function getStaticProps(context) {
   const id = parseInt(encodeURI(context.params.id));
-  const details = await getHadithDetailsById(id);
+  let details = null;
+  try {
+    details = await getHadithDetailsById(id);
+  } catch (error) {
+    console.error('Failed to fetch hadith details', error);
+  }
   const categoryList = await getAllCategories();
   const categoryTree = await getAllCategoriesTree();
-
-  if (
-    !details ||
-    !categoryList ||
-    !categoryTree ||
-    !details.title ||
-    !details.hadeeth
-  ) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
       categoryList,
       categoryTree,
-      hadith: details,
-      selectedCategoryId: details.categories[0],
+      hadith: details || { id, title: `Hadith ${id}`, hadeeth: 'Data not available', attribution: '', grade: '', explanation: '', categories: [] },
+      selectedCategoryId: details?.categories?.[0] || null,
       // contentTitle: details.title,
-      backLink: `/categories/${details.categories[0]}/hadiths`,
+      backLink: "/",
       key: id,
     },
     // revalidate: 60,
@@ -63,17 +57,17 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   let paths = [];
 
-  let obj = {
-    params: {
-      id: String(1),
-    },
-  };
-
-  paths.push(obj);
+  // Generate paths for hadith_number 1 to 50 only
+  for (let i = 1; i <= 50; i++) {
+    paths.push({
+      params: {
+        id: String(i),
+      },
+    });
+  }
 
   return {
     paths: paths,
-    // fallback: false,
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 }

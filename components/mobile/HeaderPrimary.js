@@ -51,30 +51,30 @@ export default function HeaderMobile({
 
             <div className={styles.center}>
               {theme === "light" && (
-                <Link href="/" legacyBehavior>
-                  <a className={styles.logo}>
-                    <Image
-                      src="/img/logo.png"
-                      alt=""
-                      width={153}
-                      height={26}
-                      loading="eager"
-                    />
-                  </a>
+                <Link href="/" className={styles.logo}>
+
+                  <Image
+                    src="/img/logo.png"
+                    alt=""
+                    width={153}
+                    height={26}
+                    loading="eager"
+                  />
+
                 </Link>
               )}
 
               {theme !== "light" && (
-                <Link href="/" legacyBehavior>
-                  <a className={styles.logo}>
-                    <Image
-                      src="/img/logo_full_white.png"
-                      alt=""
-                      width={153}
-                      height={26}
-                      loading="eager"
-                    />
-                  </a>
+                <Link href="/" className={styles.logo}>
+
+                  <Image
+                    src="/img/logo_full_white.png"
+                    alt=""
+                    width={153}
+                    height={26}
+                    loading="eager"
+                  />
+
                 </Link>
               )}
             </div>
@@ -100,7 +100,6 @@ export default function HeaderMobile({
           </div>
         </Container>
       </div>
-
       <MobileNav
         navOpen={mobileNavOpen}
         navControl={controlMobileNav}

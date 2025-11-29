@@ -32,18 +32,18 @@ export default function BookmarkList() {
         <div className={styles.lists}>
           {Object.keys(bookmarks).map((key) => (
             <div key={key} className={styles.item}>
-              <Link href={`/bookmarks?key=${key}`} legacyBehavior>
-                <a className={styles.link}>
-                  <span className={styles.left}>
-                    <span className={styles.icon}>
-                      <FolderIcon />
-                    </span>
-                    <span className={styles.desc}>
-                      <span>{bookmarks[key]["name"]}</span>
-                      <span>{bookmarks[key].entry.length} items</span>
-                    </span>
+              <Link href={`/bookmarks?key=${key}`} className={styles.link}>
+
+                <span className={styles.left}>
+                  <span className={styles.icon}>
+                    <FolderIcon />
                   </span>
-                </a>
+                  <span className={styles.desc}>
+                    <span>{bookmarks[key]["name"]}</span>
+                    <span>{bookmarks[key].entry.length} items</span>
+                  </span>
+                </span>
+
               </Link>
 
               {key !== "favorites" && (
@@ -58,7 +58,6 @@ export default function BookmarkList() {
           ))}
         </div>
       </div>
-
       <DeleteBookmark
         open={deleteBookmarkOpen}
         closer={handleBookmarkClose}
