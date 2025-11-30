@@ -1,16 +1,33 @@
 import Link from "next/link";
 import { useState, useEffect, useContext, useRef } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
+import { PinContext } from "../../contexts/PinContext";
+import { BookmarkContext } from "../../contexts/BookmarkContext";
 import { getHadithDetailsById, getTranslations, SUPPORTED_LANGUAGES } from "../../lib/fetch";
 import { config } from "../../lib/config";
+import HadithOptions from "./HadithOptions";
 import styles from "./HadithCard.module.scss";
+import PinIcon from "../icons/Pin";
+import PinOutlineIcon from "../icons/PinOutline";
 
-const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) => {
+const HadithCard = ({ 
+  hadith, 
+  bookId, 
+  bookName, 
+  chapterName, 
+  breadcrumbPath, 
+  updateBookmarksData, 
+  isBookmarkPage, 
+  currentPageUrl,
+  chapterId,
+  categoryId 
+}) => {
   const [expanded, setExpanded] = useState(false);
   const [completeHadith, setCompleteHadith] = useState(hadith);
   const [selectedLanguage, setSelectedLanguage] = useState(config.language);
   const [loadingTranslations, setLoadingTranslations] = useState(false);
   const { theme } = useContext(SettingsContext);
+  const { pin } = useContext(PinContext);
 
   // Check if multi-translations are enabled
   const multiTranslationsEnabled = config.enableMultiTranslations;
@@ -57,108 +74,39 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
       book: 'Book',
       hadithNumber: 'Hadith Number'
     },
-    // vi: {
-    //   home: 'Trang chủ',
-    //   chapter: 'Chương',
-    //   rating: 'Xếp hạng',
-    //   verified: '✓ Hadith Sahih',
-    //   expand: 'Xem thêm',
-    //   collapse: 'Ẩn',
-    //   sahihBukhari: 'Sahih Bukhari',
-    //   explanation: 'Giải thích',
-    //   hints: 'Gợi ý',
-    //   references: 'Tham khảo',
-    //   allTranslations: 'Tất cả bản dịch',
-    //   noTranslations: 'Không có bản dịch nào cho hadith này',
-    //   introNumber: '1.',
-    //   wordMeanings: 'Ý nghĩa từ',
-    //   narrator: 'Người kể',
-    //   book: 'Sách',
-    //   hadithNumber: 'Số Hadith'
-    // },
-    // bn: {
-    //   home: 'হোম',
-    //   chapter: 'অধ্যায়',
-    //   rating: 'রেটিং',
-    //   verified: '✓ সহি হাদিস',
-    //   expand: 'আরও দেখুন',
-    //   collapse: 'লুকান',
-    //   sahihBukhari: 'সহিহ বুখারী',
-    //   explanation: 'ব্যাখ্যা',
-    //   hints: 'ইঙ্গিত',
-    //   references: 'রেফারেন্স',
-    //   allTranslations: 'সমস্ত অনুবাদ',
-    //   noTranslations: 'এই হাদিসের জন্য কোন অনুবাদ উপলব্ধ নেই',
-    //   introNumber: '১।',
-    //   wordMeanings: 'শব্দের অর্থ',
-    //   narrator: 'বর্ণনাকারী',
-    //   book: 'কিতাব',
-    //   hadithNumber: 'হাদিস নম্বর'
-    // },
-    // ar: {
-    //   home: 'الرئيسية',
-    //   chapter: 'الفصل',
-    //   rating: 'التقييم',
-    //   verified: '✓ حديث صحيح',
-    //   expand: ' عرض المزيد',
-    //   collapse: ' إخفاء',
-    //   sahihBukhari: 'صحيح البخاري',
-    //   explanation: 'الشرح',
-    //   hints: 'التلميحات',
-    //   references: 'المراجع',
-    //   allTranslations: 'جميع الترجمات',
-    //   noTranslations: 'لا توجد ترجمات متاحة لهذا الحديث',
-    //   introNumber: '1.',
-    //   wordMeanings: 'معاني الكلمات',
-    //   narrator: 'الراوي',
-    //   book: 'الكتاب',
-    //   hadithNumber: 'رقم الحديث'
-    // },
-    // fr: {
-    //   home: 'Accueil',
-    //   chapter: 'Chapitre',
-    //   rating: 'Évaluation',
-    //   verified: '✓ Hadith Authentique',
-    //   expand: 'Voir Plus',
-    //   collapse: 'Masquer',
-    //   sahihBukhari: 'Sahih Bukhari',
-    //   explanation: 'Explication',
-    //   hints: 'Conseils',
-    //   references: 'Références',
-    //   allTranslations: 'Toutes les Traductions',
-    //   noTranslations: 'Aucune traduction disponible pour ce hadith',
-    //   introNumber: '1.',
-    //   wordMeanings: 'Signification des mots',
-    //   narrator: 'Narrateur',
-    //   book: 'Livre',
-    //   hadithNumber: 'Numéro du Hadith'
-    // }
   };
 
   // Helper function to get language-specific text from objects
   const getLanguageText = (textObj, lang = selectedLanguage) => {
     if (!textObj) return '';
     
-    // If it's a string, return it directly
     if (typeof textObj === 'string') return textObj;
     
-    // If it's an object with language keys, get the text for the current language
     if (typeof textObj === 'object' && !Array.isArray(textObj)) {
-      // Try the selected language first
       if (textObj[lang]) return textObj[lang];
-      
-      // Fallback to English
       if (textObj['en']) return textObj['en'];
-      
-      // Fallback to Arabic
       if (textObj['ar']) return textObj['ar'];
-      
-      // Fallback to any available language
       const firstKey = Object.keys(textObj)[0];
       if (firstKey) return textObj[firstKey];
     }
     
     return '';
+  };
+
+  // Helper function to extract text from translation objects
+  const extractTranslationText = (translationData) => {
+    if (!translationData) return '';
+    
+    if (typeof translationData === 'string') return translationData;
+    
+    if (typeof translationData === 'object') {
+      return translationData.translation_text || 
+             translationData.translation || 
+             translationData.text || 
+             '';
+    }
+    
+    return String(translationData);
   };
 
   // Get current UI text based on selected language
@@ -170,51 +118,41 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
   const getCurrentTranslation = () => {
     if (!completeHadith?.translations) return '';
     
-    // If multi-translations are disabled, only show the configured language
     if (!multiTranslationsEnabled) {
       const value = completeHadith.translations[config.language] || '';
-      if (value && typeof value === 'object') {
-        return value.translation_text || value.translation || '';
-      }
-      return value;
+      return extractTranslationText(value);
     }
     
-    // If multi-translations are enabled, show selected language
     const value = completeHadith.translations[selectedLanguage] || completeHadith.translations['en'] || '';
-    if (value && typeof value === 'object') {
-      return value.translation_text || value.translation || '';
-    }
-    return value;
+    return extractTranslationText(value);
   };
 
   // Get available languages for this hadith
   const getAvailableLanguages = () => {
     if (!completeHadith?.translations) return [config.language];
     
-    // If multi-translations are disabled, only show the configured language
     if (!multiTranslationsEnabled) {
       return completeHadith.translations[config.language] ? [config.language] : [config.language];
     }
     
-    // If multi-translations are enabled, show all available languages
-    return Object.keys(completeHadith.translations).filter(lang => completeHadith.translations[lang]);
+    return Object.keys(completeHadith.translations).filter(lang => {
+      const translation = completeHadith.translations[lang];
+      return translation && extractTranslationText(translation).trim();
+    });
   };
 
   // Build breadcrumb from the path passed from parent component
   const getBreadcrumbItems = () => {
     const items = [];
     
-    // Home
     items.push({
       type: 'home',
       text: getUIText('home'),
       icon: '🏠'
     });
     
-    // Show breadcrumb path if provided
     if (breadcrumbPath && breadcrumbPath.length > 0) {
       breadcrumbPath.forEach(item => {
-        // Handle both object format and simple string format
         if (typeof item === 'object') {
           items.push({
             type: item.type || 'category',
@@ -228,7 +166,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
         }
       });
     } else {
-      // Fallback: Show book and chapter if available
       if (bookName) {
         items.push({
           type: 'book',
@@ -249,6 +186,24 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
 
   const breadcrumbItems = getBreadcrumbItems();
 
+  // Get current page URL for pinning context
+  const getCurrentPageUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname + window.location.search + `#hadith-${hadith.hadith_number || hadith.id}`;
+    }
+    return currentPageUrl || '';
+  };
+
+  // Extract chapter ID from hadith data or props
+  const getChapterId = () => {
+    return chapterId || hadith.chapter_id || hadith.chapter?.id;
+  };
+
+  // Extract category ID from hadith data or props
+  const getCategoryId = () => {
+    return categoryId || hadith.category_id || (hadith.categories && hadith.categories[0]?.id);
+  };
+
   // Lazy-load: fetch complete hadith details only when the card enters viewport
   const cardRef = useRef(null);
   useEffect(() => {
@@ -264,7 +219,13 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
         if (details && mounted) {
           const merged = { ...(completeHadith || hadith), ...details };
           
-          // For single translation mode, ensure we have the configured language
+          // Process translations to ensure they are in the correct format
+          if (merged.translations) {
+            Object.keys(merged.translations).forEach(lang => {
+              merged.translations[lang] = extractTranslationText(merged.translations[lang]);
+            });
+          }
+          
           if (!multiTranslationsEnabled && (!merged.translations || !merged.translations[config.language])) {
             try {
               const bookIdToUse = merged.book_id || merged.book?.id || hadith.book_id || hadith.book?.id || null;
@@ -279,8 +240,8 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
                   if (res.ok) {
                     const info = await res.json();
                     const data = info.data || info;
-                    if (data && (typeof data === 'string' || data.translation_text || data.translation)) {
-                      langText = typeof data === 'string' ? data : (data.translation_text || data.translation || (data.translation && data.translation.translation_text) || null);
+                    if (data) {
+                      langText = extractTranslationText(data);
                     }
                   }
                 } catch (err) {
@@ -341,14 +302,11 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
       if (!expanded || !multiTranslationsEnabled) return;
       if (!completeHadith) return;
 
-      // Determine book id and hadith number
       const bookIdToUse = completeHadith.book_id || completeHadith.book?.id || bookId;
       const number = completeHadith.hadith_number;
       if (!bookIdToUse || !number) return;
 
-      // Fetch translations for SUPPORTED_LANGUAGES but limit count to first 8 to avoid too many requests
       const langs = SUPPORTED_LANGUAGES.slice(0, 8);
-      // Convert to only those not already present
       const langsToFetch = langs.filter(l => !completeHadith.translations || !completeHadith.translations[l]);
       if (langsToFetch.length === 0) return;
 
@@ -358,7 +316,7 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
           langsToFetch.map(async (lang) => {
             try {
               const text = await getTranslations(bookIdToUse, number, lang);
-              return [lang, text];
+              return [lang, extractTranslationText(text)];
             } catch (err) {
               return [lang, null];
             }
@@ -386,7 +344,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
   useEffect(() => {
     if (!completeHadith) return;
     
-    // If multi-translations are disabled, only fetch the configured language
     if (!multiTranslationsEnabled) {
       if (completeHadith.translations && completeHadith.translations[config.language]) return;
       
@@ -397,11 +354,7 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
       setLoadingTranslations(true);
       getTranslations(bookIdToUse, number, config.language)
         .then((data) => {
-          let text = '';
-          if (!data) return;
-          if (typeof data === 'string') text = data;
-          else if (data.translation) text = data.translation.translation_text || '';
-          else if (data.translation_text) text = data.translation_text;
+          const text = extractTranslationText(data);
           if (text) {
             setCompleteHadith(prev => ({
               ...prev,
@@ -417,7 +370,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
         })
         .finally(() => setLoadingTranslations(false));
     } else {
-      // Multi-translations enabled - fetch selected language
       if (completeHadith.translations && completeHadith.translations[selectedLanguage]) return;
       
       const bookIdToUse = completeHadith.book_id || completeHadith.book?.id || bookId;
@@ -427,11 +379,7 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
       setLoadingTranslations(true);
       getTranslations(bookIdToUse, number, selectedLanguage)
         .then((data) => {
-          let text = '';
-          if (!data) return;
-          if (typeof data === 'string') text = data;
-          else if (data.translation) text = data.translation.translation_text || '';
-          else if (data.translation_text) text = data.translation_text;
+          const text = extractTranslationText(data);
           if (text) {
             setCompleteHadith(prev => ({
               ...prev,
@@ -450,13 +398,16 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
   }, [selectedLanguage, completeHadith, multiTranslationsEnabled]);
 
   const availableTranslations = completeHadith.translations ? 
-    Object.entries(completeHadith.translations).filter(([lang, text]) => text && text.trim()) : [];
+    Object.entries(completeHadith.translations).filter(([lang, text]) => {
+      const extractedText = extractTranslationText(text);
+      return extractedText && extractedText.trim();
+    }) : [];
 
   const toggleExpanded = () => {
     const willExpand = !expanded;
     setExpanded(willExpand);
     
-    // Only fetch immediately if multi-translations are enabled
+    // Only fetch additional details when multi-translations are enabled
     if (willExpand && multiTranslationsEnabled && (!completeHadith || !completeHadith.translations || Object.keys(completeHadith.translations || {}).length === 0)) {
       (async () => {
         try {
@@ -464,7 +415,14 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
           const details = await getHadithDetailsById(hadith.id, { preferLocal: true });
           if (details) {
             const merged = { ...(completeHadith || hadith), ...details };
-            // try en fallback if needed
+            
+            // Process translations to ensure they are in the correct format
+            if (merged.translations) {
+              Object.keys(merged.translations).forEach(lang => {
+                merged.translations[lang] = extractTranslationText(merged.translations[lang]);
+              });
+            }
+            
             const hasTranslations = merged.translations && Object.keys(merged.translations).length > 0;
             if (!hasTranslations) {
               const bookIdToUse = merged.book_id || merged.book?.id || hadith.book_id || hadith.book?.id || null;
@@ -473,7 +431,9 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
               if (bookIdToUse && number) {
                 enText = await getTranslations(bookIdToUse, number, 'en');
               }
-              if (enText) merged.translations = { ...(merged.translations || {}), en: enText };
+              if (enText) {
+                merged.translations = { ...(merged.translations || {}), en: extractTranslationText(enText) };
+              }
             }
             setCompleteHadith(merged);
             if (process.env.NODE_ENV === 'development') {
@@ -492,18 +452,30 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
   // Dev-only JSON inspector toggle
   const [showDebug, setShowDebug] = useState(false);
 
-  const handleCopy = () => {
-    const textToCopy = hadith.arabic_text || '';
-    navigator.clipboard.writeText(textToCopy);
+  // Check if hadith is pinned
+  const checkPinnedThisVerse = (arr, id) => {
+    return arr.some((el) => el.id == id);
   };
 
-  const handleBookmark = () => {
-    // Bookmark functionality
-    console.log('Bookmarked hadith:', hadith);
+  const isPinned = checkPinnedThisVerse(pin, hadith.id);
+
+  // Check if we should show expanded content
+  const shouldShowExpandedContent = () => {
+    // Always show expanded content when expanded is true, regardless of multi-translations setting
+    if (!expanded) return false;
+    
+    // Show word meanings, explanation, hints, references regardless of multi-translations setting
+    return true;
+  };
+
+  // Check if we should show translations section
+  const shouldShowTranslationsSection = () => {
+    // Only show translations section when multi-translations is enabled
+    return multiTranslationsEnabled && availableTranslations.length > 1;
   };
 
   return (
-    <div ref={cardRef} className={`${styles.wrapper} ${theme}`}>
+    <div ref={cardRef} className={`${styles.wrapper} ${theme}`} id={`hadith-${hadith.hadith_number || hadith.id}`}>
       <div className={styles.header}>
         <div className={styles.breadcrumb}>
           {breadcrumbItems.map((item, index) => (
@@ -515,7 +487,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
           ))}
         </div>
         
-        {/* Only show language selector if multi-translations are enabled */}
         {multiTranslationsEnabled && (
           <div className={styles.language_selector}>
             <select 
@@ -563,20 +534,20 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
           <button className={styles.verified_button}>
             {getLanguageText(completeHadith.grade) ? `✓ ${getLanguageText(completeHadith.grade)}` : getUIText('verified')}
           </button>
-          <button className={styles.icon_button} onClick={handleBookmark} title="Bookmark">
-            🔖
-          </button>
-          <button className={styles.icon_button} onClick={handleCopy} title="Copy">
-            📋
-          </button>
-          <button className={styles.icon_button} title="More options">
-            ⋯
-          </button>
-          {process.env.NODE_ENV === 'development' && (
-            <button className={styles.icon_button} onClick={() => setShowDebug(s => !s)} title="Toggle debug JSON">
-              🐞
+          {isPinned && (
+            <button className={styles.pin_button} title="Pinned">
+              <PinIcon />
             </button>
           )}
+          <HadithOptions
+            updateBookmarksData={updateBookmarksData}
+            isBookmarkPage={isBookmarkPage}
+            hadith={completeHadith}
+            currentPageUrl={getCurrentPageUrl()}
+            bookId={bookId}
+            chapterId={getChapterId()}
+            categoryId={getCategoryId()}
+          />
         </div>
       </div>
 
@@ -613,10 +584,8 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
         </div>
       )}
       
-      {/* Show expanded content for single translation mode with full details */}
-      {expanded && (
+      {shouldShowExpandedContent() && (
         <>
-          {/* Word Meanings */}
           {completeHadith.word_meanings && (
             <div className={styles.translation}>
               <div className={styles.translation_header}>
@@ -626,7 +595,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
             </div>
           )}
 
-          {/* Additional Information */}
           {completeHadith.explanation && (
             <div className={styles.translation}>
               <div className={styles.translation_header}>
@@ -654,8 +622,7 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
             </div>
           )}
 
-          {/* Only show multiple translations if multi-translations are enabled */}
-          {multiTranslationsEnabled && availableTranslations.length > 1 && (
+          {shouldShowTranslationsSection() && (
             <div className={styles.translations}>
               <h4>{getUIText('allTranslations')}</h4>
               {availableTranslations.map(([lang, text]) => (
@@ -663,7 +630,7 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
                   <div className={styles.translation_header}>
                     <span className={styles.language_name}>{languageOptions[lang] || lang.toUpperCase()}</span>
                   </div>
-                  <p className={styles.translation_text}>{text}</p>
+                  <p className={styles.translation_text}>{extractTranslationText(text)}</p>
                 </div>
               ))}
             </div>
@@ -694,13 +661,6 @@ const HadithCard = ({ hadith, bookId, bookName, chapterName, breadcrumbPath }) =
           </span>
         </button>
       </div>
-      
-      {/* Debug JSON view */}
-      {/* {showDebug && process.env.NODE_ENV === 'development' && (
-        <div className={styles.debug}>
-          <pre>{JSON.stringify(completeHadith, null, 2)}</pre>
-        </div>
-      )} */}
     </div>
   );
 };

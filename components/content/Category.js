@@ -156,6 +156,14 @@ export default function CategoryContent({ hadiths, category, categoryId, book, b
 
   const hadithCount = getHadithCount();
 
+  // Get current page URL for pinning context
+  const getCurrentPageUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname + window.location.search;
+    }
+    return '';
+  };
+
   console.log(`🎯 CategoryContent rendering: ${currentHadiths.length} hadiths, ${currentSubcategories.length} subcategories`);
 
   return (
@@ -201,9 +209,12 @@ export default function CategoryContent({ hadiths, category, categoryId, book, b
               <HadithCard
                 key={hadith.id || index}
                 hadith={hadith}
+                bookId={bookId || hadith.book_id}
                 bookName={book?.name_en || book?.title || hadith.book?.name_en || hadith.book_name}
                 chapterName={category ? (category.title || category.name_en || category.chapter_title) : (hadith.chapter?.name_en || hadith.chapter_name)}
                 breadcrumbPath={breadcrumbItems.filter(item => item.type !== 'home')}
+                currentPageUrl={getCurrentPageUrl()}
+                categoryId={categoryId}
               />
             ))
           ) : (

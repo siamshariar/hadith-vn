@@ -19,9 +19,25 @@ export default function Categories({ category, hadiths, categoryId, categoryTree
   const [localCategory, setLocalCategory] = useState(category);
   const [loading, setLoading] = useState(false);
 
-  const title = localCategory ? localCategory.title : `Category ${categoryId}`;
-  const description = localCategory ? `Category ${localCategory.title}. Hadith application in Vietnamese.` : 'Hadith application in Vietnamese.';
-  const url = localCategory ? `${server}/categories/${localCategory.id}/hadiths` : `${server}/categories/${categoryId}/hadiths`;
+  // Get proper title and description
+  const getTitle = () => {
+    if (localCategory) {
+      return localCategory.title || localCategory.name_en || `Category ${categoryId}`;
+    }
+    return `Category ${categoryId}`;
+  };
+
+  const getDescription = () => {
+    if (localCategory) {
+      const title = localCategory.title || localCategory.name_en || `Category ${categoryId}`;
+      return `${title}. Hadith application in Vietnamese.`;
+    }
+    return 'Hadith application in Vietnamese.';
+  };
+
+  const title = getTitle();
+  const description = getDescription();
+  const url = `${server}/categories/${categoryId}/hadiths`;
 
   // Fetch updated data after initial render
   useEffect(() => {
@@ -119,12 +135,18 @@ export async function getStaticProps(context) {
 
     console.log(`✅ Final hadiths count for category ${categoryId}: ${hadiths.length}`);
 
+    // Ensure category has proper title
+    const processedCategory = category ? {
+      ...category,
+      title: category.title || category.name_en || `Category ${categoryId}`
+    } : null;
+
     return {
       props: {
         categoryList: categoryList || [],
         categoryTree: categoryTree || [],
         categoryId,
-        category: category || null,
+        category: processedCategory,
         hadiths: hadiths || [],
         subcategories: subcategories || [],
         selectedCategoryId: categoryId,
@@ -137,7 +159,10 @@ export async function getStaticProps(context) {
     console.error('Error in getStaticProps:', error);
     // Fallback to local data
     const localCategories = getLocalCategories();
-    const localCategory = localCategories.find(cat => cat.id === categoryId) || null;
+    const localCategory = localCategories.find(cat => cat.id === categoryId) || { 
+      id: categoryId, 
+      title: `Category ${categoryId}` 
+    };
     const localHadiths = getLocalHadithsByCategory(categoryId);
     const localSubcategories = localCategories.filter(cat => cat.parent_id === categoryId);
     

@@ -154,7 +154,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .verified_button {
@@ -204,6 +203,26 @@
   &:active {
     transform: scale(0.95);
   }
+}
+
+// HadithOptions integration styles
+.hadith_options_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+// Style for the pinned indicator
+.pinned_indicator {
+  background: var(--bg11);
+  border: 1px solid var(--bdr11);
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--main-color);
 }
 
 .arabic {
@@ -373,6 +392,13 @@
   }
 }
 
+.loading, .no_content, .no_translations {
+  padding: 16px;
+  text-align: center;
+  color: var(--txt12);
+  font-style: italic;
+}
+
 // Responsive design
 @media screen and (max-width: 640px) {
   .hadith_header {
@@ -391,6 +417,15 @@
 
   .breadcrumb {
     font-size: 0.8rem;
+  }
+
+  .language_selector {
+    width: 100%;
+    margin-top: 8px;
+    
+    .language_select {
+      width: 100%;
+    }
   }
 }
 
@@ -412,9 +447,126 @@
   }
 }
 
-.loading, .no_content, .no_translations {
-  padding: 16px;
-  text-align: center;
-  color: var(--txt12);
-  font-style: italic;
+// Additional styles for HadithOptions integration
+.hadith_options_container {
+  display: inline-flex;
+  align-items: center;
+}
+
+// Ensure proper alignment of the options menu
+.more_options_button {
+  background: var(--bg11);
+  border: 1px solid var(--bdr11);
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--txt11);
+    border-color: var(--bdr13);
+    
+    svg {
+      fill: var(--bg11);
+    }
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--txt11);
+    transition: fill 0.2s ease;
+  }
+}
+
+// Custom styles for the popover menu
+.hadith_options_popover {
+  .MuiPopover-paper {
+    background-color: var(--bg11) !important;
+    border: 1px solid var(--bdr11) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--bs21) !important;
+  }
+
+  .MuiMenu-list {
+    padding: 8px 0 !important;
+  }
+
+  .MuiMenuItem-root {
+    font-size: 14px !important;
+    color: var(--txt11) !important;
+    padding: 8px 16px !important;
+    min-height: 40px !important;
+
+    &:hover {
+      background-color: var(--bg22) !important;
+    }
+
+    .icon {
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--txt11);
+      }
+    }
+
+    .text {
+      font-size: 14px;
+      color: var(--txt11);
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .action_buttons {
+    display: none !important;
+  }
+  
+  .hadith_options_container {
+    display: none !important;
+  }
+}
+
+// Add to your existing HadithCard.module.scss
+
+.pin_button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #333;
+  }
+  
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.icon_button {
+  // Keep existing styles for other icon buttons
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
 }
